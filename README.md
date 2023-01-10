@@ -1,7 +1,7 @@
 # SOTD - Song of the Day (working title)
 
 ### Description: 
-SOTD - Song of the Day (working title) is a mobile application that integrates with music streaming service APIs to recommend one song per day.
+SOTD - Song of the Day (working title) is a mobile application that serves one song recommendation per day to the user via integration with music streaming service APIs.
 
 ### Purpose (App):
 I spend a lot of time listening to music on Spotify. I've always appreciated it's capability to introduce me to music I would never have heard without it. However, the abundance of recommendations given by Spotify and other music streaming services can make it so that they become daunting to explore, and sometimes the recommendations you want are seemingly impossible to find, especially if you just want to get to the music.
@@ -10,7 +10,7 @@ SOTD will drip-feed you song recommendations so that you might be more willing t
 
 SOTD will give you a higher degree of control over the song recommendations you receive through a voting system (up-vote a song to get more like it, down-vote to get less like it) and app settings (toggle genres, prioritize certain sounds, tempos, lengths).
 
-SOTD is a simple app that allows you to deepen you current music tastes and develop new tastes.
+SOTD is a simple app that allows you to deepen your current music tastes as well as develop new tastes.
 
 ### Purpose (Developer):
 
