@@ -1,27 +1,21 @@
-# SOTD - Song of the Day (working title)
+# Song of the Day - SOTD (working title)
 
-### Description: 
-SOTD - Song of the Day (working title) is a mobile application that serves one song recommendation per day to the user via integration with music streaming service APIs.
+### What is SOTD?
+Song of the Day - SOTD (working title) is a mobile application that serves the user one song recommendation per day by integrating with music streaming service APIs.
 
-### Purpose (App):
-I spend a lot of time listening to music on Spotify. I've always appreciated it's capability to introduce me to music I would never have heard without it. However, the abundance of recommendations given by Spotify and other music streaming services can make it so that they become daunting to explore, and sometimes the recommendations you want are seemingly impossible to find, especially if you just want to get to the music.
+### Why use SOTD?
+SOTD is an app that helps you discover and develop your taste in music via the hand of fate. It chooses a song just for you and makes it easy to find. When handed a single song, you might be more likely to give it an earnest listen than if you had to wade through a sea of recommendations on a streaming service app.
 
-SOTD will drip-feed you song recommendations so that you might be more willing to actually give them a listen. It's like these songs were chosen just for you.
+SOTD also allows you to nudge your recommendations in various directions with its voting system (up-vote a song to get more like it, down-vote to get less like it) and in-app settings (toggle genres, prioritize certain sounds, tempos, lengths).
 
-SOTD will give you a higher degree of control over the song recommendations you receive through a voting system (up-vote a song to get more like it, down-vote to get less like it) and app settings (toggle genres, prioritize certain sounds, tempos, lengths).
+___
 
-SOTD is a simple app that allows you to deepen your current music tastes as well as develop new tastes.
+### Ongoing Development Context
+I'm treating this project as a learning exercise to improve on areas of software development that I'm particularly weak in. Therefore, I'm focusing on **developer documentation, testing, automation, and general organization skills in the dev-ops realm**. At the same time, I'm trying to make the best product I can. 
 
-### Purpose (Developer):
+I am including design documents and developer journal contents in the repo for demonstrative purposes.
 
-I am using the development of this app to work on my software design, testing, and DevOps skills and knowledge. I am writing requirements, use cases, diagrams, and the like. I am also getting experience producing a mobile application from the ground up. I am treating this as a learning exercise while trying to make the best product I can.
-
-### Ongoing Development
-
-SOTD is in the design stage as of writing this (1/9/2023), and is subject to pretty major changes from the name to aspects of the concept.
-
-* I am considering increasing the number of songs recommended per day to three or five. One song per day may be too limited. No more than five though, as the limiting factor of SOTD is part of the purpose.
-
-* Both Android and iOS versions of the app are planned, however focus will be on the completion of the Android version.
-
-* Both Spotify API and Apple Music API integration are planned, however focus will be on integrating the Spotify API.
+SOTD is subject to pretty major changes:
+* It may be the case that one song per day is too limiting, but there should be no more than 5 songs per day. Some limitation is necessary to maintain the purpose of the app.
+* The name may change, especially if there ends up being more than one song recommendation per day.
+* An Android version with Spotify integration is being prioritized, but an iOS version and Apple Music integration are planned.
