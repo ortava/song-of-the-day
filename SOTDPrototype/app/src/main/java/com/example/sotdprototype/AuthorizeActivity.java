@@ -15,6 +15,10 @@ public class AuthorizeActivity extends AppCompatActivity {
     private static final String CLIENT_ID = "b1a4a0e63d4745198ab789e13e42314d";
     private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "http://localhost:3000";
+    private static final String[] SCOPES =
+            {"app-remote-control",  // "Remote control playback of Spotify." (play/go-to tracks and get track info)
+            "user-top-read",        // "Read access to a user's top artists and tracks." (for recommendations)
+            "user-read-private"};   // "Read access to user’s subscription details (type of user account)." (check for premium)
 
 
     @Override
@@ -33,7 +37,7 @@ public class AuthorizeActivity extends AppCompatActivity {
         AuthorizationRequest.Builder builder =
                 new AuthorizationRequest.Builder(CLIENT_ID, TOKEN, REDIRECT_URI);
 
-        builder.setScopes(new String[]{"app-remote-control"});
+        builder.setScopes(SCOPES);
         AuthorizationRequest request = builder.build();
 
         AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
