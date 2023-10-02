@@ -3,16 +3,25 @@ package com.example.sotdprototype;
 import static com.spotify.sdk.android.auth.AuthorizationResponse.Type.TOKEN;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 public class AuthorizeActivity extends AppCompatActivity {
+    private SharedPreferences.Editor editor;
+    private SharedPreferences mSharedPreferences;
+
+    private RequestQueue queue;
+
     private static final String CLIENT_ID = "b1a4a0e63d4745198ab789e13e42314d";
     private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "http://localhost:3000";
@@ -25,6 +34,9 @@ public class AuthorizeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mSharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
+        queue = Volley.newRequestQueue(this);
     }
 
     @Override
@@ -56,23 +68,23 @@ public class AuthorizeActivity extends AppCompatActivity {
                 // Response was successful and contains auth token
                 case TOKEN:
                     // do stuff with successful response
-                    Log.i("Info:", "Authorization token acquired!");
+                    editor = getSharedPreferences("SPOTIFY", 0).edit();
+                    editor.putString("token", response.getAccessToken());
+                    editor.apply();
+                    Log.i("INFO", "TOKEN - Authorization token acquired!");
                     startMainActivity();
-                    finish();
                     break;
 
                 case ERROR:
                     // do stuff with error response
-                    Log.e("Error:", "Received Error token response.");
+                    Log.e("ERROR", "ERROR - Received Error token response.");
                     startPrescreenActivity();
-                    finish();
                     break;
 
                 default:
                     // do stuff in default case
-                    Log.i("Info:", "DEFAULT - Did not receive auth token nor error token upon attempt to authorize.");
+                    Log.d("DEBUG", "DEFAULT - Did not receive auth token nor error token upon attempt to authorize.");
                     startPrescreenActivity();
-                    finish();
             }
         }
     }
@@ -80,10 +92,12 @@ public class AuthorizeActivity extends AppCompatActivity {
     private void startMainActivity() {
         Intent newIntent = new Intent(AuthorizeActivity.this, MainActivity.class);
         startActivity(newIntent);
+        finish();
     }
 
     private void startPrescreenActivity() {
         Intent newIntent = new Intent(AuthorizeActivity.this, PrescreenActivity.class);
         startActivity(newIntent);
+        finish();
     }
 }

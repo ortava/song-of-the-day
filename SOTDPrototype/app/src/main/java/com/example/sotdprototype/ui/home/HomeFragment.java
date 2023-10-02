@@ -32,7 +32,8 @@ public class HomeFragment extends Fragment {
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         
         final Button buttonOpenTrackInSpotify = binding.buttonOpenTrackInSpotify;
-        buttonOpenTrackInSpotify.setOnClickListener(v -> ((MainActivity) getActivity()).openTrackInSpotify());
+        //buttonOpenTrackInSpotify.setOnClickListener(v -> ((MainActivity) getActivity()).openTrackInSpotify());
+        buttonOpenTrackInSpotify.setOnClickListener(v -> ((MainActivity) getActivity()).getTrack("1D1sFcA13TLiLXmqHUFBXR"));
 
         return root;
     }

@@ -55,6 +55,7 @@ dependencies {
     implementation(files("/libs/spotify-app-remote-release-0.8.0.aar"))
     implementation(files("/libs/spotify-auth-release-2.1.0.aar"))
     implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.android.volley:volley:1.2.1")
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
     implementation("androidx.appcompat:appcompat:1.6.1")

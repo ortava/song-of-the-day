@@ -18,10 +18,6 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.PlayerState;
-import com.spotify.protocol.types.Track;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,9 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String REDIRECT_URI = "http://localhost:3000";
     private SpotifyAppRemote mSpotifyAppRemote;
 
+    private TrackService trackService;
+    private Track track;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        trackService = new TrackService(getApplicationContext());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -57,12 +58,21 @@ public class MainActivity extends AppCompatActivity {
         connectSpotifyAppRemote();
     }
 
-    public void openTrackInSpotify() {
+    public void openTrackInSpotify(String uri) {
         if(mSpotifyAppRemote != null){
             if(mSpotifyAppRemote.isConnected()){
-                mSpotifyAppRemote.getPlayerApi().play("https://open.spotify.com/track/1D1sFcA13TLiLXmqHUFBXR?si=6c0429c8c9e64ffa");
+                mSpotifyAppRemote.getPlayerApi().play(uri);
             }
         }
+    }
+
+    public void getTrack(String id) {
+        trackService.getTrackById(id, () -> {
+            // implement onSuccess callback method
+            track = trackService.getTrack();
+            Log.d("API", "GOT TRACK");
+            openTrackInSpotify(track.getUri());
+        });
     }
 
     public void connectSpotifyAppRemote() {
@@ -91,6 +101,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+        /*
+        if (queue != null) {
+            queue.cancelAll();
+        }
+
+         */
     }
 
 }
