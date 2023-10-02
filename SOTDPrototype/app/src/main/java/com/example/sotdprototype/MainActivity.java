@@ -54,46 +54,38 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        // built-in auth flow (does not utilize auth-lib; temp solution)
+        connectSpotifyAppRemote();
+    }
+
+    public void openTrackInSpotify() {
+        if(mSpotifyAppRemote != null){
+            if(mSpotifyAppRemote.isConnected()){
+                mSpotifyAppRemote.getPlayerApi().play("https://open.spotify.com/track/1D1sFcA13TLiLXmqHUFBXR?si=6c0429c8c9e64ffa");
+            }
+        }
+    }
+
+    public void connectSpotifyAppRemote() {
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder(CLIENT_ID)
                         .setRedirectUri(REDIRECT_URI)
                         .showAuthView(false)
                         .build();
 
-        // connect to app remote
         SpotifyAppRemote.connect(this, connectionParams,
                 new Connector.ConnectionListener() {
-
                     @Override
                     public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                         mSpotifyAppRemote = spotifyAppRemote;
                         Log.d("MainActivity", "Connected! Yay!");
-
-                        // Now you can start interacting with App Remote
-                        connected();
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
                         Log.e("MainActivity", throwable.getMessage(), throwable);
-
-                        // Something went wrong when attempting to connect! Handle errors here
                     }
                 });
     }
-
-    protected void connected() {
-        // Play a playlist
-        mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
-    }
-
-    /*
-    @Override
-    public void onBackPressed(){
-
-    }
-     */
 
     @Override
     protected void onStop() {

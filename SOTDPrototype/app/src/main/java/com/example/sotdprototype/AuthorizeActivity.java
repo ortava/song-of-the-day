@@ -4,6 +4,7 @@ import static com.spotify.sdk.android.auth.AuthorizationResponse.Type.TOKEN;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -55,22 +56,34 @@ public class AuthorizeActivity extends AppCompatActivity {
                 // Response was successful and contains auth token
                 case TOKEN:
                     // do stuff with successful response
+                    Log.i("Info:", "Authorization token acquired!");
                     startMainActivity();
                     finish();
                     break;
 
                 case ERROR:
                     // do stuff with error response
+                    Log.e("Error:", "Received Error token response.");
+                    startPrescreenActivity();
+                    finish();
                     break;
 
                 default:
                     // do stuff in default case
+                    Log.i("Info:", "DEFAULT - Did not receive auth token nor error token upon attempt to authorize.");
+                    startPrescreenActivity();
+                    finish();
             }
         }
     }
 
     private void startMainActivity() {
         Intent newIntent = new Intent(AuthorizeActivity.this, MainActivity.class);
+        startActivity(newIntent);
+    }
+
+    private void startPrescreenActivity() {
+        Intent newIntent = new Intent(AuthorizeActivity.this, PrescreenActivity.class);
         startActivity(newIntent);
     }
 }

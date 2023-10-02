@@ -30,21 +30,11 @@ public class HomeFragment extends Fragment {
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
-        final Button buttonLoginSpotify = binding.buttonLoginSpotify;
-        buttonLoginSpotify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                startAuthorizeActivity();
-            }
-        });
+        
+        final Button buttonOpenTrackInSpotify = binding.buttonOpenTrackInSpotify;
+        buttonOpenTrackInSpotify.setOnClickListener(v -> ((MainActivity) getActivity()).openTrackInSpotify());
 
         return root;
-    }
-
-    private void startAuthorizeActivity() {
-        Intent newIntent = new Intent(getActivity(), AuthorizeActivity.class);
-        startActivity(newIntent);
     }
 
     @Override
