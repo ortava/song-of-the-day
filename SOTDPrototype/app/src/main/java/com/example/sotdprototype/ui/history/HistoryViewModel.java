@@ -10,7 +10,7 @@ public class HistoryViewModel extends ViewModel {
 
     public HistoryViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is history fragment");
+        mText.setValue("History (songs from the last 50 days):");
     }
 
     public LiveData<String> getText() {

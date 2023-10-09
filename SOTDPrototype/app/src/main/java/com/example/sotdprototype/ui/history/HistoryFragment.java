@@ -9,12 +9,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sotdprototype.R;
 import com.example.sotdprototype.databinding.FragmentHistoryBinding;
 
 public class HistoryFragment extends Fragment {
+    private static final int DATASET_COUNT = 50;
 
     private FragmentHistoryBinding binding;
+
+    protected RecyclerView mRecyclerView;
+    protected HistoryAdapter mAdapter;
+    protected RecyclerView.LayoutManager mLayoutManager;
+    protected String[] mDataSet;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        initDataset();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -26,6 +42,15 @@ public class HistoryFragment extends Fragment {
 
         final TextView textView = binding.textHistory;
         historyViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        // start RecyclerView stuff -
+        mRecyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_history);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mAdapter = new HistoryAdapter(mDataSet);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        // end RecyclerView stuff.
+
         return root;
     }
 
@@ -33,5 +58,12 @@ public class HistoryFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void initDataset() {
+        mDataSet = new String[DATASET_COUNT];
+        for(int i = 0; i < DATASET_COUNT; i++) {
+            mDataSet[i] = "Song #" + (i+1);
+        }
     }
 }
