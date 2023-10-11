@@ -3,13 +3,17 @@ package com.example.sotdprototype;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.sotdprototype.ui.settings.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.example.sotdprototype.databinding.ActivityMainBinding;
 
