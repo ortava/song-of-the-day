@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sotdprototype.R;
+import com.example.sotdprototype.Track;
+import com.example.sotdprototype.TrackService;
 import com.example.sotdprototype.databinding.FragmentHistoryBinding;
 
 public class HistoryFragment extends Fragment {
@@ -25,10 +27,12 @@ public class HistoryFragment extends Fragment {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected String[] mDataSet;
 
+    private TrackService mTrackService;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mTrackService = new TrackService(this.getContext());
         initDataset();
     }
 
@@ -42,6 +46,7 @@ public class HistoryFragment extends Fragment {
 
         final TextView textView = binding.textHistory;
         historyViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
 
         // start RecyclerView stuff -
         mRecyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_history);
@@ -63,7 +68,12 @@ public class HistoryFragment extends Fragment {
     private void initDataset() {
         mDataSet = new String[DATASET_COUNT];
         for(int i = 0; i < DATASET_COUNT; i++) {
-            mDataSet[i] = "Song #" + (i+1);
+            Track track = mTrackService.getTrack();
+            mDataSet[i] = (i+1) + " days ago: " + "\n"
+                    + "Title: " + track.getTitle() + "\n"
+                    + "Album: " + track.getAlbum() + "\n"
+                    + "Artist: " + track.getArtist() + "\n"
+                    + "[open in Spotify]";
         }
     }
 }
