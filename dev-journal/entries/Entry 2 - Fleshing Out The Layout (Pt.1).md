@@ -6,6 +6,7 @@ The goal this week was to get the layout of the prototype into a presentable sta
 ##### What was done:
 - Added a RecyclerView
 	- This required the creation of an Adapter class to build the views used by RecyclerView
+	- With the help of [this guide](https://developer.android.com/develop/ui/views/layout/recyclerview) and the related [sample project](https://github.com/android/views-widgets-samples/blob/main/RecyclerView/Application/src/main/java/com/example/android/recyclerview/RecyclerViewFragment.java)
 ##### What's missing:
 - Add a button/link to each row that allows you to open the given song in Spotify
 - Only display a row that has data to populate it
@@ -14,6 +15,7 @@ The goal this week was to get the layout of the prototype into a presentable sta
 ##### What was done:
 - Added a preference layout (preferences.xml) with a PreferenceScreen
 - Changed SettingsFragment from a Fragment into a PreferenceFragmentCompat (which is still a fragment, but specialized for app preferences)
+- With the help of [this guide](https://developer.android.com/develop/ui/views/components/settings)
 ##### What's missing:
 - Proper representation of the settings-to-be
 
