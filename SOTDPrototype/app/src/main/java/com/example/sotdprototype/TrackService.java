@@ -2,6 +2,7 @@ package com.example.sotdprototype;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -38,18 +39,25 @@ public class TrackService {
         String endpoint = "https://api.spotify.com/v1/tracks/" + trackId;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, response -> {
-                    //JSONObject object = response.optJSONObject("name");
                     try {
-                        String trackTitle = response.getString("name");
+                        JSONObject albumObject = response.getJSONObject("album");
+                        JSONArray artistsArray = albumObject.getJSONArray("artists");
+                        JSONObject artistsObject = artistsArray.getJSONObject(0);
                         String trackUri = response.getString("uri");
-                        track.setTitle(trackTitle);
+                        String trackTitle = response.getString("name");
+
+                        track.setId(trackId);
                         track.setUri(trackUri);
+                        track.setTitle(trackTitle);
+                        track.setAlbum(albumObject.getString("name"));
+                        track.setArtist(artistsObject.getString("name"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
 
-                    /*
+                    /* The below method may be useful for mapping a JSON object to a class of our own.
+                    * aka Cleaner implementation
                     Gson gson = new Gson();
                     JSONArray jsonArray = response.optJSONArray(name);
 
@@ -68,6 +76,7 @@ public class TrackService {
                     callBack.onSuccess();
         }, error -> {
                     // TODO: Handle error.
+                    Log.e("API ERROR", "Could not get track by ID.");
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
