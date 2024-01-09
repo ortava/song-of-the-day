@@ -55,24 +55,6 @@ public class TrackService {
                         e.printStackTrace();
                     }
 
-
-                    /* The below method may be useful for mapping a JSON object to a class of our own.
-                    * aka Cleaner implementation
-                    Gson gson = new Gson();
-                    JSONArray jsonArray = response.optJSONArray(name);
-
-                    for(int i = 0; i < jsonArray.length(); i++){
-                        try {
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            object = object.optJSONObject("track");
-                            track = gson.fromJson(object.toString(), Track.class);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                     */
-
                     callBack.onSuccess();
         }, error -> {
                     // TODO: Handle error.

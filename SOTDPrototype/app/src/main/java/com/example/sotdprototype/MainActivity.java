@@ -32,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String REDIRECT_URI = "http://localhost:3000";
     private SpotifyAppRemote mSpotifyAppRemote;
 
-    private TrackService trackService;
-    private Track track;
+    private TrackService mTrackService;
+    private Track mTrack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        trackService = new TrackService(getApplicationContext());
+        mTrackService = new TrackService(getApplicationContext());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -70,13 +70,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void getTrack(String id) {
-        trackService.getTrackById(id, () -> {
+    public Track getTrack(String id) {
+        mTrack = mTrackService.getTrackById(id, () -> {
             // implement onSuccess callback method
-            track = trackService.getTrack();
             Log.d("API", "GOT TRACK");
-            openTrackInSpotify(track.getUri());
         });
+        return mTrack;
     }
 
     public void connectSpotifyAppRemote() {
@@ -110,12 +109,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         SpotifyAppRemote.disconnect(mSpotifyAppRemote);
-        /*
-        if (queue != null) {
-            queue.cancelAll();
-        }
-
-         */
     }
 
 }

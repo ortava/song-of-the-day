@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sotdprototype.MainActivity;
 import com.example.sotdprototype.R;
 import com.example.sotdprototype.Track;
 import com.example.sotdprototype.TrackService;
@@ -27,12 +28,9 @@ public class HistoryFragment extends Fragment {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected String[] mDataSet;
 
-    private TrackService mTrackService;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTrackService = new TrackService(this.getContext());
         initDataset();
     }
 
@@ -68,7 +66,7 @@ public class HistoryFragment extends Fragment {
     private void initDataset() {
         mDataSet = new String[DATASET_COUNT];
         for(int i = 0; i < DATASET_COUNT; i++) {
-            Track track = mTrackService.getTrack();
+            Track track = ((MainActivity) getActivity()).getTrack("1D1sFcA13TLiLXmqHUFBXR");
             mDataSet[i] = (i+1) + " days ago: " + "\n"
                     + "Title: " + track.getTitle() + "\n"
                     + "Album: " + track.getAlbum() + "\n"
