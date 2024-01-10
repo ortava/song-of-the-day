@@ -1,12 +1,14 @@
 package com.example.sotdprototype.ui.history;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,15 +47,13 @@ public class HistoryFragment extends Fragment {
         final TextView textView = binding.textHistory;
         historyViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-
         // start RecyclerView stuff -
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_history);
+        mRecyclerView = root.findViewById(R.id.recycler_view_history);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new HistoryAdapter(mDataSet);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
         // end RecyclerView stuff.
-
         return root;
     }
 
@@ -66,7 +66,7 @@ public class HistoryFragment extends Fragment {
     private void initDataset() {
         mDataSet = new String[DATASET_COUNT];
         for(int i = 0; i < DATASET_COUNT; i++) {
-            Track track = ((MainActivity) getActivity()).getTrack("1D1sFcA13TLiLXmqHUFBXR");
+            Track track = ((MainActivity) getActivity()).getTrack("66HVu3CZHOdLw9uYmftsfg");
             mDataSet[i] = (i+1) + " days ago: " + "\n"
                     + "Title: " + track.getTitle() + "\n"
                     + "Album: " + track.getAlbum() + "\n"
