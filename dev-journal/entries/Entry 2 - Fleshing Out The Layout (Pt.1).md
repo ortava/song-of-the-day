@@ -1,4 +1,3 @@
-For the week of October 8 - October 13, 2023
 ### Summary
 The goal this week was to get the layout of the prototype into a presentable state. I would say that this goal is about half-way complete, but I was able to implement some important foundational components of the layout on the History screen (scrolling list with RecyclerView) and the Settings screen (converted to built-in PreferenceFragmentCompat).
 
