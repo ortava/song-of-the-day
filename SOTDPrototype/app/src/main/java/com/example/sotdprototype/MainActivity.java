@@ -1,5 +1,7 @@
 package com.example.sotdprototype;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -62,10 +64,34 @@ public class MainActivity extends AppCompatActivity {
         connectSpotifyAppRemote();
     }
 
+    public void remotePlay(String uri) {
+        if(mSpotifyAppRemote != null){
+            if(mSpotifyAppRemote.isConnected()){
+                mSpotifyAppRemote.getPlayerApi().getPlayerState()
+                        .setResultCallback(playerState -> {
+                            if(!playerState.track.uri.equals(uri)){
+                                mSpotifyAppRemote.getPlayerApi().play(uri);
+                            }
+                            else if(playerState.isPaused){
+                                mSpotifyAppRemote.getPlayerApi().resume();
+                            } else {
+                                mSpotifyAppRemote.getPlayerApi().pause();
+                            }
+                        }).setErrorCallback(throwable -> {
+                            Log.e("ERROR", "Error getting PlayerState");
+                        });
+            }
+        }
+    }
+
     public void openTrackInSpotify(String uri) {
         if(mSpotifyAppRemote != null){
             if(mSpotifyAppRemote.isConnected()){
-                mSpotifyAppRemote.getPlayerApi().play(uri);
+                final String spotifyContent = uri;
+                final String branchLink = "https://spotify.link/content_linking?~campaign=" + this.getPackageName() + "&$deeplink_path=" + spotifyContent + "&$fallback_url=" + spotifyContent;
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(branchLink));
+                startActivity(intent);
             }
         }
     }

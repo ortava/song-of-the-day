@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,9 @@ public class HomeFragment extends Fragment {
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        final ImageButton buttonPlay = binding.buttonPlay;
+        buttonPlay.setOnClickListener(v -> ((MainActivity) getActivity()).remotePlay("spotify:track:66HVu3CZHOdLw9uYmftsfg"));
         
         final Button buttonOpenTrackInSpotify = binding.buttonOpenTrackInSpotify;
         buttonOpenTrackInSpotify.setOnClickListener(v -> ((MainActivity) getActivity()).openTrackInSpotify("spotify:track:66HVu3CZHOdLw9uYmftsfg"));
