@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     private SpotifyAppRemote mSpotifyAppRemote;
 
     private TrackService mTrackService;
-    private Track mTrack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Track getTrack(String id) {
-        mTrack = mTrackService.getTrackById(id, () -> {
+        Track track = mTrackService.getTrackById(id, () -> {
             // implement onSuccess callback method
             Log.d("API", "GOT TRACK");
         });
-        return mTrack;
+        return track;
     }
 
     public void connectSpotifyAppRemote() {
