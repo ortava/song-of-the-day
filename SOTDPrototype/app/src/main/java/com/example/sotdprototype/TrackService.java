@@ -42,7 +42,7 @@ public class TrackService {
                     try {
                         JSONObject albumObject = response.getJSONObject("album");
                         JSONArray artistsArray = albumObject.getJSONArray("artists");
-                        JSONObject artistsObject = artistsArray.getJSONObject(0);
+                        JSONObject artistObject = artistsArray.getJSONObject(0);
                         String trackUri = response.getString("uri");
                         String trackTitle = response.getString("name");
 
@@ -50,7 +50,10 @@ public class TrackService {
                         track.setUri(trackUri);
                         track.setTitle(trackTitle);
                         track.setAlbum(albumObject.getString("name"));
-                        track.setArtist(artistsObject.getString("name"));
+                        track.setArtist(artistObject.getString("name"));
+                        JSONArray images = albumObject.getJSONArray("images");
+                        JSONObject image = images.getJSONObject(1); // index 1 -> Image Dimensions: 300x300
+                        track.setCoverURL(image.getString("url"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
