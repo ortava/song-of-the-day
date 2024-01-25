@@ -17,8 +17,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sotdprototype.AuthorizeActivity;
 import com.example.sotdprototype.MainActivity;
+import com.example.sotdprototype.R;
 import com.example.sotdprototype.Track;
 import com.example.sotdprototype.databinding.FragmentHomeBinding;
+import com.squareup.picasso.Picasso;
 
 public class HomeFragment extends Fragment {
 
@@ -50,9 +52,6 @@ public class HomeFragment extends Fragment {
         final TextView textViewArtist = binding.textArtist;
         mHomeViewModel.getArtistText().observe(getViewLifecycleOwner(), textViewArtist::setText);
 
-        final ImageView imageViewCover = binding.imageCover;
-        mHomeViewModel.getCoverImageResource().observe(getViewLifecycleOwner(), imageViewCover::setImageResource);
-
         return root;
     }
 
@@ -71,6 +70,12 @@ public class HomeFragment extends Fragment {
         mHomeViewModel.setTitleText(track.getTitle());
         mHomeViewModel.setArtistText(track.getArtist());
         mHomeViewModel.setSpotifyTrackURI(track.getUri());
+        if (track.getCoverURL() != ""){
+            Picasso.get()
+                    .load(track.getCoverURL())
+                    .error(R.drawable.placeholder_cover)
+                    .into(binding.imageCover);
+        }
     }
 
     @Override
