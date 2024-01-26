@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sotdprototype.AuthorizeActivity;
@@ -52,35 +53,38 @@ public class HomeFragment extends Fragment {
         final TextView textViewArtist = binding.textArtist;
         mHomeViewModel.getArtistText().observe(getViewLifecycleOwner(), textViewArtist::setText);
 
+        final ImageButton buttonPlay = binding.buttonPlay;
+        buttonPlay.setOnClickListener(v -> mHomeViewModel.getSpotifyTrackURI().observe(getViewLifecycleOwner(), ((MainActivity) getActivity())::remotePlay));
+
+        final Button buttonOpenTrackInSpotify = binding.buttonOpenTrackInSpotify;
+        buttonOpenTrackInSpotify.setOnClickListener(v -> mHomeViewModel.getSpotifyTrackURI().observe(getViewLifecycleOwner(), ((MainActivity) getActivity())::openTrackInSpotify));
+
+        mHomeViewModel.getCoverURL().observe(getViewLifecycleOwner(), this::loadCoverImage);
+
         return root;
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Track track = mHomeViewModel.getTrack().getValue();
-
-        // TODO: Look for a potentially better way to use URI from HomeViewModel in conjunction with setOnClickListener
-        final ImageButton buttonPlay = binding.buttonPlay;
-        buttonPlay.setOnClickListener(v -> ((MainActivity) getActivity()).remotePlay(track.getUri()));
-
-        final Button buttonOpenTrackInSpotify = binding.buttonOpenTrackInSpotify;
-        buttonOpenTrackInSpotify.setOnClickListener(v -> ((MainActivity) getActivity()).openTrackInSpotify(track.getUri()));
-        //
-
         // Refreshing data observed by Views
+        Track track = mHomeViewModel.getTrack().getValue();
         mHomeViewModel.setTitleText(track.getTitle());
         mHomeViewModel.setArtistText(track.getArtist());
         mHomeViewModel.setSpotifyTrackURI(track.getUri());
-        if (track.getCoverURL() != ""){
-            Picasso.get()
-                    .load(track.getCoverURL())
-                    .error(R.drawable.placeholder_cover)
-                    .into(binding.imageCover);
-        }
+        mHomeViewModel.setCoverURL(track.getCoverURL());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void loadCoverImage(String url){
+        if (!url.isEmpty()){
+            Picasso.get()
+                    .load(url)
+                    .error(R.drawable.placeholder_cover)
+                    .into(binding.imageCover);
+        }
     }
 }

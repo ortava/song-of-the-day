@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             if(mSpotifyAppRemote.isConnected()){
                 mSpotifyAppRemote.getPlayerApi().getPlayerState()
                         .setResultCallback(playerState -> {
-                            if(!playerState.track.uri.equals(uri)){
+                            if(!playerState.track.uri.equals(uri) && !uri.isEmpty()){
                                 mSpotifyAppRemote.getPlayerApi().play(uri);
                             }
                             else if(playerState.isPaused){
