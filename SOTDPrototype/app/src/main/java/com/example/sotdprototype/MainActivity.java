@@ -70,11 +70,14 @@ public class MainActivity extends AppCompatActivity {
                         .setResultCallback(playerState -> {
                             if(!playerState.track.uri.equals(uri) && !uri.isEmpty()){
                                 mSpotifyAppRemote.getPlayerApi().play(uri);
+                                findViewById(R.id.button_play).setActivated(true);
                             }
                             else if(playerState.isPaused){
                                 mSpotifyAppRemote.getPlayerApi().resume();
+                                findViewById(R.id.button_play).setActivated(true);
                             } else {
                                 mSpotifyAppRemote.getPlayerApi().pause();
+                                findViewById(R.id.button_play).setActivated(false);
                             }
                         }).setErrorCallback(throwable -> {
                             Log.e("ERROR", "Error getting PlayerState");
