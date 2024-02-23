@@ -14,5 +14,5 @@ Key points about the prototype so far:
 
 At this point, I have my eye on a few major aspects before the prototype is in a good place:
 - Create a decent layout for each fragment and some functionality to interact with the layout. 
-- Find how how data for the history section of the app will be stored persistently.
+- Find out how data for the history section of the app will be stored persistently.
 - Figure out how settings will work and be stored.
