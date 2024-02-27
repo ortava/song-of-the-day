@@ -76,4 +76,56 @@ public class TrackService {
         queue.add(jsonObjectRequest);
         return track;
     }
+
+    public Track getRecommendation(String[] seeds, final VolleyCallBack callBack) {
+        StringBuilder endpoint = new StringBuilder();
+        endpoint.append("https://api.spotify.com/v1/recommendations");
+        endpoint.append("?limit=1");
+
+        endpoint.append("&seed_genres=");
+        for(String seed : seeds){
+            endpoint.append(seed + "%2");
+        }
+        endpoint.delete(endpoint.length() - 3, endpoint.length() - 1); // remove the extra "%2"
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, endpoint.toString(), null, response -> {
+                    try {
+                        JSONArray tracksArray = response.getJSONArray("tracks");
+                        JSONObject trackObject = tracksArray.getJSONObject(0);
+
+                        JSONObject albumObject = trackObject.getJSONObject("album");
+                        JSONArray artistsArray = trackObject.getJSONArray("artists");
+                        JSONObject artistObject = artistsArray.getJSONObject(0);
+
+                        track.setId(trackObject.getString("id"));
+                        track.setUri(trackObject.getString("uri"));
+                        track.setTitle(trackObject.getString("name"));
+                        track.setAlbum(albumObject.getString("name"));
+                        track.setArtist(artistObject.getString("name"));
+                        JSONArray images = albumObject.getJSONArray("images");
+                        JSONObject image = images.getJSONObject(1); // index 1 -> Image Dimensions: 300x300
+                        track.setCoverURL(image.getString("url"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    callBack.onSuccess();
+                }, error -> {
+                    // TODO: Handle error.
+                    Log.e("API ERROR", "Could not get a recommendation.");
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+
+        queue.add(jsonObjectRequest);
+        return track;
+    }
 }

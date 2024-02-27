@@ -32,7 +32,7 @@ public class HomeViewModel extends ViewModel {
         mCoverURL.setValue("");
 
         mSpotifyTrackURI = new MutableLiveData<>();
-        mSpotifyTrackURI.setValue("spotify:track:66HVu3CZHOdLw9uYmftsfg");
+        mSpotifyTrackURI.setValue("");
 
         mTrack = new MutableLiveData<>();
         mTrack.setValue(new Track());

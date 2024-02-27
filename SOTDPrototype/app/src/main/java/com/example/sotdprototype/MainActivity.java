@@ -106,6 +106,15 @@ public class MainActivity extends AppCompatActivity {
         return track;
     }
 
+    public Track getRecommendedTrack() {
+        // TODO: Allow for user-selected seeds as opposed to the current baked in version.
+        String[] seedGenres = {"classical, country, hip-hop"};
+        Track track = mTrackService.getRecommendation(seedGenres, () -> {
+           Log.d("API", "GOT RECOMMENDATION");
+        });
+        return track;
+    }
+
     public void connectSpotifyAppRemote() {
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder(CLIENT_ID)
