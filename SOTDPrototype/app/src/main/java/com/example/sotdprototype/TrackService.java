@@ -19,45 +19,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TrackService {
-    private Track track;
-
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
 
     public TrackService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
-        track = new Track();
-    }
-
-    public Track getTrack(){
-        return this.track;
     }
 
     public Track getTrackById(String trackId, final VolleyCallBack callBack) {
-        //String endpoint = "https://api.spotify.com/v1/tracks/{id}";
+        Track track = new Track();
         String endpoint = "https://api.spotify.com/v1/tracks/" + trackId;
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, response -> {
-                    try {
-                        JSONObject albumObject = response.getJSONObject("album");
-                        JSONArray artistsArray = albumObject.getJSONArray("artists");
-                        JSONObject artistObject = artistsArray.getJSONObject(0);
-                        String trackUri = response.getString("uri");
-                        String trackTitle = response.getString("name");
-
-                        track.setId(trackId);
-                        track.setUri(trackUri);
-                        track.setTitle(trackTitle);
-                        track.setAlbum(albumObject.getString("name"));
-                        track.setArtist(artistObject.getString("name"));
-                        JSONArray images = albumObject.getJSONArray("images");
-                        JSONObject image = images.getJSONObject(1); // index 1 -> Image Dimensions: 300x300
-                        track.setCoverURL(image.getString("url"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                    track.setAll(buildTrackFromJSONTrackObject(response));
                     callBack.onSuccess();
         }, error -> {
                     // TODO: Handle error.
@@ -78,13 +54,15 @@ public class TrackService {
     }
 
     public Track getRecommendation(String[] seeds, final VolleyCallBack callBack) {
+        Track track = new Track();
         StringBuilder endpoint = new StringBuilder();
+
         endpoint.append("https://api.spotify.com/v1/recommendations");
         endpoint.append("?limit=1");
-
         endpoint.append("&seed_genres=");
         for(String seed : seeds){
-            endpoint.append(seed + "%2");
+            endpoint.append(seed);
+            endpoint.append("%2");
         }
         endpoint.delete(endpoint.length() - 3, endpoint.length() - 1); // remove the extra "%2"
 
@@ -93,23 +71,10 @@ public class TrackService {
                     try {
                         JSONArray tracksArray = response.getJSONArray("tracks");
                         JSONObject trackObject = tracksArray.getJSONObject(0);
-
-                        JSONObject albumObject = trackObject.getJSONObject("album");
-                        JSONArray artistsArray = trackObject.getJSONArray("artists");
-                        JSONObject artistObject = artistsArray.getJSONObject(0);
-
-                        track.setId(trackObject.getString("id"));
-                        track.setUri(trackObject.getString("uri"));
-                        track.setTitle(trackObject.getString("name"));
-                        track.setAlbum(albumObject.getString("name"));
-                        track.setArtist(artistObject.getString("name"));
-                        JSONArray images = albumObject.getJSONArray("images");
-                        JSONObject image = images.getJSONObject(1); // index 1 -> Image Dimensions: 300x300
-                        track.setCoverURL(image.getString("url"));
+                        track.setAll(buildTrackFromJSONTrackObject(trackObject));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     callBack.onSuccess();
                 }, error -> {
                     // TODO: Handle error.
@@ -126,6 +91,29 @@ public class TrackService {
         };
 
         queue.add(jsonObjectRequest);
+        return track;
+    }
+
+    private Track buildTrackFromJSONTrackObject(JSONObject trackObject) {
+        Track track = new Track();
+
+        try {
+            JSONObject albumObject = trackObject.getJSONObject("album");
+            JSONArray images = albumObject.getJSONArray("images");
+            JSONObject image = images.getJSONObject(1); // index 1 -> Image Dimensions: 300x300
+            JSONArray artistsArray = trackObject.getJSONArray("artists");
+            JSONObject artistObject = artistsArray.getJSONObject(0);
+
+            track.setId(trackObject.getString("id"));
+            track.setUri(trackObject.getString("uri"));
+            track.setTitle(trackObject.getString("name"));
+            track.setAlbum(albumObject.getString("name"));
+            track.setArtist(artistObject.getString("name"));
+            track.setCoverURL(image.getString("url"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         return track;
     }
 }

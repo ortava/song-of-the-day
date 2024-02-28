@@ -29,19 +29,15 @@ public class Track {
     public String getId() {
         return this.id;
     }
-
     public String getUri() {
         return uri;
     }
-
     public String getTitle() {
         return this.title;
     }
-
     public String getAlbum() {
         return this.album;
     }
-
     public String getArtist() {
         return this.artist;
     }
@@ -50,21 +46,25 @@ public class Track {
     public void setId(String id) {
         this.id = id;
     }
-
     public void setUri(String uri) {
         this.uri = uri;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
-
     public void setAlbum(String album) {
         this.album = album;
     }
-
     public void setArtist(String artist) {
         this.artist = artist;
     }
     public void setCoverURL(String coverURL) { this.coverURL = coverURL; }
+    public void setAll(Track otherTrack) {
+        this.id = otherTrack.getId();
+        this.uri = otherTrack.getUri();
+        this.title = otherTrack.getTitle();
+        this.album = otherTrack.getAlbum();
+        this.artist = otherTrack.getArtist();
+        this.coverURL = otherTrack.getCoverURL();
+    }
 }
