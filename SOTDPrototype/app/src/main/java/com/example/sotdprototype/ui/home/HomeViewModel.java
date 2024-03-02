@@ -23,10 +23,10 @@ public class HomeViewModel extends ViewModel {
         mHomeText.setValue("Welcome!");
 
         mTitleText = new MutableLiveData<>();
-        mTitleText.setValue("Song Title");
+        mTitleText.setValue("");
 
         mArtistText = new MutableLiveData<>();
-        mArtistText.setValue("Artist Name");
+        mArtistText.setValue("");
 
         mCoverURL = new MutableLiveData<>();
         mCoverURL.setValue("");

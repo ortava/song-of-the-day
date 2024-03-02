@@ -21,11 +21,15 @@ import java.util.Map;
 public class TrackService {
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
+    private Track songOfTheDay;
 
     public TrackService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
+        songOfTheDay = new Track();
     }
+
+    public Track getSongOfTheDay() { return songOfTheDay; }
 
     public Track getTrackById(String trackId, final VolleyCallBack callBack) {
         Track track = new Track();
@@ -54,7 +58,6 @@ public class TrackService {
     }
 
     public Track getRecommendation(String[] seeds, final VolleyCallBack callBack) {
-        Track track = new Track();
         StringBuilder endpoint = new StringBuilder();
 
         endpoint.append("https://api.spotify.com/v1/recommendations");
@@ -71,7 +74,7 @@ public class TrackService {
                     try {
                         JSONArray tracksArray = response.getJSONArray("tracks");
                         JSONObject trackObject = tracksArray.getJSONObject(0);
-                        track.setAll(buildTrackFromJSONTrackObject(trackObject));
+                        songOfTheDay.setAll(buildTrackFromJSONTrackObject(trackObject));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -91,7 +94,7 @@ public class TrackService {
         };
 
         queue.add(jsonObjectRequest);
-        return track;
+        return songOfTheDay;
     }
 
     private Track buildTrackFromJSONTrackObject(JSONObject trackObject) {

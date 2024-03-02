@@ -21,6 +21,7 @@ import com.example.sotdprototype.AuthorizeActivity;
 import com.example.sotdprototype.MainActivity;
 import com.example.sotdprototype.R;
 import com.example.sotdprototype.Track;
+import com.example.sotdprototype.TrackService;
 import com.example.sotdprototype.databinding.FragmentHomeBinding;
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +29,7 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private HomeViewModel mHomeViewModel;
+    private TrackService mTrackService;
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +37,9 @@ public class HomeFragment extends Fragment {
         mHomeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
-        // Set song of the day
-        mHomeViewModel.setTrack(((MainActivity) getActivity()).getRecommendedTrack());
-        //
+        mTrackService = new TrackService(requireContext());
+
+        setSongOfTheDay();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -65,15 +67,6 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        // Refreshing data observed by Views
-        Track track = mHomeViewModel.getTrack().getValue();
-        mHomeViewModel.setTitleText(track.getTitle());
-        mHomeViewModel.setArtistText(track.getArtist());
-        mHomeViewModel.setSpotifyTrackURI(track.getUri());
-        mHomeViewModel.setCoverURL(track.getCoverURL());
-    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -87,5 +80,14 @@ public class HomeFragment extends Fragment {
                     .error(R.drawable.placeholder_cover)
                     .into(binding.imageCover);
         }
+    }
+
+    private void setSongOfTheDay() {
+        // TODO: Allow for user-selected seeds as opposed to the current baked in version.
+        String[] seedGenres = {"classical, country, hip-hop"};
+        mTrackService.getRecommendation(seedGenres, () -> {
+            Log.d("API", "GOT RECOMMENDATION");
+            mHomeViewModel.setTrack(mTrackService.getSongOfTheDay());
+        });
     }
 }
