@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
 
     private void setSongOfTheDay() {
         // TODO: Allow for user-selected seeds as opposed to the current baked in version.
-        String[] seedGenres = {"classical, country, hip-hop"};
+        String[] seedGenres = {"classical", "ambient", "j-rock"};
         mTrackService.getRecommendation(seedGenres, () -> {
             Log.d("API", "GOT RECOMMENDATION");
             mHomeViewModel.setTrack(mTrackService.getSongOfTheDay());

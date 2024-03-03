@@ -65,9 +65,9 @@ public class TrackService {
         endpoint.append("&seed_genres=");
         for(String seed : seeds){
             endpoint.append(seed);
-            endpoint.append("%2");
+            endpoint.append("%2C");
         }
-        endpoint.delete(endpoint.length() - 3, endpoint.length() - 1); // remove the extra "%2"
+        endpoint.delete(endpoint.length() - 3, endpoint.length()); // remove the extra "%2"
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint.toString(), null, response -> {
