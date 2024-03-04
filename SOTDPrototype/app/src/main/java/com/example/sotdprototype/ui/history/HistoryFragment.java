@@ -19,41 +19,44 @@ import com.example.sotdprototype.R;
 import com.example.sotdprototype.Track;
 import com.example.sotdprototype.TrackService;
 import com.example.sotdprototype.databinding.FragmentHistoryBinding;
+import com.example.sotdprototype.ui.home.HomeViewModel;
+
+import java.util.ArrayList;
 
 public class HistoryFragment extends Fragment {
-    private static final int DATASET_COUNT = 50;
-
     private FragmentHistoryBinding binding;
+    private HistoryViewModel mHistoryViewModel;
+    private TrackService mTrackService;
 
     protected RecyclerView mRecyclerView;
     protected HistoryAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    protected String[] mDataSet;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mTrackService = new TrackService(getContext());
+
+        mHistoryViewModel =
+                new ViewModelProvider(this).get(HistoryViewModel.class);
+
         initDataset();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HistoryViewModel historyViewModel =
-                new ViewModelProvider(this).get(HistoryViewModel.class);
-
         binding = FragmentHistoryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textHistory;
-        historyViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        mHistoryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        // start RecyclerView stuff -
         mRecyclerView = root.findViewById(R.id.recycler_view_history);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new HistoryAdapter(mDataSet);
-        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        // end RecyclerView stuff.
+        mHistoryViewModel.getDataSet().observe(getViewLifecycleOwner(), this::updateDataSet);
+
         return root;
     }
 
@@ -63,15 +66,20 @@ public class HistoryFragment extends Fragment {
         binding = null;
     }
 
+    private void updateDataSet(@NonNull String[] dataSet) {
+        mAdapter = new HistoryAdapter(dataSet);
+        mRecyclerView.swapAdapter(mAdapter, false);
+    }
+
     private void initDataset() {
-        mDataSet = new String[DATASET_COUNT];
-        for(int i = 0; i < DATASET_COUNT; i++) {
-            Track track = ((MainActivity) getActivity()).getTrack("66HVu3CZHOdLw9uYmftsfg");
-            mDataSet[i] = (i+1) + " days ago: " + "\n"
-                    + "Title: " + track.getTitle() + "\n"
-                    + "Album: " + track.getAlbum() + "\n"
-                    + "Artist: " + track.getArtist() + "\n"
-                    + "[open in Spotify]";
-        }
+        // TODO: Either get multiple tracks via an array of IDs, (note that Volley responds asynchronously)
+        // TODO: or retrieve all data from some sort of persistent storage (if possible, probably ideal).
+        mTrackService.getTrackById("66HVu3CZHOdLw9uYmftsfg", () -> {
+            mHistoryViewModel.setDataSet(mTrackService.makeDataSet(mHistoryViewModel.getDatasetCount()));
+        });
+
+        mTrackService.getTrackById("6knzYloG0x3MroAhnLVLGe", () -> {
+            mHistoryViewModel.setDataSet(mTrackService.makeDataSet(mHistoryViewModel.getDatasetCount()));
+        });
     }
 }

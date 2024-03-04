@@ -98,14 +98,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public Track getTrack(String id) {
-        Track track = mTrackService.getTrackById(id, () -> {
-            // implement onSuccess callback method
-            Log.d("API", "GOT TRACK");
-        });
-        return track;
-    }
-
     public void connectSpotifyAppRemote() {
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder(CLIENT_ID)

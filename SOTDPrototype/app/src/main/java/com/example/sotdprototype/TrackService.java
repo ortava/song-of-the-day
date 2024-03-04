@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,14 +23,34 @@ public class TrackService {
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
     private Track songOfTheDay;
+    private ArrayList<Track> tracks;
 
     public TrackService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
         songOfTheDay = new Track();
+        tracks = new ArrayList<>();
     }
 
     public Track getSongOfTheDay() { return songOfTheDay; }
+    public ArrayList<Track> getTracks() { return tracks; }
+
+    public String[] makeDataSet(int DATASET_COUNT) {
+        String[] dataSet = new String[DATASET_COUNT];
+        for(int i = 0; i < DATASET_COUNT; i++) {
+            if (i < tracks.size()) {
+                Track track = tracks.get(i);
+                dataSet[i] = (i+1) + " days ago: " + "\n"
+                        + "Title: " + track.getTitle() + "\n"
+                        + "Album: " + track.getAlbum() + "\n"
+                        + "Artist: " + track.getArtist() + "\n"
+                        + "[open in Spotify]";
+            } else {
+                break;
+            }
+        }
+        return dataSet;
+    }
 
     public Track getTrackById(String trackId, final VolleyCallBack callBack) {
         Track track = new Track();
@@ -38,6 +59,7 @@ public class TrackService {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint, null, response -> {
                     track.setAll(buildTrackFromJSONTrackObject(response));
+                    tracks.add(track);
                     callBack.onSuccess();
         }, error -> {
                     // TODO: Handle error.
