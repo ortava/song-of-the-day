@@ -1,13 +1,11 @@
 package com.example.sotdprototype.ui.home;
 
-import android.graphics.drawable.Drawable;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.sotdprototype.R;
 import com.example.sotdprototype.Track;
+import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 public class HomeViewModel extends ViewModel {
 
@@ -17,6 +15,7 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<String> mSpotifyTrackURI;
     private final MutableLiveData<String> mCoverURL;
     private final MutableLiveData<Track> mTrack;
+    private SpotifyAppRemote mSpotifyAppRemote;
 
     public HomeViewModel() {
         mHomeText = new MutableLiveData<>();
@@ -50,6 +49,7 @@ public class HomeViewModel extends ViewModel {
         setSpotifyTrackURI(track.getUri());
         setCoverURL(track.getCoverURL());
     }
+    public void setSpotifyAppRemote(SpotifyAppRemote remote) { mSpotifyAppRemote = remote; }
 
     public LiveData<String> getHomeText() {
         return mHomeText;
@@ -63,4 +63,6 @@ public class HomeViewModel extends ViewModel {
     public LiveData<String> getSpotifyTrackURI() { return mSpotifyTrackURI; }
     public LiveData<String> getCoverURL() { return mCoverURL; }
     public LiveData<Track> getTrack() { return mTrack; }
+
+    public SpotifyAppRemote getSpotifyAppRemote() { return mSpotifyAppRemote; }
 }
