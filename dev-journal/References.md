@@ -30,3 +30,5 @@ No relevant links.
 - [Making remote calls](https://developer.spotify.com/documentation/android/tutorials/making-remote-calls)
 - [Picasso library (for downloading cover art)](https://square.github.io/picasso/)
 
+##### [Entry 5 - Improving API Usage (Pt.2)](Entry%205%20-%20Improving%20API%20Usage%20(Pt.2))
+- [Spotify WebAPI Get Recommendations reference](https://developer.spotify.com/documentation/web-api/reference/get-recommendations)
