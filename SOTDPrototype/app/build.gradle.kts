@@ -52,6 +52,11 @@ android {
 }
 
 dependencies {
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
     implementation(files("/libs/spotify-app-remote-release-0.8.0.aar"))
     implementation(files("/libs/spotify-auth-release-2.1.0.aar"))
     implementation("com.google.code.gson:gson:2.8.9")

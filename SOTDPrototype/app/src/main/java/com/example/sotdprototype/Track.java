@@ -1,11 +1,26 @@
 package com.example.sotdprototype;
 
+import androidx.annotation.NonNull;
+import androidx.room.*;
+
+@Entity
 public class Track {
+    @PrimaryKey @NonNull
     private String id;
+
+    @ColumnInfo(name = "uri")
     private String uri;
+
+    @ColumnInfo(name = "title")
     private String title;
+
+    @ColumnInfo(name = "album")
     private String album;
+
+    @ColumnInfo(name = "artist")
     private String artist;
+
+    @ColumnInfo(name = "cover_URL")
     private String coverURL;
 
     public Track() {
