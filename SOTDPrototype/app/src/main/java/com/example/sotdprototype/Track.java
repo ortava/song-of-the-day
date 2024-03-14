@@ -1,12 +1,14 @@
 package com.example.sotdprototype;
 
-import androidx.annotation.NonNull;
 import androidx.room.*;
 
 @Entity
 public class Track {
-    @PrimaryKey @NonNull
-    private String id;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    @ColumnInfo(name = "spotify_Id")
+    private String spotifyId;
 
     @ColumnInfo(name = "uri")
     private String uri;
@@ -24,7 +26,7 @@ public class Track {
     private String coverURL;
 
     public Track() {
-        this.id = "";
+        this.spotifyId = "";
         this.uri = "";
         this.title = "";
         this.album = "";
@@ -32,8 +34,8 @@ public class Track {
         this.coverURL = "";
     }
 
-    public Track(String id, String uri, String title, String album, String artist, String coverURL) {
-        this.id = id;
+    public Track(String spotifyId, String uri, String title, String album, String artist, String coverURL) {
+        this.spotifyId = spotifyId;
         this.uri = uri;
         this.title = title;
         this.album = album;
@@ -41,8 +43,9 @@ public class Track {
         this.coverURL = coverURL;
     }
 
-    public String getId() {
-        return this.id;
+    public int getId() { return this.id; }
+    public String getSpotifyId() {
+        return this.spotifyId;
     }
     public String getUri() {
         return uri;
@@ -58,8 +61,10 @@ public class Track {
     }
     public String getCoverURL() { return this.coverURL; }
 
-    public void setId(String id) {
-        this.id = id;
+
+    public void setId(int id) { this.id = id; }
+    public void setSpotifyId(String spotifyId) {
+        this.spotifyId = spotifyId;
     }
     public void setUri(String uri) {
         this.uri = uri;
@@ -75,7 +80,7 @@ public class Track {
     }
     public void setCoverURL(String coverURL) { this.coverURL = coverURL; }
     public void setAll(Track otherTrack) {
-        this.id = otherTrack.getId();
+        this.spotifyId = otherTrack.getSpotifyId();
         this.uri = otherTrack.getUri();
         this.title = otherTrack.getTitle();
         this.album = otherTrack.getAlbum();

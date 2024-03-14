@@ -16,7 +16,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.sotdprototype.AppDatabase;
 import com.example.sotdprototype.R;
+import com.example.sotdprototype.Track;
+import com.example.sotdprototype.TrackDAO;
 import com.example.sotdprototype.TrackService;
 import com.example.sotdprototype.databinding.FragmentHomeBinding;
 import com.spotify.android.appremote.api.ConnectionParams;
@@ -31,6 +34,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel mHomeViewModel;
     private TrackService mTrackService;
+    private TrackDAO trackDAO;
 
     private ImageButton mImageButtonPlay;
 
@@ -39,6 +43,11 @@ public class HomeFragment extends Fragment {
         mHomeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         mTrackService = new TrackService(requireContext());
+        /// Testing DB stuff
+        AppDatabase db = AppDatabase.getDbInstance(requireContext());
+        trackDAO = db.trackDAO();
+        ///
+
         setSongOfTheDay();
     }
 
@@ -97,9 +106,14 @@ public class HomeFragment extends Fragment {
     private void setSongOfTheDay() {
         // TODO: Allow for user-selected seeds as opposed to the current baked in version.
         String[] seedGenres = {"classical", "ambient", "j-rock"};
+
         mTrackService.getRecommendation(seedGenres, () -> {
             Log.d("HomeFragment", "GOT RECOMMENDATION");
             mHomeViewModel.setTrack(mTrackService.getSongOfTheDay());
+            if(trackDAO.getCount() >= 30) { // TODO: Find better location to store max DATASET_COUNT
+                trackDAO.deleteTopRow();
+            }
+            trackDAO.insert(mTrackService.getSongOfTheDay());
         });
     }
 

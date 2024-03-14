@@ -15,6 +15,6 @@ public interface TrackDAO {
     @Insert
     void insert(Track track);
 
-    @Query("DELETE FROM track WHERE id=(SELECT MAX(id) FROM track)")
-    void deleteLast();
+    @Query("DELETE FROM track WHERE id=(SELECT MIN(id) FROM track)")
+    void deleteTopRow();
 }
