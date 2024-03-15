@@ -74,16 +74,14 @@ public class HistoryFragment extends Fragment {
     private void initDataset() {
         List<Track> tracks = trackDAO.getAll();
 
-        for(int i = 0; i < mHistoryViewModel.getDatasetCount(); i++) {
+        for(int i = mHistoryViewModel.getDatasetCount() - 1; i >= 0; i--) {
             if (i < tracks.size()) {
                 Track track = tracks.get(i);
-                mDataSet[i] = (i+1) + " days ago: " + "\n"
+                mDataSet[tracks.size() - i] = (tracks.size() - i) + " days ago: " + "\n"
                         + "Title: " + track.getTitle() + "\n"
                         + "Album: " + track.getAlbum() + "\n"
                         + "Artist: " + track.getArtist() + "\n"
                         + "[open in Spotify]";
-            } else {
-                break;
             }
         }
     }
