@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.sotdprototype.Track;
+import com.example.sotdprototype.db.Track;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 public class HomeViewModel extends ViewModel {

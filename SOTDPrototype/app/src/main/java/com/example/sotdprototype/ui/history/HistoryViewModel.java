@@ -4,11 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.sotdprototype.Track;
-
-import java.util.ArrayList;
-import java.util.Queue;
-
 public class HistoryViewModel extends ViewModel {
 
     private static final int DATASET_COUNT = 30;

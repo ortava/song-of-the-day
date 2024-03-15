@@ -1,4 +1,4 @@
-package com.example.sotdprototype;
+package com.example.sotdprototype.db;
 
 import android.content.Context;
 

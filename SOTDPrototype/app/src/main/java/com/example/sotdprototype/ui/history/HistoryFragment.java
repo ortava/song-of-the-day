@@ -1,30 +1,23 @@
 package com.example.sotdprototype.ui.history;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import com.example.sotdprototype.AppDatabase;
-import com.example.sotdprototype.MainActivity;
+import com.example.sotdprototype.db.AppDatabase;
 import com.example.sotdprototype.R;
-import com.example.sotdprototype.Track;
-import com.example.sotdprototype.TrackDAO;
-import com.example.sotdprototype.TrackService;
+import com.example.sotdprototype.db.Track;
+import com.example.sotdprototype.db.TrackDAO;
 import com.example.sotdprototype.databinding.FragmentHistoryBinding;
-import com.example.sotdprototype.ui.home.HomeViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryFragment extends Fragment {
@@ -44,10 +37,9 @@ public class HistoryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mHistoryViewModel =
                 new ViewModelProvider(this).get(HistoryViewModel.class);
-        /// Testing db stuff
+
         AppDatabase db = AppDatabase.getDbInstance(requireContext());
         trackDAO = db.trackDAO();
-        ///
 
         initDataset();
     }
@@ -63,7 +55,6 @@ public class HistoryFragment extends Fragment {
         mRecyclerView = root.findViewById(R.id.recycler_view_history);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        //mHistoryViewModel.getDataSet().observe(getViewLifecycleOwner(), this::updateDataSet);
         updateDataSet(mDataSet);
 
         return root;
