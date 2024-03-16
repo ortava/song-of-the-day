@@ -12,21 +12,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sotdprototype.db.AppDatabase;
+import com.example.sotdprototype.db.TrackService;
 import com.example.sotdprototype.R;
 import com.example.sotdprototype.db.Track;
-import com.example.sotdprototype.db.TrackDAO;
 import com.example.sotdprototype.databinding.FragmentHistoryBinding;
 
 import java.util.List;
 
 public class HistoryFragment extends Fragment {
-    private static final int DATASET_COUNT = 30;
-
     private FragmentHistoryBinding binding;
     private HistoryViewModel mHistoryViewModel;
-    private String[] mDataSet = new String[DATASET_COUNT];
-    private TrackDAO trackDAO;
+    private String[] mDataSet = new String[TrackService.MAX_DATASET_COUNT];
+    private TrackService mTrackService;
 
     protected RecyclerView mRecyclerView;
     protected HistoryAdapter mAdapter;
@@ -37,9 +34,7 @@ public class HistoryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mHistoryViewModel =
                 new ViewModelProvider(this).get(HistoryViewModel.class);
-
-        AppDatabase db = AppDatabase.getDbInstance(requireContext());
-        trackDAO = db.trackDAO();
+        mTrackService = new TrackService(requireContext());
 
         initDataset();
     }
@@ -72,9 +67,9 @@ public class HistoryFragment extends Fragment {
     }
 
     private void initDataset() {
-        List<Track> tracks = trackDAO.getAll();
+        List<Track> tracks = mTrackService.getAllTracksFromDataBase();
 
-        for(int i = mHistoryViewModel.getDatasetCount() - 1; i >= 0; i--) {
+        for(int i = TrackService.MAX_DATASET_COUNT - 1; i >= 0; i--) {
             if (i < tracks.size()) {
                 Track track = tracks.get(i);
                 mDataSet[tracks.size() - i] = (tracks.size() - i) + " days ago: " + "\n"

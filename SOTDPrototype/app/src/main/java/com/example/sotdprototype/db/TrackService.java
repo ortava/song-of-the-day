@@ -1,4 +1,4 @@
-package com.example.sotdprototype;
+package com.example.sotdprototype.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,24 +9,30 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.sotdprototype.db.Track;
+import com.example.sotdprototype.VolleyCallBack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TrackService {
+    public static final int MAX_DATASET_COUNT = 30;
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
     private Track songOfTheDay;
+    private TrackDAO trackDAO;
 
     public TrackService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
         songOfTheDay = new Track();
+
+        AppDatabase db = AppDatabase.getDbInstance(context);
+        trackDAO = db.trackDAO();
     }
 
     public Track getSongOfTheDay() { return songOfTheDay; }
@@ -118,5 +124,16 @@ public class TrackService {
         }
 
         return track;
+    }
+
+    public void addTrackToDataBase(Track track) {
+        if(trackDAO.getCount() >= MAX_DATASET_COUNT) {
+            trackDAO.deleteTopRow();
+        }
+        trackDAO.insert(track);
+    }
+
+    public List<Track> getAllTracksFromDataBase() {
+        return trackDAO.getAll();
     }
 }
