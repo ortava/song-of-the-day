@@ -69,10 +69,11 @@ public class HistoryFragment extends Fragment {
     private void initDataset() {
         List<Track> tracks = mTrackService.getAllTracksFromDataBase();
 
-        for(int i = TrackService.MAX_DATASET_COUNT - 1; i >= 0; i--) {
-            if (i < tracks.size()) {
-                Track track = tracks.get(i);
-                mDataSet[tracks.size() - i] = (tracks.size() - i) + " days ago: " + "\n"
+        for(int i = 0; i < tracks.size(); i++) {
+            Track track = tracks.get(tracks.size() - 1 - i);
+            if (i < mDataSet.length) {
+                mDataSet[i] =
+                        (i+1) + " days ago: " + "\n"
                         + "Title: " + track.getTitle() + "\n"
                         + "Album: " + track.getAlbum() + "\n"
                         + "Artist: " + track.getArtist() + "\n"
