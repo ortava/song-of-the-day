@@ -32,3 +32,7 @@ No relevant links.
 
 ##### [Entry 5 - Improving API Usage (Pt.2)](Entry%205%20-%20Improving%20API%20Usage%20(Pt.2))
 - [Spotify WebAPI Get Recommendations reference](https://developer.spotify.com/documentation/web-api/reference/get-recommendations)
+
+##### [Entry 6 - Setting Up Persistent Storage](Entry%206%20-%20Setting%20Up%20Persistent%20Storage)
+- https://developer.android.com/training/data-storage
+- https://developer.android.com/training/data-storage/room
