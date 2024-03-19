@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Genres MultiSelectListPreference entries/entry_values (default) -->
+    <string-array name="pref_mslist_genres_entries">
+        <item>Ambient</item>
+        <item>Classical</item>
+        <item>Hip-Hop</item>
+    </string-array>
+    <string-array name="pref_mslist_genres_entry_values">
+        <item>ambient</item>
+        <item>classical</item>
+        <item>hip-hop</item>
+    </string-array>
+</resources>

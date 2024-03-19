@@ -4,12 +4,19 @@
 
     <SwitchPreferenceCompat
         app:key="notifications"
-        app:title="Enable push notifications"
+        app:title="@string/pref_switch_push_notifications"
         app:icon="@drawable/ic_notifications_black_24dp"/>
 
-    <Preference
-        app:key="feedback"
-        app:title="Send feedback"
-        app:summary="Report technical issues or suggest new features"
-        app:iconSpaceReserved="false"/>
+    <PreferenceCategory
+        app:title="@string/pref_category_recommendations">
+
+        <MultiSelectListPreference
+            android:key="multi_select_list_genres"
+            android:title="@string/pref_mslist_genres_title"
+            android:summary="@string/pref_mslist_genres_summary"
+            android:dialogTitle="@string/pref_mslist_genres_dialog_title"
+            android:entries="@array/pref_mslist_genres_entries"
+            android:entryValues="@array/pref_mslist_genres_entry_values"/>
+
+    </PreferenceCategory>
 </PreferenceScreen>
