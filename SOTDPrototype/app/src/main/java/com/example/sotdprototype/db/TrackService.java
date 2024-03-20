@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,19 +25,24 @@ public class TrackService {
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
     private Track songOfTheDay;
+    private ArrayList<String> genreSeeds;
+
     private TrackDAO trackDAO;
 
     public TrackService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
         songOfTheDay = new Track();
+        genreSeeds = new ArrayList<>();
 
         AppDatabase db = AppDatabase.getDbInstance(context);
         trackDAO = db.trackDAO();
     }
 
     public Track getSongOfTheDay() { return songOfTheDay; }
+    public String[] getGenreSeeds() { return genreSeeds.toArray(new String[0]); }
 
+    /// API METHODS
     public Track getTrackById(String trackId, final VolleyCallBack callBack) {
         Track track = new Track();
         String endpoint = "https://api.spotify.com/v1/tracks/" + trackId;
@@ -103,6 +109,39 @@ public class TrackService {
         return songOfTheDay;
     }
 
+    // TODO: Find a better name for either getAvailableGenreSeeds() or getGenreSeeds(). They are too similar.
+    public String[] getAvailableGenreSeeds(VolleyCallBack callBack) {
+        String endpoint = "https://api.spotify.com/v1/recommendations/available-genre-seeds";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, endpoint, null, response -> {
+                    try {
+                        JSONArray genreArray = response.getJSONArray("genres");
+                        for(int i = 0; i < genreArray.length(); i++) {
+                            genreSeeds.add(genreArray.getString(i));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    callBack.onSuccess();
+                }, error -> {
+                    // TODO: Handle error.
+                    Log.e("API ERROR", "Could not get genre seeds.");
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                String token = sharedPreferences.getString("token", "");
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+
+        queue.add(jsonObjectRequest);
+        return genreSeeds.toArray(new String[0]);
+    }
+
     private Track buildTrackFromJSONTrackObject(JSONObject trackObject) {
         Track track = new Track();
 
@@ -126,6 +165,7 @@ public class TrackService {
         return track;
     }
 
+    /// DATABASE METHODS
     public void addTrackToDataBase(Track track) {
         if(trackDAO.getCount() >= MAX_DATASET_COUNT) {
             trackDAO.deleteTopRow();
