@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
-        app:key="notifications"
+        app:key="switch_push_notifications"
         app:title="@string/pref_switch_push_notifications"
         app:icon="@drawable/ic_notifications_black_24dp"/>
 
     <PreferenceCategory
-        app:title="@string/pref_category_recommendations">
-
+        app:title="Seeds"
+        app:allowDividerBelow="false">
         <MultiSelectListPreference
             android:key="multi_select_list_genres"
             android:title="@string/pref_mslist_genres_title"
@@ -17,6 +17,90 @@
             android:dialogTitle="@string/pref_mslist_genres_dialog_title"
             android:entries="@array/pref_mslist_genres_entries"
             android:entryValues="@array/pref_mslist_genres_entry_values"/>
+    </PreferenceCategory>
 
+    <PreferenceCategory
+        app:title="Audio Features"
+        app:allowDividerAbove="false">
+
+        <SwitchPreferenceCompat
+            app:key="switch_audio_features"
+            app:title="Use audio features for song recommendations"/>
+
+        <EditTextPreference
+            android:key="min_duration"
+            android:title="Minimum Duration"
+            android:dialogMessage="Enter value (in seconds)"
+            android:defaultValue="30000"
+            android:dependency="switch_audio_features"
+            />
+        <EditTextPreference
+            android:key="max_duration"
+            android:title="Maximum Duration"
+            android:dialogMessage="Enter value (in seconds)"
+            android:defaultValue="1000000"
+            android:dependency="switch_audio_features"
+            />
+        <SeekBarPreference
+            android:key="seekbar_acousticness"
+            android:title="Acousticness"
+            android:defaultValue="50"
+            android:dependency="switch_audio_features"
+            />
+        <SeekBarPreference
+            android:key="seekbar_danceability"
+            android:title="Danceability"
+            android:defaultValue="50"
+            android:dependency="switch_audio_features"
+            />
+        <SeekBarPreference
+            android:key="seekbar_energy"
+            android:title="Energy"
+            android:defaultValue="50"
+            android:dependency="switch_audio_features"
+            />
+        <SeekBarPreference
+            android:key="seekbar_instrumentalness"
+            android:title="Instrumentalness"
+            android:defaultValue="50"
+            android:dependency="switch_audio_features"
+            />
+        <SeekBarPreference
+            android:key="seekbar_liveness"
+            android:title="Liveness"
+            android:defaultValue="50"
+            android:dependency="switch_audio_features"
+            />
+        <SeekBarPreference
+            android:key="seekbar_loudness"
+            android:title="Loudness"
+            android:defaultValue="50"
+            android:dependency="switch_audio_features"
+            />
+        <SeekBarPreference
+            android:key="seekbar_popularity"
+            android:title="Popularity"
+            android:defaultValue="50"
+            android:dependency="switch_audio_features"
+            />
+        <SeekBarPreference
+            android:key="seekbar_speechiness"
+            android:title="Speechiness"
+            android:defaultValue="50"
+            android:dependency="switch_audio_features"
+            />
+        <SeekBarPreference
+            android:key="seekbar_tempo"
+            android:title="Tempo"
+            android:defaultValue="125"
+            android:max="250"
+            android:dependency="switch_audio_features"
+            />
+        <SeekBarPreference
+            android:key="seekbar_valence"
+            android:title="Valence"
+            android:defaultValue="50"
+            android:dependency="switch_audio_features"
+            />
     </PreferenceCategory>
 </PreferenceScreen>
