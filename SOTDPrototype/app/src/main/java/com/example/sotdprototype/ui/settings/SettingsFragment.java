@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sotdprototype.R;
 import com.example.sotdprototype.databinding.FragmentSettingsBinding;
@@ -39,6 +40,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Add padding to the bottom of the PreferenceScreen so the nav-bar doesn't obscure the last preference item.
+        final RecyclerView rv = getListView();
+        rv.setPadding(0, 0, 0, 200);
     }
 
     @Override
