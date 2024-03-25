@@ -3,104 +3,115 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
-        app:key="switch_push_notifications"
-        app:title="@string/pref_switch_push_notifications"
+        app:key="toggle_push_notifications"
+        app:title="@string/pref_title_toggle_push_notifications"
         app:icon="@drawable/ic_notifications_black_24dp"/>
 
     <PreferenceCategory
-        app:title="Seeds"
+        app:title="@string/pref_title_category_seeds"
         app:allowDividerBelow="false">
         <MultiSelectListPreference
-            android:key="multi_select_list_genres"
-            android:title="@string/pref_mslist_genres_title"
-            android:summary="@string/pref_mslist_genres_summary"
-            android:dialogTitle="@string/pref_mslist_genres_dialog_title"
+            android:key="selected_genres"
+            android:title="@string/pref_title_genres"
+            android:summary="@string/pref_summary_genres"
+            android:dialogTitle="@string/pref_dialog_title_genres"
             android:entries="@array/pref_mslist_genres_entries"
             android:entryValues="@array/pref_mslist_genres_entry_values"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:title="Audio Features"
+        app:title="@string/pref_title_category_audio_features"
         app:allowDividerAbove="false">
 
         <SwitchPreferenceCompat
-            app:key="switch_audio_features"
-            app:title="Use audio features for song recommendations"/>
+            app:key="toggle_audio_features"
+            app:title="@string/pref_title_toggle_audio_features"/>
 
         <EditTextPreference
             android:key="min_duration"
-            android:title="Minimum Duration"
-            android:dialogMessage="Enter value (in seconds)"
-            android:defaultValue="30000"
-            android:dependency="switch_audio_features"
+            android:title="@string/pref_title_min_duration"
+            android:dialogMessage="@string/pref_dialog_message_min_duration"
+            android:defaultValue="@integer/pref_default_min_duration"
+            android:dependency="toggle_audio_features"
             />
         <EditTextPreference
             android:key="max_duration"
-            android:title="Maximum Duration"
-            android:dialogMessage="Enter value (in seconds)"
-            android:defaultValue="1000000"
-            android:dependency="switch_audio_features"
+            android:title="@string/pref_title_max_duration"
+            android:dialogMessage="@string/pref_dialog_message_max_duration"
+            android:defaultValue="@integer/pref_default_max_duration"
+            android:dependency="toggle_audio_features"
             />
         <SeekBarPreference
-            android:key="seekbar_acousticness"
-            android:title="Acousticness"
-            android:defaultValue="50"
-            android:dependency="switch_audio_features"
+            android:key="acousticness"
+            android:title="@string/pref_title_acousticness"
+            app:showSeekBarValue="true"
+            android:defaultValue="@integer/pref_default_most"
+            android:dependency="toggle_audio_features"
             />
         <SeekBarPreference
-            android:key="seekbar_danceability"
-            android:title="Danceability"
-            android:defaultValue="50"
-            android:dependency="switch_audio_features"
+            android:key="danceability"
+            android:title="@string/pref_title_danceability"
+            app:showSeekBarValue="true"
+            android:defaultValue="@integer/pref_default_most"
+            android:dependency="toggle_audio_features"
             />
         <SeekBarPreference
-            android:key="seekbar_energy"
-            android:title="Energy"
-            android:defaultValue="50"
-            android:dependency="switch_audio_features"
+            android:key="energy"
+            android:title="@string/pref_title_energy"
+            app:showSeekBarValue="true"
+            android:defaultValue="@integer/pref_default_most"
+            android:dependency="toggle_audio_features"
             />
         <SeekBarPreference
-            android:key="seekbar_instrumentalness"
-            android:title="Instrumentalness"
-            android:defaultValue="50"
-            android:dependency="switch_audio_features"
+            android:key="instrumentalness"
+            android:title="@string/pref_title_instrumentalness"
+            app:showSeekBarValue="true"
+            android:defaultValue="@integer/pref_default_most"
+            android:dependency="toggle_audio_features"
             />
         <SeekBarPreference
-            android:key="seekbar_liveness"
-            android:title="Liveness"
-            android:defaultValue="50"
-            android:dependency="switch_audio_features"
+            android:key="liveness"
+            android:title="@string/pref_title_liveness"
+            app:showSeekBarValue="true"
+            android:defaultValue="@integer/pref_default_most"
+            android:dependency="toggle_audio_features"
             />
         <SeekBarPreference
-            android:key="seekbar_loudness"
-            android:title="Loudness"
-            android:defaultValue="50"
-            android:dependency="switch_audio_features"
+            android:key="loudness"
+            android:title="@string/pref_title_loudness"
+            app:showSeekBarValue="true"
+            android:defaultValue="@integer/pref_default_most"
+            android:dependency="toggle_audio_features"
             />
         <SeekBarPreference
-            android:key="seekbar_popularity"
-            android:title="Popularity"
-            android:defaultValue="50"
-            android:dependency="switch_audio_features"
+            android:key="popularity"
+            android:title="@string/pref_title_popularity"
+            app:showSeekBarValue="true"
+            android:defaultValue="@integer/pref_default_most"
+            android:dependency="toggle_audio_features"
             />
         <SeekBarPreference
-            android:key="seekbar_speechiness"
-            android:title="Speechiness"
-            android:defaultValue="50"
-            android:dependency="switch_audio_features"
+            android:key="speechiness"
+            android:title="@string/pref_title_speechiness"
+            app:showSeekBarValue="true"
+            android:defaultValue="@integer/pref_default_most"
+            android:dependency="toggle_audio_features"
             />
         <SeekBarPreference
-            android:key="seekbar_tempo"
-            android:title="Tempo"
-            android:defaultValue="125"
-            android:max="250"
-            android:dependency="switch_audio_features"
+            android:key="tempo"
+            android:title="@string/pref_title_tempo"
+            android:summary="@string/pref_summary_tempo"
+            app:showSeekBarValue="true"
+            android:defaultValue="@integer/pref_default_tempo"
+            android:max="@integer/pref_max_tempo"
+            android:dependency="toggle_audio_features"
             />
         <SeekBarPreference
-            android:key="seekbar_valence"
-            android:title="Valence"
-            android:defaultValue="50"
-            android:dependency="switch_audio_features"
+            android:key="valence"
+            android:title="@string/pref_title_valence"
+            app:showSeekBarValue="true"
+            android:defaultValue="@integer/pref_default_most"
+            android:dependency="toggle_audio_features"
             />
     </PreferenceCategory>
 </PreferenceScreen>

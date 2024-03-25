@@ -7,9 +7,30 @@
     <string name="button_login_spotify">Login to Spotify</string>
     <string name="button_open_track_in_spotify">Open Track in Spotify</string>
 
-    <string name="pref_category_recommendations">Customize Recommendations</string>
-    <string name="pref_switch_push_notifications">Enable push notifications</string>
-    <string name="pref_mslist_genres_title">Genres</string>
-    <string name="pref_mslist_genres_summary">Recommended songs will be from the selected genres.</string>
-    <string name="pref_mslist_genres_dialog_title">Select up to 5</string>
+    <!-- Preferences -->
+    <string name="pref_title_category_seeds">Seeds</string>
+    <string name="pref_title_category_audio_features">Audio Features</string>
+
+    <string name="pref_title_toggle_push_notifications">Enable push notifications</string>
+    <string name="pref_title_toggle_audio_features">Use audio features for song recommendations</string>
+
+    <string name="pref_title_genres">Genres</string>
+    <string name="pref_summary_genres">Recommended songs will be from the selected genres.</string>
+    <string name="pref_dialog_title_genres">Select up to 5</string>
+
+    <string name="pref_title_min_duration">Minimum Duration</string>
+    <string name="pref_dialog_message_min_duration">Enter value (in seconds)</string>
+    <string name="pref_title_max_duration">Maximum Duration</string>
+    <string name="pref_dialog_message_max_duration">Enter value (in seconds)</string>
+    <string name="pref_title_acousticness">Acousticness</string>
+    <string name="pref_title_danceability">Danceability</string>
+    <string name="pref_title_energy">Energy</string>
+    <string name="pref_title_instrumentalness">Instrumentalness</string>
+    <string name="pref_title_liveness">Liveness</string>
+    <string name="pref_title_loudness">Loudness</string>
+    <string name="pref_title_popularity">Popularity</string>
+    <string name="pref_title_speechiness">Speechiness</string>
+    <string name="pref_title_tempo">Tempo</string>
+    <string name="pref_summary_tempo">Beats per minute (BPM)</string>
+    <string name="pref_title_valence">Valence</string>
 </resources>

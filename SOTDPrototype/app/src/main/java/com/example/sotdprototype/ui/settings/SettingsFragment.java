@@ -1,6 +1,8 @@
 package com.example.sotdprototype.ui.settings;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.MultiSelectListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.preference.SeekBarPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sotdprototype.R;
@@ -30,7 +34,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         mTrackService = new TrackService(requireContext());
 
-        mMSListGenres = findPreference("multi_select_list_genres");
+        mMSListGenres = findPreference("selected_genres");
         mTrackService.getAvailableGenreSeeds(() -> {
             mMSListGenres.setEntries(mTrackService.getGenreSeeds());
             mMSListGenres.setEntryValues(mTrackService.getGenreSeeds());
