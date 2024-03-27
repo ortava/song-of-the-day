@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.sotdprototype.PreferenceService;
 import com.example.sotdprototype.VolleyCallBack;
 
 import org.json.JSONArray;
@@ -26,12 +27,14 @@ public class TrackService {
     private RequestQueue queue;
     private Track songOfTheDay;
     private ArrayList<String> genreSeeds;
+    private PreferenceService preferenceService;
 
     private TrackDAO trackDAO;
 
     public TrackService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
+        preferenceService = new PreferenceService(context);
         songOfTheDay = new Track();
         genreSeeds = new ArrayList<>();
 
@@ -69,17 +72,43 @@ public class TrackService {
         return track;
     }
 
-    public Track getRecommendation(String[] seeds, final VolleyCallBack callBack) {
+    public Track getRecommendation(final VolleyCallBack callBack) {
         StringBuilder endpoint = new StringBuilder();
 
         endpoint.append("https://api.spotify.com/v1/recommendations");
         endpoint.append("?limit=1");
+        // Set Genre seeds.
         endpoint.append("&seed_genres=");
-        for(String seed : seeds){
+        for(String seed : preferenceService.getSelectedGenres()){
             endpoint.append(seed);
             endpoint.append("%2C");
         }
-        endpoint.delete(endpoint.length() - 3, endpoint.length()); // remove the extra "%2"
+        endpoint.delete(endpoint.length() - 3, endpoint.length()); // remove the extra "%2C"
+        // Set audio features.
+        endpoint.append("&target_acousticness=");
+        endpoint.append(preferenceService.getAcousticness());
+        endpoint.append("&target_danceability=");
+        endpoint.append(preferenceService.getDanceability());
+        endpoint.append("&min_duration_ms=");
+        endpoint.append(preferenceService.getMinDuration());
+        endpoint.append("&max_duration_ms=");
+        endpoint.append(preferenceService.getMaxDuration());
+        endpoint.append("&target_energy=");
+        endpoint.append(preferenceService.getEnergy());
+        endpoint.append("&target_instrumentalness=");
+        endpoint.append(preferenceService.getInstrumentalness());
+        endpoint.append("&target_liveness=");
+        endpoint.append(preferenceService.getLiveness());
+        endpoint.append("&target_loudness=");
+        endpoint.append(preferenceService.getLoudness());
+        endpoint.append("&target_popularity=");
+        endpoint.append(preferenceService.getPopularity());
+        endpoint.append("&target_speechiness=");
+        endpoint.append(preferenceService.getSpeechiness());
+        endpoint.append("&target_tempo=");
+        endpoint.append(preferenceService.getTempo());
+        endpoint.append("&target_valence=");
+        endpoint.append(preferenceService.getValence());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint.toString(), null, response -> {
