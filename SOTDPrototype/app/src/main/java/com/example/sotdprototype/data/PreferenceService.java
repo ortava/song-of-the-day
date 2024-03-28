@@ -1,4 +1,4 @@
-package com.example.sotdprototype;
+package com.example.sotdprototype.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;

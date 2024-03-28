@@ -12,9 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sotdprototype.db.TrackService;
+import com.example.sotdprototype.data.db.TrackService;
 import com.example.sotdprototype.R;
-import com.example.sotdprototype.db.Track;
+import com.example.sotdprototype.data.db.Track;
 import com.example.sotdprototype.databinding.FragmentHistoryBinding;
 
 import java.util.List;

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sotdprototype.R;
 import com.example.sotdprototype.databinding.FragmentSettingsBinding;
-import com.example.sotdprototype.db.TrackService;
+import com.example.sotdprototype.data.db.TrackService;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     private FragmentSettingsBinding binding;

@@ -1,4 +1,4 @@
-package com.example.sotdprototype.db;
+package com.example.sotdprototype.data.db;
 
 import androidx.room.*;
 

@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sotdprototype.R;
-import com.example.sotdprototype.db.TrackService;
+import com.example.sotdprototype.data.db.TrackService;
 import com.example.sotdprototype.databinding.FragmentHomeBinding;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;

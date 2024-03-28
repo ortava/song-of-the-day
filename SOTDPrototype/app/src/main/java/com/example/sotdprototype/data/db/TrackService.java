@@ -1,4 +1,4 @@
-package com.example.sotdprototype.db;
+package com.example.sotdprototype.data.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,7 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.sotdprototype.PreferenceService;
+import com.example.sotdprototype.data.PreferenceService;
 import com.example.sotdprototype.VolleyCallBack;
 
 import org.json.JSONArray;
