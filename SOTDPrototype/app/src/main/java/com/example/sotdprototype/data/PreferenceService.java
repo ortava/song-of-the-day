@@ -83,14 +83,11 @@ public class PreferenceService {
         return sharedPreferences.getInt("valence", DEFAULT_MOST) * 1.0 / 100;
     }
 
-    // TODO: Prevent overlapping min/max duration ranges
     public int getMinDuration() {
-        int value = Integer.parseInt(sharedPreferences.getString("min_duration", String.valueOf(DEFAULT_MIN_DURATION))) * 1000;   // convert from seconds to milliseconds
-        return Math.max(value, DEFAULT_MIN_DURATION * 1000);
+        return sharedPreferences.getInt("min_duration", DEFAULT_MIN_DURATION * 1000) * 1000;
     }
 
     public int getMaxDuration() {
-        int value = Integer.parseInt(sharedPreferences.getString("max_duration", String.valueOf(DEFAULT_MAX_DURATION))) * 1000; // convert from seconds to milliseconds
-        return Math.min(value, DEFAULT_MAX_DURATION * 1000);
+        return sharedPreferences.getInt("max_duration", DEFAULT_MAX_DURATION * 1000) * 1000;
     }
 }

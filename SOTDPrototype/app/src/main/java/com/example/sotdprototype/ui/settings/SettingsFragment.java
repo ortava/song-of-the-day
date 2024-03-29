@@ -5,7 +5,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.preference.MultiSelectListPreference;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SeekBarPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sotdprototype.R;
@@ -17,6 +19,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private TrackService mTrackService;
 
     private MultiSelectListPreference mMSListGenres;
+    private SeekBarPreference mSeekBarMinDuration;
+    private SeekBarPreference mSeekBarMaxDuration;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -28,6 +32,27 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         mTrackService.getAvailableGenreSeeds(() -> {
             mMSListGenres.setEntries(mTrackService.getGenreSeeds());
             mMSListGenres.setEntryValues(mTrackService.getGenreSeeds());
+        });
+
+        mSeekBarMinDuration = findPreference("min_duration");
+        mSeekBarMaxDuration = findPreference("max_duration");
+        mSeekBarMinDuration.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+                if((int) newValue > mSeekBarMaxDuration.getValue() - (mSeekBarMaxDuration.getMin() - mSeekBarMinDuration.getMin())) {
+                    mSeekBarMaxDuration.setValue((int) newValue + (mSeekBarMaxDuration.getMin() - mSeekBarMinDuration.getMin()));
+                }
+                return true;
+            }
+        });
+        mSeekBarMaxDuration.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+                if((int) newValue < mSeekBarMinDuration.getValue() + (mSeekBarMaxDuration.getMin() - mSeekBarMinDuration.getMin())) {
+                    mSeekBarMinDuration.setValue((int) newValue - (mSeekBarMaxDuration.getMin() - mSeekBarMinDuration.getMin()));
+                }
+                return true;
+            }
         });
     }
 
