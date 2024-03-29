@@ -85,30 +85,32 @@ public class TrackService {
         }
         endpoint.delete(endpoint.length() - 3, endpoint.length()); // remove the extra "%2C"
         // Set audio features.
-        endpoint.append("&target_acousticness=");
-        endpoint.append(preferenceService.getAcousticness());
-        endpoint.append("&target_danceability=");
-        endpoint.append(preferenceService.getDanceability());
-        endpoint.append("&min_duration_ms=");
-        endpoint.append(preferenceService.getMinDuration());
-        endpoint.append("&max_duration_ms=");
-        endpoint.append(preferenceService.getMaxDuration());
-        endpoint.append("&target_energy=");
-        endpoint.append(preferenceService.getEnergy());
-        endpoint.append("&target_instrumentalness=");
-        endpoint.append(preferenceService.getInstrumentalness());
-        endpoint.append("&target_liveness=");
-        endpoint.append(preferenceService.getLiveness());
-        endpoint.append("&target_loudness=");
-        endpoint.append(preferenceService.getLoudness());
-        endpoint.append("&target_popularity=");
-        endpoint.append(preferenceService.getPopularity());
-        endpoint.append("&target_speechiness=");
-        endpoint.append(preferenceService.getSpeechiness());
-        endpoint.append("&target_tempo=");
-        endpoint.append(preferenceService.getTempo());
-        endpoint.append("&target_valence=");
-        endpoint.append(preferenceService.getValence());
+        if(preferenceService.isUsingAudioFeatures()){
+            endpoint.append("&target_acousticness=");
+            endpoint.append(preferenceService.getAcousticness());
+            endpoint.append("&target_danceability=");
+            endpoint.append(preferenceService.getDanceability());
+            endpoint.append("&min_duration_ms=");
+            endpoint.append(preferenceService.getMinDuration());
+            endpoint.append("&max_duration_ms=");
+            endpoint.append(preferenceService.getMaxDuration());
+            endpoint.append("&target_energy=");
+            endpoint.append(preferenceService.getEnergy());
+            endpoint.append("&target_instrumentalness=");
+            endpoint.append(preferenceService.getInstrumentalness());
+            endpoint.append("&target_liveness=");
+            endpoint.append(preferenceService.getLiveness());
+            endpoint.append("&target_loudness=");
+            endpoint.append(preferenceService.getLoudness());
+            endpoint.append("&target_popularity=");
+            endpoint.append(preferenceService.getPopularity());
+            endpoint.append("&target_speechiness=");
+            endpoint.append(preferenceService.getSpeechiness());
+            endpoint.append("&target_tempo=");
+            endpoint.append(preferenceService.getTempo());
+            endpoint.append("&target_valence=");
+            endpoint.append(preferenceService.getValence());
+        }
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, endpoint.toString(), null, response -> {

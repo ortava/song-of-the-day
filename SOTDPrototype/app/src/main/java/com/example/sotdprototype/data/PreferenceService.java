@@ -90,4 +90,8 @@ public class PreferenceService {
     public int getMaxDuration() {
         return sharedPreferences.getInt("max_duration", DEFAULT_MAX_DURATION * 1000) * 1000;
     }
+
+    public boolean isUsingAudioFeatures() {
+        return sharedPreferences.getBoolean("toggle_audio_features", false);
+    }
 }
