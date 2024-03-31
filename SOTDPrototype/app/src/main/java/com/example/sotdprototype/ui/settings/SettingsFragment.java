@@ -2,6 +2,7 @@ package com.example.sotdprototype.ui.settings;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.preference.MultiSelectListPreference;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sotdprototype.R;
 import com.example.sotdprototype.databinding.FragmentSettingsBinding;
 import com.example.sotdprototype.data.db.TrackService;
+
+import java.util.Set;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     private FragmentSettingsBinding binding;
@@ -32,6 +35,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         mTrackService.getAvailableGenreSeeds(() -> {
             mMSListGenres.setEntries(mTrackService.getGenreSeeds());
             mMSListGenres.setEntryValues(mTrackService.getGenreSeeds());
+        });
+
+        mMSListGenres.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+                Set values = (Set)newValue;
+                if(values.size() > 5) {
+                    Toast.makeText(getContext(), "Changes not saved. Please select 5 genres or less.", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+                return true;
+            }
         });
 
         mSeekBarMinDuration = findPreference("min_duration");
