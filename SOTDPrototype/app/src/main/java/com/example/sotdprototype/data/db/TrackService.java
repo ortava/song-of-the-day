@@ -76,7 +76,7 @@ public class TrackService {
         StringBuilder endpoint = new StringBuilder();
 
         endpoint.append("https://api.spotify.com/v1/recommendations");
-        endpoint.append("?limit=1");
+        endpoint.append("?limit=100");
         // Set Genre seeds.
         endpoint.append("&seed_genres=");
         for(String seed : preferenceService.getSelectedGenres()){
@@ -85,6 +85,7 @@ public class TrackService {
         }
         endpoint.delete(endpoint.length() - 3, endpoint.length()); // remove the extra "%2C"
         // Set audio features.
+        // TODO: Condense this?
         if(preferenceService.isUsingAudioFeatures()){
             endpoint.append("&target_acousticness=");
             endpoint.append(preferenceService.getAcousticness());
@@ -116,7 +117,15 @@ public class TrackService {
                 (Request.Method.GET, endpoint.toString(), null, response -> {
                     try {
                         JSONArray tracksArray = response.getJSONArray("tracks");
-                        JSONObject trackObject = tracksArray.getJSONObject(0);
+                        // Make sure the track hasn't been recommended recently.
+                        // TODO: Select Random number from 0-99?
+                        int index = 0;
+                        JSONObject trackObject = tracksArray.getJSONObject(index);
+                        while (isInDataBase(trackObject.getString("id")) && index < 100) {
+                            index++;
+                            trackObject = tracksArray.getJSONObject(index);
+                        }
+                        // Set this track as Song Of The Day.
                         songOfTheDay.setAll(buildTrackFromJSONTrackObject(trackObject));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -206,5 +215,9 @@ public class TrackService {
 
     public List<Track> getAllTracksFromDataBase() {
         return trackDAO.getAll();
+    }
+
+    public boolean isInDataBase(String id) {
+        return trackDAO.getTrackBySpotifyId(id) != null;
     }
 }

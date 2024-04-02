@@ -12,6 +12,9 @@ public interface TrackDAO {
     @Query("SELECT COUNT(*) FROM track")
     int getCount();
 
+    @Query("SELECT * FROM track WHERE spotify_Id = :spotify_Id")
+    Track getTrackBySpotifyId(String spotify_Id);
+
     @Insert
     void insert(Track track);
 
