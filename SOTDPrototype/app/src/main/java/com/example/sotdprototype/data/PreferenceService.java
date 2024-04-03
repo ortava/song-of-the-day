@@ -94,4 +94,35 @@ public class PreferenceService {
     public boolean isUsingAudioFeatures() {
         return sharedPreferences.getBoolean("toggle_audio_features", false);
     }
+
+    public boolean isUsingAcousticness() {
+        return sharedPreferences.getBoolean("acousticness_enabled", true);
+    }
+    public boolean isUsingDanceability() {
+        return sharedPreferences.getBoolean("danceability_enabled", true);
+    }
+    public boolean isUsingEnergy() {
+        return sharedPreferences.getBoolean("energy_enabled", true);
+    }
+    public boolean isUsingInstrumentalness() {
+        return sharedPreferences.getBoolean("instrumentalness_enabled", true);
+    }
+    public boolean isUsingLiveness() {
+        return sharedPreferences.getBoolean("liveness_enabled", true);
+    }
+    public boolean isUsingLoudness() {
+        return sharedPreferences.getBoolean("loudness_enabled", true);
+    }
+    public boolean isUsingPopularity() {
+        return sharedPreferences.getBoolean("popularity_enabled", true);
+    }
+    public boolean isUsingSpeechiness() {
+        return sharedPreferences.getBoolean("speechiness_enabled", true);
+    }
+    public boolean isUsingTempo() {
+        return sharedPreferences.getBoolean("tempo_enabled", true);
+    }
+    public boolean isUsingValence() {
+        return sharedPreferences.getBoolean("valence_enabled", true);
+    }
 }

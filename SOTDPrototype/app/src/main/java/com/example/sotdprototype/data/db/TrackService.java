@@ -87,30 +87,51 @@ public class TrackService {
         // Set audio features.
         // TODO: Condense this?
         if(preferenceService.isUsingAudioFeatures()){
-            endpoint.append("&target_acousticness=");
-            endpoint.append(preferenceService.getAcousticness());
-            endpoint.append("&target_danceability=");
-            endpoint.append(preferenceService.getDanceability());
             endpoint.append("&min_duration_ms=");
             endpoint.append(preferenceService.getMinDuration());
             endpoint.append("&max_duration_ms=");
             endpoint.append(preferenceService.getMaxDuration());
-            endpoint.append("&target_energy=");
-            endpoint.append(preferenceService.getEnergy());
-            endpoint.append("&target_instrumentalness=");
-            endpoint.append(preferenceService.getInstrumentalness());
-            endpoint.append("&target_liveness=");
-            endpoint.append(preferenceService.getLiveness());
-            endpoint.append("&target_loudness=");
-            endpoint.append(preferenceService.getLoudness());
-            endpoint.append("&target_popularity=");
-            endpoint.append(preferenceService.getPopularity());
-            endpoint.append("&target_speechiness=");
-            endpoint.append(preferenceService.getSpeechiness());
-            endpoint.append("&target_tempo=");
-            endpoint.append(preferenceService.getTempo());
-            endpoint.append("&target_valence=");
-            endpoint.append(preferenceService.getValence());
+
+            if(preferenceService.isUsingAcousticness()){
+                endpoint.append("&target_acousticness=");
+                endpoint.append(preferenceService.getAcousticness());
+            }
+            if(preferenceService.isUsingDanceability()){
+                endpoint.append("&target_danceability=");
+                endpoint.append(preferenceService.getDanceability());
+            }
+            if(preferenceService.isUsingEnergy()){
+                endpoint.append("&target_energy=");
+                endpoint.append(preferenceService.getEnergy());
+            }
+            if(preferenceService.isUsingInstrumentalness()){
+                endpoint.append("&target_instrumentalness=");
+                endpoint.append(preferenceService.getInstrumentalness());
+            }
+            if(preferenceService.isUsingLiveness()){
+                endpoint.append("&target_liveness=");
+                endpoint.append(preferenceService.getLiveness());
+            }
+            if(preferenceService.isUsingLoudness()){
+                endpoint.append("&target_loudness=");
+                endpoint.append(preferenceService.getLoudness());
+            }
+            if(preferenceService.isUsingPopularity()){
+                endpoint.append("&target_popularity=");
+                endpoint.append(preferenceService.getPopularity());
+            }
+            if(preferenceService.isUsingSpeechiness()){
+                endpoint.append("&target_speechiness=");
+                endpoint.append(preferenceService.getSpeechiness());
+            }
+            if(preferenceService.isUsingTempo()){
+                endpoint.append("&target_tempo=");
+                endpoint.append(preferenceService.getTempo());
+            }
+            if(preferenceService.isUsingValence()){
+                endpoint.append("&target_valence=");
+                endpoint.append(preferenceService.getValence());
+            }
         }
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
