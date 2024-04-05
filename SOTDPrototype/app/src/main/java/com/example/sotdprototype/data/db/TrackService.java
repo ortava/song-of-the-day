@@ -18,8 +18,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 public class TrackService {
     public static final int MAX_DATASET_COUNT = 30;
@@ -138,12 +141,19 @@ public class TrackService {
                 (Request.Method.GET, endpoint.toString(), null, response -> {
                     try {
                         JSONArray tracksArray = response.getJSONArray("tracks");
-                        // Make sure the track hasn't been recommended recently.
-                        // TODO: Select Random number from 0-99?
-                        int index = 0;
+
+                        // Randomly select a track from the tracks array.
+                        Random rand = new Random();
+                        int index = rand.nextInt(tracksArray.length());
+                        Set<Integer> checkedIndices = new HashSet<>();
                         JSONObject trackObject = tracksArray.getJSONObject(index);
-                        while (isInDataBase(trackObject.getString("id")) && index < 100) {
-                            index++;
+
+                        // Make sure that the track hasn't been recommended recently (it would already be in the database).
+                        while (isInDatabase(trackObject.getString("id"))) {
+                            checkedIndices.add(index);              // The track at this index is already in the database.
+                            while(checkedIndices.contains(index)) { // Keep randomly selecting indices until we find one that hasn't been checked before.
+                                index = rand.nextInt(tracksArray.length());
+                            }
                             trackObject = tracksArray.getJSONObject(index);
                         }
                         // Set this track as Song Of The Day.
@@ -238,7 +248,7 @@ public class TrackService {
         return trackDAO.getAll();
     }
 
-    public boolean isInDataBase(String id) {
+    public boolean isInDatabase(String id) {
         return trackDAO.getTrackBySpotifyId(id) != null;
     }
 }
