@@ -92,26 +92,9 @@ public class TrackService {
         if(preferenceService.isUsingAudioFeatures()){
             endpoint.append("&min_duration_ms=").append(preferenceService.getMinDuration());
             endpoint.append("&max_duration_ms=").append(preferenceService.getMaxDuration());
-            if(preferenceService.isUsingAcousticness())
-                endpoint.append("&target_acousticness=").append(preferenceService.getAcousticness());
-            if(preferenceService.isUsingDanceability())
-                endpoint.append("&target_danceability=").append(preferenceService.getDanceability());
-            if(preferenceService.isUsingEnergy())
-                endpoint.append("&target_energy=").append(preferenceService.getEnergy());
-            if(preferenceService.isUsingInstrumentalness())
-                endpoint.append("&target_instrumentalness=").append(preferenceService.getInstrumentalness());
-            if(preferenceService.isUsingLiveness())
-                endpoint.append("&target_liveness=").append(preferenceService.getLiveness());
-            if(preferenceService.isUsingLoudness())
-                endpoint.append("&target_loudness=").append(preferenceService.getLoudness());
-            if(preferenceService.isUsingPopularity())
-                endpoint.append("&target_popularity=").append(preferenceService.getPopularity());
-            if(preferenceService.isUsingSpeechiness())
-                endpoint.append("&target_speechiness=").append(preferenceService.getSpeechiness());
-            if(preferenceService.isUsingTempo())
-                endpoint.append("&target_tempo=").append(preferenceService.getTempo());
-            if(preferenceService.isUsingValence())
-                endpoint.append("&target_valence=").append(preferenceService.getValence());
+            for(String key : preferenceService.getEnabledAttributes()) {
+                endpoint.append("&target_").append(key).append("=").append(preferenceService.getAttributeAsString(key));
+            }
         }
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest

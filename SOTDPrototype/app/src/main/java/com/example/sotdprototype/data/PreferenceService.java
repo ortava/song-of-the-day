@@ -8,6 +8,7 @@ import androidx.preference.PreferenceManager;
 
 import com.example.sotdprototype.R;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,10 @@ public class PreferenceService {
     private final int DEFAULT_MOST;
 
     private final Set<String> defaultGenreSeeds;
+    private final String[] toggleableAttributes = {
+            "acousticness", "danceability", "energy", "instrumentalness", "liveness",
+            "loudness", "popularity", "speechiness", "tempo", "valence"
+    };
 
     private SharedPreferences sharedPreferences;
 
@@ -41,6 +46,47 @@ public class PreferenceService {
         } else {
             return defaultGenreSeeds;
         }
+    }
+
+    public Set<String> getEnabledAttributes() {
+        Set<String> enabledAttributes = new HashSet<>();
+
+        for(String key : toggleableAttributes) {
+            if(sharedPreferences.getBoolean(key + "_enabled", true))
+                enabledAttributes.add(key);
+        }
+
+        return enabledAttributes;
+    }
+
+    public String getAttributeAsString(String key) {
+        if(!Arrays.asList(toggleableAttributes).contains(key))
+            return "";
+
+        switch (key) {
+            case "min_duration":
+                return String.valueOf(sharedPreferences.getInt(key, DEFAULT_MIN_DURATION * 1000) * 1000);
+            case "max_duration":
+                return String.valueOf(sharedPreferences.getInt(key, DEFAULT_MAX_DURATION * 1000) * 1000);
+            case "popularity":
+                return String.valueOf(sharedPreferences.getInt(key, DEFAULT_MOST));
+            case "tempo":
+                return String.valueOf(sharedPreferences.getInt(key, DEFAULT_TEMPO));
+            default:
+                return String.valueOf(sharedPreferences.getInt(key, DEFAULT_MOST) * 1.0 / 100);
+        }
+    }
+
+    public boolean isUsingAudioFeatures() {
+        return sharedPreferences.getBoolean("toggle_audio_features", false);
+    }
+
+    public int getMinDuration() {
+        return sharedPreferences.getInt("min_duration", DEFAULT_MIN_DURATION * 1000) * 1000;
+    }
+
+    public int getMaxDuration() {
+        return sharedPreferences.getInt("max_duration", DEFAULT_MAX_DURATION * 1000) * 1000;
     }
 
     public double getAcousticness() {
@@ -81,48 +127,5 @@ public class PreferenceService {
 
     public double getValence() {
         return sharedPreferences.getInt("valence", DEFAULT_MOST) * 1.0 / 100;
-    }
-
-    public int getMinDuration() {
-        return sharedPreferences.getInt("min_duration", DEFAULT_MIN_DURATION * 1000) * 1000;
-    }
-
-    public int getMaxDuration() {
-        return sharedPreferences.getInt("max_duration", DEFAULT_MAX_DURATION * 1000) * 1000;
-    }
-
-    public boolean isUsingAudioFeatures() {
-        return sharedPreferences.getBoolean("toggle_audio_features", false);
-    }
-
-    public boolean isUsingAcousticness() {
-        return sharedPreferences.getBoolean("acousticness_enabled", true);
-    }
-    public boolean isUsingDanceability() {
-        return sharedPreferences.getBoolean("danceability_enabled", true);
-    }
-    public boolean isUsingEnergy() {
-        return sharedPreferences.getBoolean("energy_enabled", true);
-    }
-    public boolean isUsingInstrumentalness() {
-        return sharedPreferences.getBoolean("instrumentalness_enabled", true);
-    }
-    public boolean isUsingLiveness() {
-        return sharedPreferences.getBoolean("liveness_enabled", true);
-    }
-    public boolean isUsingLoudness() {
-        return sharedPreferences.getBoolean("loudness_enabled", true);
-    }
-    public boolean isUsingPopularity() {
-        return sharedPreferences.getBoolean("popularity_enabled", true);
-    }
-    public boolean isUsingSpeechiness() {
-        return sharedPreferences.getBoolean("speechiness_enabled", true);
-    }
-    public boolean isUsingTempo() {
-        return sharedPreferences.getBoolean("tempo_enabled", true);
-    }
-    public boolean isUsingValence() {
-        return sharedPreferences.getBoolean("valence_enabled", true);
     }
 }
