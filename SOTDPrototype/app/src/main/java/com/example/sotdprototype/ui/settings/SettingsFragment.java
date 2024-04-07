@@ -13,8 +13,8 @@ import androidx.preference.SeekBarPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sotdprototype.R;
+import com.example.sotdprototype.spotify.SpotifyWebAPICommunicator;
 import com.example.sotdprototype.databinding.FragmentSettingsBinding;
-import com.example.sotdprototype.data.db.TrackService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private Map<String, String> keyTitleMap;
 
     private FragmentSettingsBinding binding;
-    private TrackService mTrackService;
+    private SpotifyWebAPICommunicator mSpotifyWebAPICommunicator;
     private SharedPreferences mSharedPreferences;
 
     private MultiSelectListPreference mMSListGenres;
@@ -36,7 +36,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
         mSharedPreferences = getPreferenceManager().getSharedPreferences();
-        mTrackService = new TrackService(requireContext());
+        mSpotifyWebAPICommunicator = new SpotifyWebAPICommunicator(requireContext());
 
         // Fill map with toggleable preference keys and their respective title String resources.
         keyTitleMap = new HashMap<>();
@@ -64,9 +64,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         // Fill the multi-select list with Spotify's available genres.
         mMSListGenres = findPreference("selected_genres");
-        mTrackService.getAvailableGenreSeeds(() -> {
-            mMSListGenres.setEntries(mTrackService.getGenreSeeds());
-            mMSListGenres.setEntryValues(mTrackService.getGenreSeeds());
+        mSpotifyWebAPICommunicator.getAvailableGenreSeeds(() -> {
+            mMSListGenres.setEntries(mSpotifyWebAPICommunicator.getGenreSeeds());
+            mMSListGenres.setEntryValues(mSpotifyWebAPICommunicator.getGenreSeeds());
         });
 
         // Stop the user from selecting more than 5 genre seeds.

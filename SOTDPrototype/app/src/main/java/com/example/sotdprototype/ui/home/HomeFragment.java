@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sotdprototype.R;
+import com.example.sotdprototype.spotify.SpotifyWebAPICommunicator;
 import com.example.sotdprototype.data.db.TrackService;
 import com.example.sotdprototype.databinding.FragmentHomeBinding;
 import com.spotify.android.appremote.api.ConnectionParams;
@@ -31,6 +32,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel mHomeViewModel;
     private TrackService mTrackService;
+    private SpotifyWebAPICommunicator mSpotifyWebAPICommunicator;
 
     private ImageButton mImageButtonPlay;
 
@@ -39,6 +41,7 @@ public class HomeFragment extends Fragment {
         mHomeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         mTrackService = new TrackService(requireContext());
+        mSpotifyWebAPICommunicator = new SpotifyWebAPICommunicator(requireContext());
 
         setSongOfTheDay();
     }
@@ -96,10 +99,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void setSongOfTheDay() {
-        mTrackService.getRecommendation(() -> {
+        mSpotifyWebAPICommunicator.getRecommendation(() -> {
             Log.d("HomeFragment", "GOT RECOMMENDATION");
-            mHomeViewModel.setTrack(mTrackService.getSongOfTheDay());
-            mTrackService.addTrackToDataBase(mTrackService.getSongOfTheDay());
+            mHomeViewModel.setTrack(mSpotifyWebAPICommunicator.getSongOfTheDay());
+            mTrackService.addTrackToDataBase(mSpotifyWebAPICommunicator.getSongOfTheDay());
         });
     }
 
