@@ -9,10 +9,10 @@
 
     <!-- Preferences -->
     <string name="pref_title_category_seeds">Seeds</string>
-    <string name="pref_title_category_audio_features">Audio Features</string>
+    <string name="pref_title_category_track_attributes">Track Attributes</string>
 
     <string name="pref_title_toggle_push_notifications">Enable push notifications</string>
-    <string name="pref_title_toggle_audio_features">Use audio features for song recommendations</string>
+    <string name="pref_title_toggle_track_attributes">Use track attributes for recommendations</string>
 
     <string name="pref_title_genres">Genres</string>
     <string name="pref_summary_genres">Recommended songs will be from the selected genres.</string>

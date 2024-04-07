@@ -77,8 +77,8 @@ public class PreferenceService {
         }
     }
 
-    public boolean isUsingAudioFeatures() {
-        return sharedPreferences.getBoolean("toggle_audio_features", false);
+    public boolean isUsingTrackAttributes() {
+        return sharedPreferences.getBoolean("toggle_track_attributes", false);
     }
 
     public int getMinDuration() {

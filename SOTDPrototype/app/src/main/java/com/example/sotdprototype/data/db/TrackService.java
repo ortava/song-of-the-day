@@ -89,7 +89,7 @@ public class TrackService {
         endpoint.delete(endpoint.length() - 3, endpoint.length()); // remove the extra "%2C"
 
         // Use selected track attributes in the request.
-        if(preferenceService.isUsingAudioFeatures()){
+        if(preferenceService.isUsingTrackAttributes()){
             endpoint.append("&min_duration_ms=").append(preferenceService.getMinDuration());
             endpoint.append("&max_duration_ms=").append(preferenceService.getMaxDuration());
             for(String key : preferenceService.getEnabledAttributes()) {

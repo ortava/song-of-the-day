@@ -20,12 +20,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:title="@string/pref_title_category_audio_features"
+        app:title="@string/pref_title_category_track_attributes"
         app:allowDividerAbove="false">
 
         <SwitchPreferenceCompat
-            app:key="toggle_audio_features"
-            app:title="@string/pref_title_toggle_audio_features"/>
+            app:key="toggle_track_attributes"
+            app:title="@string/pref_title_toggle_track_attributes"/>
 
         <SeekBarPreference
             android:key="min_duration"
@@ -36,7 +36,7 @@
             android:defaultValue="@integer/pref_default_min_duration"
             app:showSeekBarValue="true"
             app:updatesContinuously="true"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="max_duration"
@@ -47,63 +47,63 @@
             android:defaultValue="@integer/pref_default_max_duration"
             app:showSeekBarValue="true"
             app:updatesContinuously="true"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="acousticness"
             android:title="@string/pref_title_acousticness"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="danceability"
             android:title="@string/pref_title_danceability"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="energy"
             android:title="@string/pref_title_energy"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="instrumentalness"
             android:title="@string/pref_title_instrumentalness"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="liveness"
             android:title="@string/pref_title_liveness"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="loudness"
             android:title="@string/pref_title_loudness"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="popularity"
             android:title="@string/pref_title_popularity"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="speechiness"
             android:title="@string/pref_title_speechiness"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="tempo"
@@ -112,14 +112,14 @@
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_tempo"
             android:max="@integer/pref_max_tempo"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
         <SeekBarPreference
             android:key="valence"
             android:title="@string/pref_title_valence"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
-            android:dependency="toggle_audio_features"
+            android:dependency="toggle_track_attributes"
             />
     </PreferenceCategory>
 </PreferenceScreen>
