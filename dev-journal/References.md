@@ -36,3 +36,11 @@ No relevant links.
 ##### [Entry 6 - Setting Up Persistent Storage](Entry%206%20-%20Setting%20Up%20Persistent%20Storage)
 - https://developer.android.com/training/data-storage
 - https://developer.android.com/training/data-storage/room
+
+##### [Entry 7 - Working on SettingsFragment](Entry%207%20-%20Working%20on%20SettingsFragment)
+- https://developer.spotify.com/documentation/web-api/reference/get-recommendation-genres
+- https://developer.android.com/develop/ui/views/components/settings/organize-your-settings
+- https://developer.spotify.com/documentation/web-api/reference/get-audio-features
+- Alternative method to add padding to PreferenceScreen
+	- https://stackoverflow.com/questions/51656258/adjust-margin-padding-in-the-preferencescreen-in-android
+	- https://stackoverflow.com/questions/24855376/how-to-add-margin-padding-to-preference-screen
