@@ -14,6 +14,7 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<String> mArtistText;
     private final MutableLiveData<String> mSpotifyTrackURI;
     private final MutableLiveData<String> mCoverURL;
+    private final MutableLiveData<Integer> mDuration;
     private final MutableLiveData<Track> mTrack;
     private SpotifyAppRemote mSpotifyAppRemote;
 
@@ -30,6 +31,9 @@ public class HomeViewModel extends ViewModel {
         mCoverURL = new MutableLiveData<>();
         mCoverURL.setValue("");
 
+        mDuration = new MutableLiveData<>();
+        mDuration.setValue(0);
+
         mSpotifyTrackURI = new MutableLiveData<>();
         mSpotifyTrackURI.setValue("");
 
@@ -42,12 +46,14 @@ public class HomeViewModel extends ViewModel {
     public void setArtistText(String artistText) { mArtistText.setValue(artistText); }
     public void setSpotifyTrackURI(String spotifyTrackURI) { mSpotifyTrackURI.setValue(spotifyTrackURI); }
     public void setCoverURL(String coverArtURL) { mCoverURL.setValue(coverArtURL); }
+    public void setDuration(int duration) { mDuration.setValue(duration); }
     public void setTrack(Track track) {
         mTrack.setValue(track);
         setTitleText(track.getTitle());
         setArtistText(track.getArtist());
         setSpotifyTrackURI(track.getUri());
         setCoverURL(track.getCoverURL());
+        setDuration(track.getDuration());
     }
     public void setSpotifyAppRemote(SpotifyAppRemote remote) { mSpotifyAppRemote = remote; }
 
@@ -62,6 +68,7 @@ public class HomeViewModel extends ViewModel {
     }
     public LiveData<String> getSpotifyTrackURI() { return mSpotifyTrackURI; }
     public LiveData<String> getCoverURL() { return mCoverURL; }
+    public LiveData<Integer> getDuration() { return mDuration; }
     public LiveData<Track> getTrack() { return mTrack; }
 
     public SpotifyAppRemote getSpotifyAppRemote() { return mSpotifyAppRemote; }

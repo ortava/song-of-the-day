@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,8 +23,14 @@ import com.example.sotdprototype.data.db.TrackService;
 import com.example.sotdprototype.databinding.FragmentHomeBinding;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
+import com.spotify.android.appremote.api.PlayerApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.protocol.client.CallResult;
+import com.spotify.protocol.client.Result;
+import com.spotify.protocol.types.PlayerState;
 import com.squareup.picasso.Picasso;
+
+import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
     private static final String CLIENT_ID = "b1a4a0e63d4745198ab789e13e42314d";
@@ -35,6 +42,7 @@ public class HomeFragment extends Fragment {
     private SpotifyWebAPICommunicator mSpotifyWebAPICommunicator;
 
     private ImageButton mImageButtonPlay;
+    private SeekBar mSeekBarPlaytime;
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +67,19 @@ public class HomeFragment extends Fragment {
 
         final TextView mTextViewArtist = binding.textArtist;
         mHomeViewModel.getArtistText().observe(getViewLifecycleOwner(), mTextViewArtist::setText);
+
+        mSeekBarPlaytime = binding.seekbarPlaytime;
+        mHomeViewModel.getDuration().observe(getViewLifecycleOwner(), mSeekBarPlaytime::setMax);
+        mSeekBarPlaytime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mHomeViewModel.getSpotifyAppRemote().getPlayerApi().seekTo(seekBar.getProgress());
+            }
+        });
 
         mImageButtonPlay = binding.buttonPlay;
         mImageButtonPlay.setOnClickListener(v -> mHomeViewModel.getSpotifyTrackURI().observe(getViewLifecycleOwner(), this::remotePlay));
@@ -106,7 +127,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void remotePlay(String uri) {
+    private void remotePlay(String uri) {
         SpotifyAppRemote remote = mHomeViewModel.getSpotifyAppRemote();
         if(remote != null){
             if(remote.isConnected()){
@@ -130,7 +151,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void openTrackInSpotify(String uri) {
+    private void openTrackInSpotify(String uri) {
         final String spotifyContent = uri;
         final String branchLink = "https://spotify.link/content_linking?~campaign=" + requireContext().getPackageName() + "&$deeplink_path=" + spotifyContent + "&$fallback_url=" + spotifyContent;
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -138,7 +159,7 @@ public class HomeFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void connectSpotifyAppRemote() {
+    private void connectSpotifyAppRemote() {
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder(CLIENT_ID)
                         .setRedirectUri(REDIRECT_URI)
