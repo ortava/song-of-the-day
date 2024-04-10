@@ -191,6 +191,7 @@ public class SpotifyWebAPICommunicator {
             track.setAlbum(albumObject.getString("name"));
             track.setArtist(artistObject.getString("name"));
             track.setCoverURL(image.getString("url"));
+            track.setDuration(trackObject.getInt("duration_ms"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

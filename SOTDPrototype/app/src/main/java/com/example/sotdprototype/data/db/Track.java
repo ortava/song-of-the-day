@@ -25,6 +25,9 @@ public class Track {
     @ColumnInfo(name = "cover_URL")
     private String coverURL;
 
+    @ColumnInfo(name = "duration_ms")
+    private int duration;
+
     public Track() {
         this.spotifyId = "";
         this.uri = "";
@@ -32,15 +35,17 @@ public class Track {
         this.album = "";
         this.artist = "";
         this.coverURL = "";
+        this.duration = 0;
     }
 
-    public Track(String spotifyId, String uri, String title, String album, String artist, String coverURL) {
+    public Track(String spotifyId, String uri, String title, String album, String artist, String coverURL, int duration) {
         this.spotifyId = spotifyId;
         this.uri = uri;
         this.title = title;
         this.album = album;
         this.artist = artist;
         this.coverURL = coverURL;
+        this.duration = duration;
     }
 
     public int getId() { return this.id; }
@@ -60,6 +65,7 @@ public class Track {
         return this.artist;
     }
     public String getCoverURL() { return this.coverURL; }
+    public int getDuration() { return this.duration; }
 
 
     public void setId(int id) { this.id = id; }
@@ -79,6 +85,7 @@ public class Track {
         this.artist = artist;
     }
     public void setCoverURL(String coverURL) { this.coverURL = coverURL; }
+    public void setDuration(int duration) { this.duration = duration; }
     public void setAll(Track otherTrack) {
         this.spotifyId = otherTrack.getSpotifyId();
         this.uri = otherTrack.getUri();
@@ -86,5 +93,6 @@ public class Track {
         this.album = otherTrack.getAlbum();
         this.artist = otherTrack.getArtist();
         this.coverURL = otherTrack.getCoverURL();
+        this.duration = otherTrack.getDuration();
     }
 }
