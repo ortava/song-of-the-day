@@ -9,12 +9,14 @@ SOTD helps you discover and develop your taste in music via the hand of fate. Wh
 SOTD also allows you to nudge your recommendations in various directions with its voting system (up-vote a song to get more like it, down-vote to get less like it) and in-app settings (toggle genres, prioritize certain sounds, styles, tempos, lengths).
 
 ___
-### Home Page UI as of Feb. 20, 2024
-(Image represents a work in progress)
+### Home Page as of Feb. 20, 2024
+Buttons are functional and song data is retrieved via Spotify WebAPI.
 
 <img width="300px" src="dev-journal/images/Entry 4/HomeFragment UI Feb20.png" alt="HomeFragment UI Feb20">
 
-Buttons are functional and song data is retrieved via Spotify WebAPI.
+### Settings Page as of Apr. 7, 2024
+All controls are functional and their values are accounted for when requesting recommendations from Spotify.
+<img width="300px" src="dev-journal/images/Entry 7/SettingsFragment UI Apr7.png" alt="SettingsFragment UI Apr7">
 
 ___
 
