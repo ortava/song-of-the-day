@@ -3,6 +3,7 @@ package com.example.sotdprototype.ui.home;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,7 +146,7 @@ public class HomeFragment extends Fragment {
                                 mImageButtonPlay.setActivated(false);
                             }
                         }).setErrorCallback(throwable -> {
-                            Log.e("ERROR", "Error getting PlayerState");
+                            Log.e("HomeFragment", "Error getting PlayerState");
                         });
             }
         }
@@ -172,6 +173,7 @@ public class HomeFragment extends Fragment {
                     public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                         mHomeViewModel.setSpotifyAppRemote(spotifyAppRemote);
                         Log.d("HomeFragment", "Connected! Yay!");
+                        connected();
                     }
 
                     @Override
@@ -179,5 +181,28 @@ public class HomeFragment extends Fragment {
                         Log.e("HomeFragment", throwable.getMessage(), throwable);
                     }
                 });
+    }
+
+    private void connected() {
+        Handler handler = new Handler();
+        Runnable seekBarRunnable = new Runnable() {
+            @Override
+            public void run() {
+                SpotifyAppRemote remote = mHomeViewModel.getSpotifyAppRemote();
+                        remote.getPlayerApi().getPlayerState()
+                                .setResultCallback(playerState -> {
+                                    // Only update value if the recommended track is playing in the user's Spotify app.
+                                    if(playerState.track.uri.equals(mHomeViewModel.getSpotifyTrackURI().getValue())){
+                                        mSeekBarPlaytime.setProgress((int) playerState.playbackPosition);
+                                    }
+                                }).setErrorCallback(throwable -> {
+                                    Log.e("HomeFragment", "Error getting PlayerState");
+                                });
+
+                handler.postDelayed(this, 1000);    // Runnable calls itself every 1 second.
+            }
+        };
+
+        handler.postDelayed(seekBarRunnable, 0);      // Start thread to automatically update seekbar progress.
     }
 }
