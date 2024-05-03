@@ -78,7 +78,19 @@ public class HomeFragment extends Fragment {
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mHomeViewModel.getSpotifyAppRemote().getPlayerApi().seekTo(seekBar.getProgress());
+                SpotifyAppRemote remote = mHomeViewModel.getSpotifyAppRemote();
+                remote.getPlayerApi().getPlayerState()
+                        .setResultCallback(playerState -> {
+                            // Only update value if the recommended track is playing in the user's Spotify app.
+                            if(!playerState.track.uri.equals(mHomeViewModel.getSpotifyTrackURI().getValue())){
+                                mSeekBarPlaytime.setProgress(0);
+                            }
+                            else {
+                                mHomeViewModel.getSpotifyAppRemote().getPlayerApi().seekTo(seekBar.getProgress());
+                            }
+                        }).setErrorCallback(throwable -> {
+                            Log.e("HomeFragment", "Error getting PlayerState");
+                        });
             }
         });
 
@@ -192,7 +204,10 @@ public class HomeFragment extends Fragment {
                         remote.getPlayerApi().getPlayerState()
                                 .setResultCallback(playerState -> {
                                     // Only update value if the recommended track is playing in the user's Spotify app.
-                                    if(playerState.track.uri.equals(mHomeViewModel.getSpotifyTrackURI().getValue())){
+                                    if(!playerState.track.uri.equals(mHomeViewModel.getSpotifyTrackURI().getValue())){
+                                        mSeekBarPlaytime.setProgress(0);
+                                    }
+                                    else {
                                         mSeekBarPlaytime.setProgress((int) playerState.playbackPosition);
                                     }
                                 }).setErrorCallback(throwable -> {
