@@ -24,14 +24,10 @@ import com.example.sotdprototype.data.db.TrackService;
 import com.example.sotdprototype.databinding.FragmentHomeBinding;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
-import com.spotify.android.appremote.api.PlayerApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
-import com.spotify.protocol.client.CallResult;
-import com.spotify.protocol.client.Result;
-import com.spotify.protocol.types.PlayerState;
 import com.squareup.picasso.Picasso;
 
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HomeFragment extends Fragment {
     private static final String CLIENT_ID = "b1a4a0e63d4745198ab789e13e42314d";
@@ -81,11 +77,10 @@ public class HomeFragment extends Fragment {
                 SpotifyAppRemote remote = mHomeViewModel.getSpotifyAppRemote();
                 remote.getPlayerApi().getPlayerState()
                         .setResultCallback(playerState -> {
-                            // Only update value if the recommended track is playing in the user's Spotify app.
+                            // Only seek if the recommended track is playing in the user's Spotify app.
                             if(!playerState.track.uri.equals(mHomeViewModel.getSpotifyTrackURI().getValue())){
                                 mSeekBarPlaytime.setProgress(0);
-                            }
-                            else {
+                            } else {
                                 mHomeViewModel.getSpotifyAppRemote().getPlayerApi().seekTo(seekBar.getProgress());
                             }
                         }).setErrorCallback(throwable -> {
@@ -95,7 +90,6 @@ public class HomeFragment extends Fragment {
         });
 
         mImageButtonPlay = binding.buttonPlay;
-        mImageButtonPlay.setOnClickListener(v -> mHomeViewModel.getSpotifyTrackURI().observe(getViewLifecycleOwner(), this::remotePlay));
 
         final Button mButtonOpenTrackInSpotify = binding.buttonOpenTrackInSpotify;
         mButtonOpenTrackInSpotify.setOnClickListener(v -> mHomeViewModel.getSpotifyTrackURI().observe(getViewLifecycleOwner(), this::openTrackInSpotify));
@@ -142,26 +136,22 @@ public class HomeFragment extends Fragment {
 
     private void remotePlay(String uri) {
         SpotifyAppRemote remote = mHomeViewModel.getSpotifyAppRemote();
-        if(remote != null){
-            if(remote.isConnected()){
-                remote.getPlayerApi().getPlayerState()
-                        .setResultCallback(playerState -> {
-                            if(!playerState.track.uri.equals(uri) && !uri.isEmpty()){
-                                remote.getPlayerApi().play(uri);
-                                mImageButtonPlay.setActivated(true);
-                            }
-                            else if(playerState.isPaused){
-                                remote.getPlayerApi().resume();
-                                mImageButtonPlay.setActivated(true);
-                            } else {
-                                remote.getPlayerApi().pause();
-                                mImageButtonPlay.setActivated(false);
-                            }
-                        }).setErrorCallback(throwable -> {
-                            Log.e("HomeFragment", "Error getting PlayerState");
-                        });
-            }
-        }
+        remote.getPlayerApi().getPlayerState()
+                .setResultCallback(playerState -> {
+                    if(!playerState.track.uri.equals(uri) && !uri.isEmpty()){
+                        remote.getPlayerApi().play(uri);
+                        mImageButtonPlay.setActivated(true);
+                    }
+                    else if(playerState.isPaused){
+                        remote.getPlayerApi().resume();
+                        mImageButtonPlay.setActivated(true);
+                    } else {
+                        remote.getPlayerApi().pause();
+                        mImageButtonPlay.setActivated(false);
+                    }
+                }).setErrorCallback(throwable -> {
+                    Log.e("HomeFragment", "Error getting PlayerState");
+                });
     }
 
     private void openTrackInSpotify(String uri) {
@@ -196,23 +186,26 @@ public class HomeFragment extends Fragment {
     }
 
     private void connected() {
+        // Set onClickListener for the Play button.
+        mImageButtonPlay.setOnClickListener(v -> mHomeViewModel.getSpotifyTrackURI().observe(getViewLifecycleOwner(), this::remotePlay));
+
+        // Set up thread for updating Seekbar progress.
         Handler handler = new Handler();
         Runnable seekBarRunnable = new Runnable() {
             @Override
             public void run() {
                 SpotifyAppRemote remote = mHomeViewModel.getSpotifyAppRemote();
-                        remote.getPlayerApi().getPlayerState()
-                                .setResultCallback(playerState -> {
-                                    // Only update value if the recommended track is playing in the user's Spotify app.
-                                    if(!playerState.track.uri.equals(mHomeViewModel.getSpotifyTrackURI().getValue())){
-                                        mSeekBarPlaytime.setProgress(0);
-                                    }
-                                    else {
-                                        mSeekBarPlaytime.setProgress((int) playerState.playbackPosition);
-                                    }
-                                }).setErrorCallback(throwable -> {
-                                    Log.e("HomeFragment", "Error getting PlayerState");
-                                });
+                remote.getPlayerApi().getPlayerState()
+                        .setResultCallback(playerState -> {
+                            // Only update value if the recommended track is playing in the user's Spotify app.
+                            if(!playerState.track.uri.equals(mHomeViewModel.getSpotifyTrackURI().getValue())){
+                                mSeekBarPlaytime.setProgress(0);
+                            } else {
+                                mSeekBarPlaytime.setProgress((int) playerState.playbackPosition);
+                            }
+                        }).setErrorCallback(throwable -> {
+                            Log.e("HomeFragment", "Error getting PlayerState");
+                        });
 
                 handler.postDelayed(this, 1000);    // Runnable calls itself every 1 second.
             }
