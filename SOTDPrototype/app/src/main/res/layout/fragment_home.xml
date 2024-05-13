@@ -66,6 +66,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         ></SeekBar>
 
+    <TextView
+        android:id="@+id/text_playtime_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:text="0:00"
+        app:layout_constraintTop_toBottomOf="@id/seekbar_playtime"
+        app:layout_constraintBottom_toTopOf="@id/button_play"
+        app:layout_constraintStart_toStartOf="@id/seekbar_playtime"
+        ></TextView>
+
+    <TextView
+        android:id="@+id/text_playtime_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:text="12:32"
+        app:layout_constraintTop_toBottomOf="@id/seekbar_playtime"
+        app:layout_constraintBottom_toTopOf="@id/button_play"
+        app:layout_constraintEnd_toEndOf="@id/seekbar_playtime"
+        ></TextView>
+
     <ImageButton
         android:id="@+id/button_play"
         android:layout_width="wrap_content"
