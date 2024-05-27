@@ -40,6 +40,8 @@ public class HomeFragment extends Fragment {
 
     private ImageButton mImageButtonPlay;
     private SeekBar mSeekBarPlaytime;
+    private TextView mTextViewPlaytimeLeft;
+    private TextView mTextViewPlaytimeRight;
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,11 +67,20 @@ public class HomeFragment extends Fragment {
         final TextView mTextViewArtist = binding.textArtist;
         mHomeViewModel.getArtistText().observe(getViewLifecycleOwner(), mTextViewArtist::setText);
 
+        //final TextView mTextViewPlaytimeLeft = binding.textPlaytimeLeft;
+        mTextViewPlaytimeLeft = binding.textPlaytimeLeft;
+
+        //final TextView mTextViewPlaytimeRight = binding.textPlaytimeRight;
+        mTextViewPlaytimeRight = binding.textPlaytimeRight;
+        //TODO: Make observable data that stores max duration as minutes and seconds.
+
         mSeekBarPlaytime = binding.seekbarPlaytime;
         mHomeViewModel.getDuration().observe(getViewLifecycleOwner(), mSeekBarPlaytime::setMax);
         mSeekBarPlaytime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                mTextViewPlaytimeLeft.setText(millisecondsToReadableTime(seekBar.getProgress()));
+            }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
@@ -212,5 +223,14 @@ public class HomeFragment extends Fragment {
         };
 
         handler.postDelayed(seekBarRunnable, 0);      // Start thread to automatically update seekbar progress.
+    }
+
+    // Takes a value in milliseconds and transforms it into a readable time format (minutes:seconds).
+    private String millisecondsToReadableTime(int milliseconds) {
+        int seconds = (milliseconds / 1000) % 60;
+        int minutes = (milliseconds / 1000) / 60;
+        return (seconds < 10)
+                ? minutes + ":0" + seconds
+                : minutes + ":" + seconds;
     }
 }
