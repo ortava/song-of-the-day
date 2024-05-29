@@ -67,19 +67,18 @@ public class HomeFragment extends Fragment {
         final TextView mTextViewArtist = binding.textArtist;
         mHomeViewModel.getArtistText().observe(getViewLifecycleOwner(), mTextViewArtist::setText);
 
-        //final TextView mTextViewPlaytimeLeft = binding.textPlaytimeLeft;
         mTextViewPlaytimeLeft = binding.textPlaytimeLeft;
+        mHomeViewModel.getPlaytimeLeftText().observe(getViewLifecycleOwner(), mTextViewPlaytimeLeft::setText);
 
-        //final TextView mTextViewPlaytimeRight = binding.textPlaytimeRight;
         mTextViewPlaytimeRight = binding.textPlaytimeRight;
-        //TODO: Make observable data that stores max duration as minutes and seconds.
+        mHomeViewModel.getPlaytimeRightText().observe(getViewLifecycleOwner(), mTextViewPlaytimeRight::setText);
 
         mSeekBarPlaytime = binding.seekbarPlaytime;
         mHomeViewModel.getDuration().observe(getViewLifecycleOwner(), mSeekBarPlaytime::setMax);
         mSeekBarPlaytime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                mTextViewPlaytimeLeft.setText(millisecondsToReadableTime(seekBar.getProgress()));
+                mHomeViewModel.setPlayTimeLeftText(seekBar.getProgress());
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -223,14 +222,5 @@ public class HomeFragment extends Fragment {
         };
 
         handler.postDelayed(seekBarRunnable, 0);      // Start thread to automatically update seekbar progress.
-    }
-
-    // Takes a value in milliseconds and transforms it into a readable time format (minutes:seconds).
-    private String millisecondsToReadableTime(int milliseconds) {
-        int seconds = (milliseconds / 1000) % 60;
-        int minutes = (milliseconds / 1000) / 60;
-        return (seconds < 10)
-                ? minutes + ":0" + seconds
-                : minutes + ":" + seconds;
     }
 }

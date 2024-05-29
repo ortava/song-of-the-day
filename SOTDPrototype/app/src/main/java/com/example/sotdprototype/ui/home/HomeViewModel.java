@@ -16,6 +16,8 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<String> mCoverURL;
     private final MutableLiveData<Integer> mDuration;
     private final MutableLiveData<Track> mTrack;
+    private final MutableLiveData<String> mPlayTimeLeftText;
+    private final MutableLiveData<String> mPlayTimeRightText;
     private SpotifyAppRemote mSpotifyAppRemote;
 
     public HomeViewModel() {
@@ -39,6 +41,12 @@ public class HomeViewModel extends ViewModel {
 
         mTrack = new MutableLiveData<>();
         mTrack.setValue(new Track());
+
+        mPlayTimeLeftText = new MutableLiveData<>();
+        mPlayTimeLeftText.setValue("");
+
+        mPlayTimeRightText = new MutableLiveData<>();
+        mPlayTimeRightText.setValue("");
     }
 
     public void setHomeText(String homeText) { mHomeText.setValue(homeText); }
@@ -46,7 +54,12 @@ public class HomeViewModel extends ViewModel {
     public void setArtistText(String artistText) { mArtistText.setValue(artistText); }
     public void setSpotifyTrackURI(String spotifyTrackURI) { mSpotifyTrackURI.setValue(spotifyTrackURI); }
     public void setCoverURL(String coverArtURL) { mCoverURL.setValue(coverArtURL); }
-    public void setDuration(int duration) { mDuration.setValue(duration); }
+    public void setDuration(int duration) {
+        mDuration.setValue(duration);
+
+        setPlayTimeRightText(duration); // Violates Single-Responsibility Principle...
+        // temp solution because I can't find a better place to set right text after ensuring duration is retrieved.
+    }
     public void setTrack(Track track) {
         mTrack.setValue(track);
         setTitleText(track.getTitle());
@@ -55,6 +68,8 @@ public class HomeViewModel extends ViewModel {
         setCoverURL(track.getCoverURL());
         setDuration(track.getDuration());
     }
+    public void setPlayTimeLeftText(int currentPlayTime){ mPlayTimeLeftText.setValue(millisecondsToReadableTime(currentPlayTime)); }
+    public void setPlayTimeRightText(int duration){ mPlayTimeRightText.setValue(millisecondsToReadableTime(duration)); }
     public void setSpotifyAppRemote(SpotifyAppRemote remote) { mSpotifyAppRemote = remote; }
 
     public LiveData<String> getHomeText() {
@@ -70,6 +85,17 @@ public class HomeViewModel extends ViewModel {
     public LiveData<String> getCoverURL() { return mCoverURL; }
     public LiveData<Integer> getDuration() { return mDuration; }
     public LiveData<Track> getTrack() { return mTrack; }
-
+    public LiveData<String> getPlaytimeLeftText() { return mPlayTimeLeftText; }
+    public LiveData<String> getPlaytimeRightText() { return mPlayTimeRightText; }
     public SpotifyAppRemote getSpotifyAppRemote() { return mSpotifyAppRemote; }
+
+    /// HELPER METHODS
+    // Takes a value in milliseconds and transforms it into a readable time format (minutes:seconds).
+    private String millisecondsToReadableTime(int milliseconds) {
+        int seconds = (milliseconds / 1000) % 60;
+        int minutes = (milliseconds / 1000) / 60;
+        return (seconds < 10)
+                ? minutes + ":0" + seconds
+                : minutes + ":" + seconds;
+    }
 }
