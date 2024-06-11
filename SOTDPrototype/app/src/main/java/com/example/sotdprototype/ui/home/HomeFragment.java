@@ -43,6 +43,9 @@ public class HomeFragment extends Fragment {
     private TextView mTextViewPlaytimeLeft;
     private TextView mTextViewPlaytimeRight;
 
+    private Handler handler;
+    private Runnable seekBarRunnable;
+
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHomeViewModel =
@@ -50,6 +53,29 @@ public class HomeFragment extends Fragment {
         mTrackService = new TrackService(requireContext());
         mSpotifyWebAPICommunicator = new SpotifyWebAPICommunicator(requireContext());
 
+        // Set up thread for updating Seekbar progress.
+        handler = new Handler();
+        seekBarRunnable = new Runnable() {  // TODO: Make runnable implementation more visually pleasing (make separate class?)
+            @Override
+            public void run() {
+                SpotifyAppRemote remote = mHomeViewModel.getSpotifyAppRemote();
+                remote.getPlayerApi().getPlayerState()
+                        .setResultCallback(playerState -> {
+                            // Only update value if the recommended track is playing in the user's Spotify app.
+                            if(!playerState.track.uri.equals(mHomeViewModel.getSpotifyTrackURI().getValue())){
+                                mSeekBarPlaytime.setProgress(0);
+                            } else {
+                                mSeekBarPlaytime.setProgress((int) playerState.playbackPosition);
+                            }
+                        }).setErrorCallback(throwable -> {
+                            Log.e("HomeFragment", "Error getting PlayerState");
+                        });
+
+                handler.postDelayed(this, 1000);    // Runnable calls itself every 1 second.
+            }
+        };
+
+        // Retrieve new Song of the Day.
         setSongOfTheDay();
     }
 
@@ -119,6 +145,7 @@ public class HomeFragment extends Fragment {
     public void onStop() {
         super.onStop();
         SpotifyAppRemote.disconnect(mHomeViewModel.getSpotifyAppRemote());
+        handler.removeCallbacks(seekBarRunnable);
     }
 
     @Override
@@ -199,28 +226,7 @@ public class HomeFragment extends Fragment {
         // Set onClickListener for the Play button.
         mImageButtonPlay.setOnClickListener(v -> mHomeViewModel.getSpotifyTrackURI().observe(getViewLifecycleOwner(), this::remotePlay));
 
-        // Set up thread for updating Seekbar progress.
-        Handler handler = new Handler();
-        Runnable seekBarRunnable = new Runnable() {
-            @Override
-            public void run() {
-                SpotifyAppRemote remote = mHomeViewModel.getSpotifyAppRemote();
-                remote.getPlayerApi().getPlayerState()
-                        .setResultCallback(playerState -> {
-                            // Only update value if the recommended track is playing in the user's Spotify app.
-                            if(!playerState.track.uri.equals(mHomeViewModel.getSpotifyTrackURI().getValue())){
-                                mSeekBarPlaytime.setProgress(0);
-                            } else {
-                                mSeekBarPlaytime.setProgress((int) playerState.playbackPosition);
-                            }
-                        }).setErrorCallback(throwable -> {
-                            Log.e("HomeFragment", "Error getting PlayerState");
-                        });
-
-                handler.postDelayed(this, 1000);    // Runnable calls itself every 1 second.
-            }
-        };
-
-        handler.postDelayed(seekBarRunnable, 0);      // Start thread to automatically update seekbar progress.
+        // Start thread to automatically update seekbar progress.
+        handler.postDelayed(seekBarRunnable, 0);
     }
 }
