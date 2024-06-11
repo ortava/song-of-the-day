@@ -76,8 +76,7 @@ public class HistoryFragment extends Fragment {
                         (i+1) + " days ago: " + "\n"
                         + "Title: " + track.getTitle() + "\n"
                         + "Album: " + track.getAlbum() + "\n"
-                        + "Artist: " + track.getArtist() + "\n"
-                        + "[open in Spotify]";
+                        + "Artist: " + track.getArtist() + "\n";
             }
         }
     }

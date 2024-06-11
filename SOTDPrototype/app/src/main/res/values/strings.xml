@@ -6,6 +6,7 @@
     <string name="text_prescreen">You must log in to Spotify.</string>
     <string name="button_login_spotify">Login to Spotify</string>
     <string name="button_open_track_in_spotify">Open Track in Spotify</string>
+    <string name="button_open">Open</string>
 
     <!-- Preferences -->
     <string name="pref_title_category_seeds">Seeds</string>
