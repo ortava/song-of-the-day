@@ -16,6 +16,7 @@ Buttons are functional and song data is retrieved via Spotify WebAPI.
 
 ### Settings Page as of Apr. 7, 2024
 All controls are functional and their values are accounted for when requesting recommendations from Spotify.
+
 <img width="300px" src="dev-journal/images/Entry 7/SettingsFragment UI Apr7.png" alt="SettingsFragment UI Apr7">
 
 ___
