@@ -1,5 +1,6 @@
 package com.example.sotdprototype.ui.history;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sotdprototype.R;
+import com.example.sotdprototype.data.db.Track;
 import com.example.sotdprototype.spotify.SpotifyHelper;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
-    private String[] localDataSet;
-    private String[] localTrackURIs;
+    private Track[] localDataSet;
 
     /**
     Custom ViewHolder
@@ -37,11 +38,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     /**
      * Initialize the dataset of the Adapter
      *
-     * @param dataSet String[] containing the data to populate views to be used by RecyclerView
+     * @param dataSet Track[] containing the data that will be used to populate views to be used by RecyclerView
      */
-    public HistoryAdapter(String[] dataSet, String[] trackURIs) {
+    public HistoryAdapter(Track[] dataSet) {
         localDataSet = dataSet;
-        localTrackURIs = trackURIs;
     }
 
     // Create new views (invoked by the layout manager)
@@ -53,12 +53,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     // Replace the contents of a view (invoked by the layout manager)
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        // Get element from dataset at this position and replace the
-        // contents of the view with that element
-        viewHolder.getTextView().setText(localDataSet[position]);
-        viewHolder.getButton().setOnClickListener(view -> SpotifyHelper.openTrackInSpotify(localTrackURIs[position], HistoryFragment.PACKAGE_NAME, HistoryFragment.CONTEXT));
+        viewHolder.getTextView().setText(
+                (position+1) + " days ago: " + "\n"
+                        + "Title: " + localDataSet[position].getTitle() + "\n"
+                        + "Album: " + localDataSet[position].getAlbum() + "\n"
+                        + "Artist: " + localDataSet[position].getArtist() + "\n"
+        );
+
+        viewHolder.getButton().setOnClickListener(view -> SpotifyHelper.openTrackInSpotify(localDataSet[position].getUri(), HistoryFragment.PACKAGE_NAME, HistoryFragment.CONTEXT));
     }
 
     // Return the size of your dataset (invoked by the layout manager)

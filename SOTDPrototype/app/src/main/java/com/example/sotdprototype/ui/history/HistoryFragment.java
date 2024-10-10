@@ -28,8 +28,7 @@ public class HistoryFragment extends Fragment {
 
     private FragmentHistoryBinding binding;
     private HistoryViewModel mHistoryViewModel;
-    private String[] mDataSet = new String[TrackService.MAX_DATASET_COUNT];
-    private String[] mTrackURIs = new String[TrackService.MAX_DATASET_COUNT];
+    private Track[] mDataSet = new Track[TrackService.MAX_DATASET_COUNT];
     private TrackService mTrackService;
 
     protected RecyclerView mRecyclerView;
@@ -46,7 +45,7 @@ public class HistoryFragment extends Fragment {
         PACKAGE_NAME = requireContext().getPackageName();
         CONTEXT = getContext();
 
-        initDataset();
+        initDataSet();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -60,7 +59,7 @@ public class HistoryFragment extends Fragment {
         mRecyclerView = root.findViewById(R.id.recycler_view_history);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        updateDataSet(mDataSet, mTrackURIs);
+        updateAdapterDataSet(mDataSet);
 
         return root;
     }
@@ -71,23 +70,19 @@ public class HistoryFragment extends Fragment {
         binding = null;
     }
 
-    private void updateDataSet(@NonNull String[] dataSet, @NonNull String[] URIs) {
-        mAdapter = new HistoryAdapter(dataSet, URIs);
+    private void updateAdapterDataSet(@NonNull Track[] dataSet) {
+        mAdapter = new HistoryAdapter(dataSet);
         mRecyclerView.swapAdapter(mAdapter, false);
     }
 
-    private void initDataset() {
+    // Initializes the HistoryAdapter dataset as an array of all the tracks in the database
+    // in reverse order (the most recently added appears first).
+    private void initDataSet() {
         List<Track> tracks = mTrackService.getAllTracksFromDataBase();
-
         for(int i = 0; i < tracks.size(); i++) {
             Track track = tracks.get(tracks.size() - 1 - i);
             if (i < mDataSet.length) {
-                mDataSet[i] =
-                        (i+1) + " days ago: " + "\n"
-                        + "Title: " + track.getTitle() + "\n"
-                        + "Album: " + track.getAlbum() + "\n"
-                        + "Artist: " + track.getArtist() + "\n";
-                mTrackURIs[i] = track.getUri();
+                mDataSet[i] = track;
             }
         }
     }
