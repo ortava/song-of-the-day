@@ -63,7 +63,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                         + "Artist: " + localDataSet[position].getArtist() + "\n"
         );
 
-        viewHolder.getButton().setOnClickListener(view -> SpotifyHelper.openTrackInSpotify(localDataSet[position].getUri(), HistoryFragment.PACKAGE_NAME, HistoryFragment.CONTEXT));
+        viewHolder.getButton().setOnClickListener(view -> SpotifyHelper.openTrackInSpotify(
+                localDataSet[position].getUri(),
+                view.getContext().getPackageName(),
+                view.getContext()));
     }
 
     // Return the size of your dataset (invoked by the layout manager)

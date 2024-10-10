@@ -1,12 +1,9 @@
 package com.example.sotdprototype.ui.history;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,9 +20,6 @@ import com.example.sotdprototype.databinding.FragmentHistoryBinding;
 import java.util.List;
 
 public class HistoryFragment extends Fragment {
-    public static String PACKAGE_NAME;
-    public static Context CONTEXT;
-
     private FragmentHistoryBinding binding;
     private HistoryViewModel mHistoryViewModel;
     private Track[] mDataSet = new Track[TrackService.MAX_DATASET_COUNT];
@@ -41,9 +35,6 @@ public class HistoryFragment extends Fragment {
         mHistoryViewModel =
                 new ViewModelProvider(this).get(HistoryViewModel.class);
         mTrackService = new TrackService(requireContext());
-
-        PACKAGE_NAME = requireContext().getPackageName();
-        CONTEXT = getContext();
 
         initDataSet();
     }
