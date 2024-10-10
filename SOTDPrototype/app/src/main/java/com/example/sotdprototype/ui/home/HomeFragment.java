@@ -1,7 +1,5 @@
 package com.example.sotdprototype.ui.home;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -19,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sotdprototype.R;
+import com.example.sotdprototype.spotify.SpotifyHelper;
 import com.example.sotdprototype.spotify.SpotifyWebAPICommunicator;
 import com.example.sotdprototype.data.db.TrackService;
 import com.example.sotdprototype.databinding.FragmentHomeBinding;
@@ -26,8 +25,6 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
 import com.squareup.picasso.Picasso;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HomeFragment extends Fragment {
     private static final String CLIENT_ID = "b1a4a0e63d4745198ab789e13e42314d";
@@ -128,7 +125,11 @@ public class HomeFragment extends Fragment {
         mImageButtonPlay = binding.buttonPlay;
 
         final Button mButtonOpenTrackInSpotify = binding.buttonOpenTrackInSpotify;
-        mButtonOpenTrackInSpotify.setOnClickListener(v -> mHomeViewModel.getSpotifyTrackURI().observe(getViewLifecycleOwner(), this::openTrackInSpotify));
+        mButtonOpenTrackInSpotify.setOnClickListener(v -> SpotifyHelper.openTrackInSpotify(
+                    mHomeViewModel.getSpotifyTrackURI().getValue(),
+                    requireContext().getPackageName(),
+                    requireContext()
+            ));
 
         mHomeViewModel.getCoverURL().observe(getViewLifecycleOwner(), this::loadCoverImage);
 
@@ -189,14 +190,6 @@ public class HomeFragment extends Fragment {
                 }).setErrorCallback(throwable -> {
                     Log.e("HomeFragment", "Error getting PlayerState");
                 });
-    }
-
-    private void openTrackInSpotify(String uri) {
-        final String spotifyContent = uri;
-        final String branchLink = "https://spotify.link/content_linking?~campaign=" + requireContext().getPackageName() + "&$deeplink_path=" + spotifyContent + "&$fallback_url=" + spotifyContent;
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(branchLink));
-        startActivity(intent);
     }
 
     private void connectSpotifyAppRemote() {
