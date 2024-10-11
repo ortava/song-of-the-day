@@ -53,15 +53,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.getTextView().setText(
-                (position+1) + " days ago: " + "\n"
-                        + "Title: " + localDataSet[position].getTitle() + "\n"
-                        + "Album: " + localDataSet[position].getAlbum() + "\n"
-                        + "Artist: " + localDataSet[position].getArtist() + "\n"
-        );
+        viewHolder.getTextView().setText(formatTrackInfoAtPosition(position));
 
         viewHolder.getButton().setOnClickListener(view -> SpotifyHelper.openTrackInSpotify(
                 localDataSet[position].getUri(),
@@ -73,5 +67,22 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     @Override
     public int getItemCount() {
         return localDataSet.length;
+    }
+
+    /// HELPER METHODS
+    // Provides a formatted String of a track's info based on the given position in the dataset.
+    private String formatTrackInfoAtPosition(int position) {
+        StringBuilder trackInfo = new StringBuilder();
+
+        if (position == 0) {
+            trackInfo.append(position + 1).append(" day ago ").append("\n");
+        } else {
+            trackInfo.append(position + 1).append(" days ago ").append("\n");
+        }
+        trackInfo.append("Title: \t\t\t").append(localDataSet[position].getTitle()).append("\n")
+                .append("Album: \t").append(localDataSet[position].getAlbum()).append("\n")
+                .append("Artist: \t\t").append(localDataSet[position].getArtist()).append("\n");
+
+        return trackInfo.toString();
     }
 }
