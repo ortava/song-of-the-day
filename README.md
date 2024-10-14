@@ -14,6 +14,11 @@ All controls are functional and song data is retrieved via Spotify Web API.
 
 <img width="300px" src="dev-journal/images/Entry 8/HomeFragment UI Jul22.png" alt="HomeFragment UI Jul22">
 
+### History Page as of Oct. 14, 2024
+All controls are functional and previous recommendation data is retrieved from the database.
+
+<img width="300px" src="dev-journal/images/Entry 9/HistoryFragment UI Oct14.png" alt="HistoryFragment UI Oct14">
+
 ### Settings Page as of Apr. 7, 2024
 All controls are functional and their values are accounted for when requesting recommendations from Spotify.
 
