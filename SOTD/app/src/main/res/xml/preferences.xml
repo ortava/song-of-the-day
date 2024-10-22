@@ -124,7 +124,8 @@
     </PreferenceCategory>
     <Preference
         android:key="logout_button"
-        android:title="@string/button_logout_spotify"
+        android:title="@string/pref_title_disconnect_spotify"
         android:widgetLayout="@layout/pref_logout_button"
+        app:allowDividerAbove="true"
         />
 </PreferenceScreen>
