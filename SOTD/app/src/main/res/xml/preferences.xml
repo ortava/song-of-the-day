@@ -122,4 +122,9 @@
             android:dependency="toggle_track_attributes"
             />
     </PreferenceCategory>
+    <Preference
+        android:key="logout_button"
+        android:title="@string/button_logout_spotify"
+        android:widgetLayout="@layout/pref_logout_button"
+        />
 </PreferenceScreen>
