@@ -1,5 +1,6 @@
 package com.sotd.ui.settings;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +13,9 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sotd.PrescreenActivity;
 import com.sotd.R;
 import com.sotd.spotify.SpotifyWebAPICommunicator;
-import com.sotd.databinding.FragmentSettingsBinding;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +23,6 @@ import java.util.Set;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     private Map<String, String> keyTitleMap;
-
-    private FragmentSettingsBinding binding;
     private SpotifyWebAPICommunicator mSpotifyWebAPICommunicator;
     private SharedPreferences mSharedPreferences;
 
@@ -108,6 +107,25 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Preference button = findPreference("logout_button");
+        button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(@NonNull Preference preference) {
+                // Remove Spotify Access Token.
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("SPOTIFY", 0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("token");
+                editor.apply();
+
+                // Redirect to login prompt.
+                Intent newIntent = new Intent(getContext(), PrescreenActivity.class);
+                startActivity(newIntent);
+                getActivity().finish();
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -122,7 +140,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 
     @Override
