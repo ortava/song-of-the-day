@@ -108,7 +108,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Preference button = findPreference("logout_button");
+        //TODO: Use the button's onClick rather than the preferenceClick
+        Preference button = findPreference("disconnect_button");
         button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(@NonNull Preference preference) {

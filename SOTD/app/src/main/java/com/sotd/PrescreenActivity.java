@@ -19,8 +19,8 @@ public class PrescreenActivity extends AppCompatActivity {
         binding = ActivityPrescreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        final Button buttonLoginSpotify = binding.buttonLoginSpotify;
-        buttonLoginSpotify.setOnClickListener(v -> startAuthorizeActivity());
+        final Button buttonConnectSpotify = binding.buttonConnectSpotify;
+        buttonConnectSpotify.setOnClickListener(v -> startAuthorizeActivity());
     }
 
     private void startAuthorizeActivity() {

@@ -3,9 +3,9 @@
     <string name="title_home">Home</string>
     <string name="title_history">History</string>
     <string name="title_settings">Settings</string>
-    <string name="text_prescreen">You must log in with Spotify.</string>
-    <string name="button_login_spotify">Log in with Spotify</string>
-    <string name="button_logout_spotify">Disconnect</string>
+    <string name="text_prescreen">You must connect your Spotify account.</string>
+    <string name="button_connect_spotify">Connect</string>
+    <string name="button_disconnect_spotify">Disconnect</string>
     <string name="button_open_track_in_spotify">Open Track in Spotify</string>
     <string name="button_open">Open</string>
 

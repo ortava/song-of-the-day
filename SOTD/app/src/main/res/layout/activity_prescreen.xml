@@ -10,11 +10,9 @@
         android:id="@+id/text_prescreen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:layout_marginHorizontal="64dp"
+        android:textSize="24sp"
         android:text="@string/text_prescreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,10 +20,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_login_spotify"
+        android:id="@+id/button_connect_spotify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_login_spotify"
+        android:text="@string/button_connect_spotify"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="@id/text_prescreen"
         app:layout_constraintEnd_toEndOf="@id/text_prescreen"
         app:layout_constraintTop_toBottomOf="@id/text_prescreen"/>
