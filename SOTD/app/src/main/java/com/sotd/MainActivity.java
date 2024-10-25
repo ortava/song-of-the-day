@@ -1,5 +1,6 @@
 package com.sotd;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -19,6 +20,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(!isConnectedToSpotify()) {
+            startPrescreenActivity();
+            return;
+        }
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -42,5 +48,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+    }
+
+    private boolean isConnectedToSpotify() {
+        return getSharedPreferences("SPOTIFY", 0)
+                .contains("token");
+    }
+    private void startPrescreenActivity() {
+        Intent newIntent = new Intent(this, PrescreenActivity.class);
+        startActivity(newIntent);
+        finish();
     }
 }
