@@ -1,6 +1,5 @@
 package com.sotd.ui.settings;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,6 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sotd.PrescreenActivity;
 import com.sotd.R;
 import com.sotd.spotify.SpotifyWebAPICommunicator;
 
@@ -99,31 +97,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 if((int) newValue < mSeekBarMinDuration.getValue() + (mSeekBarMaxDuration.getMin() - mSeekBarMinDuration.getMin())) {
                     mSeekBarMinDuration.setValue((int) newValue - (mSeekBarMaxDuration.getMin() - mSeekBarMinDuration.getMin()));
                 }
-                return true;
-            }
-        });
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        //TODO: Use the button's onClick rather than the preferenceClick
-        Preference button = findPreference("disconnect_button");
-        button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(@NonNull Preference preference) {
-                // Remove Spotify Access Token.
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("SPOTIFY", 0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("token");
-                editor.apply();
-
-                // Redirect to login prompt.
-                Intent newIntent = new Intent(getContext(), PrescreenActivity.class);
-                startActivity(newIntent);
-                getActivity().finish();
-
                 return true;
             }
         });

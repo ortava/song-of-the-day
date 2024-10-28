@@ -122,10 +122,12 @@
             android:dependency="toggle_track_attributes"
             />
     </PreferenceCategory>
-    <Preference
+
+    <com.sotd.ui.settings.DisconnectButtonPreference
         android:key="disconnect_button"
         android:title="@string/pref_title_disconnect_spotify"
         android:widgetLayout="@layout/pref_disconnect_button"
         app:allowDividerAbove="true"
+        app:selectable="false"
         />
 </PreferenceScreen>
