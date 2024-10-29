@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 .contains("token");
     }
     private void startPrescreenActivity() {
-        Intent newIntent = new Intent(this, PrescreenActivity.class);
-        startActivity(newIntent);
+        Intent intent = new Intent(this, PrescreenActivity.class);
+        startActivity(intent);
         finish();
     }
 }

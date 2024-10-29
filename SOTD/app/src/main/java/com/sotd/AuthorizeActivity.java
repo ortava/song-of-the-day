@@ -77,14 +77,14 @@ public class AuthorizeActivity extends AppCompatActivity {
     }
 
     private void startMainActivity() {
-        Intent newIntent = new Intent(AuthorizeActivity.this, MainActivity.class);
-        startActivity(newIntent);
+        Intent intent = new Intent(AuthorizeActivity.this, MainActivity.class);
+        startActivity(intent);
         finish();
     }
 
     private void startPrescreenActivity() {
-        Intent newIntent = new Intent(AuthorizeActivity.this, PrescreenActivity.class);
-        startActivity(newIntent);
+        Intent intent = new Intent(AuthorizeActivity.this, PrescreenActivity.class);
+        startActivity(intent);
         finish();
     }
 }

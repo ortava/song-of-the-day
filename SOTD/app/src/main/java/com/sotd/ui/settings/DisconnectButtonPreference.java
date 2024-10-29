@@ -48,8 +48,8 @@ public class DisconnectButtonPreference extends Preference {
                 editor.apply();
 
                 // Redirect to login prompt.
-                Intent newIntent = new Intent(getContext(), PrescreenActivity.class);
-                getContext().startActivity(newIntent);
+                Intent intent = new Intent(getContext(), PrescreenActivity.class);
+                getContext().startActivity(intent);
                 ((Activity)getContext()).finish();
             }
         });
