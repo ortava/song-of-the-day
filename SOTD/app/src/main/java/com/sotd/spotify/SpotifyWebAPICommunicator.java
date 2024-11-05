@@ -8,6 +8,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sotd.data.PreferenceService;
 import com.sotd.data.db.Track;
@@ -60,7 +61,6 @@ public class SpotifyWebAPICommunicator {
                     track.setAll(buildTrackFromJSONTrackObject(response));
                     callBack.onSuccess();
                 }, error -> {
-                    // TODO: Handle error.
                     Log.e("API ERROR", "Could not get track by ID.");
                 }) {
             @Override
@@ -125,7 +125,6 @@ public class SpotifyWebAPICommunicator {
                     }
                     callBack.onSuccess();
                 }, error -> {
-                    // TODO: Handle error.
                     Log.e("API ERROR", "Could not get a recommendation.");
                 }) {
             @Override
@@ -158,7 +157,6 @@ public class SpotifyWebAPICommunicator {
                     }
                     callBack.onSuccess();
                 }, error -> {
-                    // TODO: Handle error.
                     Log.e("API ERROR", "Could not get genre seeds.");
                 }) {
             @Override
@@ -198,4 +196,57 @@ public class SpotifyWebAPICommunicator {
 
         return track;
     }
+
+    //TODO: Put token methods into a separate class?
+    /// AUTHORIZATION TOKEN METHODS
+    public void acquireAuthTokens(String authCode, String clientId, String redirectURI, final VolleyCallBack callBack) {
+        String endpoint = "https://accounts.spotify.com/api/token";
+
+        // Getting Status 400 (Bad Request) "Invalid code_verifier" when using JsonObjectRequest.
+        // Works with StringRequest though...
+        StringRequest stringRequest = new StringRequest
+                (Request.Method.POST, endpoint, response -> {
+                    try {
+                        //TODO: Save both refresh and access tokens with their appropriate labels.
+                        // (currently only saves access token to accommodate pre-PKCE implementation)
+                        JSONObject jsonResponse = new JSONObject(response);
+                        String refreshToken = jsonResponse.getString("refresh_token");
+                        String accessToken = jsonResponse.getString("access_token");
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("token", accessToken);
+                        editor.apply();
+                    } catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    callBack.onSuccess();
+                }, error -> {
+                    Log.e("API ERROR", "Could not get authorization tokens.");
+                    Log.e("API ERROR", error.networkResponse.toString());
+                }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("content-type", "application/x-www-form-urlencoded");
+                return headers;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("grant_type", "authorization_code");
+                params.put("code", authCode);
+                params.put("redirect_uri", redirectURI);
+                params.put("client_id", clientId);
+                params.put("code_verifier", sharedPreferences.getString("code_verifier", ""));
+
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
+    //TODO: Implement token-swap method (use Refresh Token to retrieve a new Access Token).
 }
