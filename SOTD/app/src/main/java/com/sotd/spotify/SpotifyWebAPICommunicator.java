@@ -66,7 +66,7 @@ public class SpotifyWebAPICommunicator {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                String token = sharedPreferences.getString("token", "");
+                String token = sharedPreferences.getString("access_token", "");
                 String auth = "Bearer " + token;
                 headers.put("Authorization", auth);
                 return headers;
@@ -130,7 +130,7 @@ public class SpotifyWebAPICommunicator {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                String token = sharedPreferences.getString("token", "");
+                String token = sharedPreferences.getString("access_token", "");
                 String auth = "Bearer " + token;
                 headers.put("Authorization", auth);
                 return headers;
@@ -162,7 +162,7 @@ public class SpotifyWebAPICommunicator {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                String token = sharedPreferences.getString("token", "");
+                String token = sharedPreferences.getString("access_token", "");
                 String auth = "Bearer " + token;
                 headers.put("Authorization", auth);
                 return headers;
@@ -207,13 +207,12 @@ public class SpotifyWebAPICommunicator {
         StringRequest stringRequest = new StringRequest
                 (Request.Method.POST, endpoint, response -> {
                     try {
-                        //TODO: Save both refresh and access tokens with their appropriate labels.
-                        // (currently only saves access token to accommodate pre-PKCE implementation)
                         JSONObject jsonResponse = new JSONObject(response);
                         String refreshToken = jsonResponse.getString("refresh_token");
                         String accessToken = jsonResponse.getString("access_token");
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("token", accessToken);
+                        editor.putString("access_token", accessToken);
+                        editor.putString("refresh_token", refreshToken);
                         editor.apply();
                     } catch(JSONException e) {
                         e.printStackTrace();

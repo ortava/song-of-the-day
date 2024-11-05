@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isConnectedToSpotify() {
         return getSharedPreferences("SPOTIFY", 0)
-                .contains("token");
+                .contains("refresh_token");
     }
     private void startPrescreenActivity() {
         Intent intent = new Intent(this, PrescreenActivity.class);
