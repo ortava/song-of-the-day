@@ -8,7 +8,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sotd.data.PreferenceService;
 import com.sotd.data.db.Track;
@@ -25,7 +24,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public class SpotifyWebAPICommunicator {
+public class SpotifyWebAPIService {
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
     private Track songOfTheDay;
@@ -34,7 +33,7 @@ public class SpotifyWebAPICommunicator {
 
     private TrackService trackService;
 
-    public SpotifyWebAPICommunicator(Context context) {
+    public SpotifyWebAPIService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
         preferenceService = new PreferenceService(context);
