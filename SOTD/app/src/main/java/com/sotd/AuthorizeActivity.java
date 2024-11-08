@@ -9,7 +9,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sotd.spotify.SpotifyWebAPICommunicator;
+import com.sotd.spotify.SpotifyAuthorizationService;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,14 +24,14 @@ public class AuthorizeActivity extends AppCompatActivity {
     //private final String CODE_VERIFIER = getCodeVerifier();
 
     private SharedPreferences mSharedPreferences;
-    private SpotifyWebAPICommunicator mSpotifyWebAPICommunicator;
+    private SpotifyAuthorizationService mSpotifyAuthorizationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mSharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
-        mSpotifyWebAPICommunicator = new SpotifyWebAPICommunicator(getApplicationContext());
+        mSpotifyAuthorizationService = new SpotifyAuthorizationService(getApplicationContext());
     }
 
     @Override
@@ -43,7 +43,7 @@ public class AuthorizeActivity extends AppCompatActivity {
             openSpotifyBrowserLogin();
         } else {
             String authCode = getIntent().getData().getQueryParameter("code");
-            mSpotifyWebAPICommunicator.acquireAuthTokens(authCode, CLIENT_ID, REDIRECT_URI, () -> {
+            mSpotifyAuthorizationService.acquireAuthTokens(authCode, CLIENT_ID, REDIRECT_URI, () -> {
                 // Auth tokens acquired, code verifier no longer needed.
                 SharedPreferences.Editor editor = mSharedPreferences.edit();
                 editor.remove("code_verifier");
@@ -65,14 +65,12 @@ public class AuthorizeActivity extends AppCompatActivity {
         endpoint.append("&redirect_uri=").append(REDIRECT_URI);
         endpoint.append("&scope=").append(SCOPES);
         endpoint.append("&code_challenge_method=S256");
-        //endpoint.append("&code_challenge=").append(getCodeChallenge(CODE_VERIFIER));
         endpoint.append("&code_challenge=").append(getCodeChallenge(codeVerifier));
         endpoint.append("&show_dialog=true");
 
         // TODO: Better way to use the same code verifier?
         // Save code verifier used for acquiring auth code so we can use it again when acquiring auth tokens.
         SharedPreferences.Editor editor = mSharedPreferences.edit();
-        //editor.putString("code_verifier", CODE_VERIFIER);
         editor.putString("code_verifier", codeVerifier);
         editor.apply();
 
