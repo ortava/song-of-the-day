@@ -41,10 +41,10 @@ public class DisconnectButtonPreference extends Preference {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Remove Spotify Access Token.
+                // Remove Spotify authorization tokens.
                 SharedPreferences sharedPreferences = getContext().getSharedPreferences("SPOTIFY", 0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("token");
+                editor.clear();
                 editor.apply();
 
                 // Redirect to login prompt.

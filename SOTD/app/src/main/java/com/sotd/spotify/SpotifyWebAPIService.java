@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-public class SpotifyWebAPICommunicator {
+public class SpotifyWebAPIService {
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
     private Track songOfTheDay;
@@ -33,7 +33,7 @@ public class SpotifyWebAPICommunicator {
 
     private TrackService trackService;
 
-    public SpotifyWebAPICommunicator(Context context) {
+    public SpotifyWebAPIService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
         preferenceService = new PreferenceService(context);
@@ -60,13 +60,12 @@ public class SpotifyWebAPICommunicator {
                     track.setAll(buildTrackFromJSONTrackObject(response));
                     callBack.onSuccess();
                 }, error -> {
-                    // TODO: Handle error.
                     Log.e("API ERROR", "Could not get track by ID.");
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                String token = sharedPreferences.getString("token", "");
+                String token = sharedPreferences.getString("access_token", "");
                 String auth = "Bearer " + token;
                 headers.put("Authorization", auth);
                 return headers;
@@ -125,13 +124,12 @@ public class SpotifyWebAPICommunicator {
                     }
                     callBack.onSuccess();
                 }, error -> {
-                    // TODO: Handle error.
                     Log.e("API ERROR", "Could not get a recommendation.");
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                String token = sharedPreferences.getString("token", "");
+                String token = sharedPreferences.getString("access_token", "");
                 String auth = "Bearer " + token;
                 headers.put("Authorization", auth);
                 return headers;
@@ -158,13 +156,12 @@ public class SpotifyWebAPICommunicator {
                     }
                     callBack.onSuccess();
                 }, error -> {
-                    // TODO: Handle error.
                     Log.e("API ERROR", "Could not get genre seeds.");
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                String token = sharedPreferences.getString("token", "");
+                String token = sharedPreferences.getString("access_token", "");
                 String auth = "Bearer " + token;
                 headers.put("Authorization", auth);
                 return headers;

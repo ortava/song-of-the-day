@@ -20,10 +20,21 @@
             android:finishOnTaskLaunch="true" />
         <activity
             android:name="com.sotd.AuthorizeActivity"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTask"
             android:noHistory="true"
-            android:finishOnTaskLaunch="true" />
+            android:finishOnTaskLaunch="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="sotd.com"
+                    android:scheme="https"
+                    android:path="/callback"
+                    />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.sotd.MainActivity"
             android:exported="true"

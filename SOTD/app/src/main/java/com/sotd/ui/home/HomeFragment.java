@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.sotd.R;
 import com.sotd.spotify.SpotifyHelper;
-import com.sotd.spotify.SpotifyWebAPICommunicator;
+import com.sotd.spotify.SpotifyWebAPIService;
 import com.sotd.data.db.TrackService;
 import com.sotd.databinding.FragmentHomeBinding;
 import com.spotify.android.appremote.api.ConnectionParams;
@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel mHomeViewModel;
     private TrackService mTrackService;
-    private SpotifyWebAPICommunicator mSpotifyWebAPICommunicator;
+    private SpotifyWebAPIService mSpotifyWebAPIService;
 
     private ImageButton mImageButtonPlay;
     private SeekBar mSeekBarPlaytime;
@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         mHomeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         mTrackService = new TrackService(requireContext());
-        mSpotifyWebAPICommunicator = new SpotifyWebAPICommunicator(requireContext());
+        mSpotifyWebAPIService = new SpotifyWebAPIService(requireContext());
 
         // Set up thread for updating Seekbar progress.
         handler = new Handler();
@@ -165,10 +165,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void setSongOfTheDay() {
-        mSpotifyWebAPICommunicator.getRecommendation(() -> {
+        mSpotifyWebAPIService.getRecommendation(() -> {
             Log.d("HomeFragment", "GOT RECOMMENDATION");
-            mHomeViewModel.setTrack(mSpotifyWebAPICommunicator.getSongOfTheDay());
-            mTrackService.addTrackToDataBase(mSpotifyWebAPICommunicator.getSongOfTheDay());
+            mHomeViewModel.setTrack(mSpotifyWebAPIService.getSongOfTheDay());
+            mTrackService.addTrackToDataBase(mSpotifyWebAPIService.getSongOfTheDay());
         });
     }
 
