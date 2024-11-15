@@ -112,7 +112,7 @@ public class AuthorizeActivity extends AppCompatActivity {
                     Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING
             );
         } catch(NoSuchAlgorithmException e) {
-            Log.e("PKCE", "NoSuchAlgorithmException message: " + e.getMessage());
+            Log.e("AuthorizeActivity", "NoSuchAlgorithmException message: " + e.getMessage());
         }
 
         return ""; // TODO: Find a better way to return a value in case of an exception.

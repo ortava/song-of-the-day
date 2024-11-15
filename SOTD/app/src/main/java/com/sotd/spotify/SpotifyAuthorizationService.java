@@ -31,8 +31,6 @@ public class SpotifyAuthorizationService {
     public void acquireAuthTokens(String authCode, String redirectURI, final VolleyCallBack callBack) {
         String endpoint = "https://accounts.spotify.com/api/token";
 
-        // Getting Status 400 (Bad Request) "Invalid code_verifier" when using JsonObjectRequest.
-        // Works with StringRequest though...
         StringRequest stringRequest = new StringRequest
                 (Request.Method.POST, endpoint, response -> {
                     try {
@@ -46,11 +44,13 @@ public class SpotifyAuthorizationService {
                     } catch(JSONException e) {
                         e.printStackTrace();
                     }
-
+                    Log.d("SpotifyAuthorizationService", "Successfully acquired authorization tokens!");
                     callBack.onSuccess();
                 }, error -> {
-                    Log.e("API ERROR", "Could not get authorization tokens.");
-                    Log.e("API ERROR", new String(error.networkResponse.data, StandardCharsets.UTF_8));
+                    Log.e("SpotifyAuthorizationService", "Could not get authorization tokens.");
+                    if(error.networkResponse.data != null) {
+                        Log.e("SpotifyAuthorizationService", new String(error.networkResponse.data, StandardCharsets.UTF_8));
+                    }
                 }) {
 
             @Override
@@ -89,13 +89,15 @@ public class SpotifyAuthorizationService {
                         editor.putString("access_token", accessToken);
                         editor.putString("refresh_token", refreshToken);
                         editor.apply();
-                        Log.d("API SUCCESS", "Successfully refreshed access token!");
                     } catch(JSONException e) {
                         e.printStackTrace();
                     }
+                    Log.d("SpotifyAuthorizationService", "Successfully refreshed access token!");
                 }, error -> {
-                    Log.e("API ERROR", "Could not refresh access token.");
-                    Log.e("API ERROR", new String(error.networkResponse.data, StandardCharsets.UTF_8));
+                    Log.e("SpotifyAuthorizationService", "Could not refresh access token.");
+                    if(error.networkResponse.data != null) {
+                        Log.e("SpotifyAuthorizationService", new String(error.networkResponse.data, StandardCharsets.UTF_8));
+                    }
                 }) {
 
             @Override

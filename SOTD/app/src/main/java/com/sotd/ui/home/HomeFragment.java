@@ -166,7 +166,6 @@ public class HomeFragment extends Fragment {
 
     private void setSongOfTheDay() {
         mSpotifyWebAPIService.getRecommendation(() -> {
-            Log.d("HomeFragment", "GOT RECOMMENDATION");
             mHomeViewModel.setTrack(mSpotifyWebAPIService.getSongOfTheDay());
             mTrackService.addTrackToDataBase(mSpotifyWebAPIService.getSongOfTheDay());
         });
@@ -204,7 +203,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                         mHomeViewModel.setSpotifyAppRemote(spotifyAppRemote);
-                        Log.d("HomeFragment", "Connected! Yay!");
+                        Log.d("HomeFragment", "Spotify App Remote connected!");
                         connected();
                     }
 
