@@ -17,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,17 +30,17 @@ public class SpotifyWebAPIService {
     private RequestQueue queue;
     private Track songOfTheDay;
     private ArrayList<String> genreSeeds;
-    private PreferenceService preferenceService;
 
+    private PreferenceService preferenceService;
     private TrackService trackService;
 
     public SpotifyWebAPIService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
-        preferenceService = new PreferenceService(context);
         songOfTheDay = new Track();
         genreSeeds = new ArrayList<>();
 
+        preferenceService = new PreferenceService(context);
         trackService = new TrackService(context);
     }
 
@@ -60,7 +61,7 @@ public class SpotifyWebAPIService {
                     track.setAll(buildTrackFromJSONTrackObject(response));
                     callBack.onSuccess();
                 }, error -> {
-                    Log.e("API ERROR", "Could not get track by ID.");
+                    Log.e("SpotifyWebAPIService", "Could not get track by ID.");
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -122,9 +123,13 @@ public class SpotifyWebAPIService {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    Log.d("SpotifyWebAPIService", "Got recommendation!");
                     callBack.onSuccess();
                 }, error -> {
-                    Log.e("API ERROR", "Could not get a recommendation.");
+                    Log.e("SpotifyWebAPIService", "Could not get a recommendation.");
+                    if(error.networkResponse.data != null) {
+                        Log.e("SpotifyWebAPIService", new String(error.networkResponse.data, StandardCharsets.UTF_8));
+                    }
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -154,9 +159,13 @@ public class SpotifyWebAPIService {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    Log.d("SpotifyWebAPIService", "Got genre seeds!");
                     callBack.onSuccess();
                 }, error -> {
-                    Log.e("API ERROR", "Could not get genre seeds.");
+                    Log.e("SpotifyWebAPIService", "Could not get genre seeds.");
+                    if(error.networkResponse.data != null) {
+                        Log.e("SpotifyWebAPIService", new String(error.networkResponse.data, StandardCharsets.UTF_8));
+                    }
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
