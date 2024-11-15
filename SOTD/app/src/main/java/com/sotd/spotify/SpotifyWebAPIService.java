@@ -29,18 +29,26 @@ public class SpotifyWebAPIService {
     private RequestQueue queue;
     private Track songOfTheDay;
     private ArrayList<String> genreSeeds;
-    private PreferenceService preferenceService;
 
+    private PreferenceService preferenceService;
     private TrackService trackService;
+    private SpotifyAuthorizationService authService;
 
     public SpotifyWebAPIService(Context context) {
         sharedPreferences = context.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(context);
-        preferenceService = new PreferenceService(context);
         songOfTheDay = new Track();
         genreSeeds = new ArrayList<>();
 
+        preferenceService = new PreferenceService(context);
         trackService = new TrackService(context);
+
+        // TODO: Find better place to refresh access tokens? As is, it mostly works but seems to be a little unreliable.
+        // Ensure a fresh access token is available for use within the methods of this class.
+        authService = new SpotifyAuthorizationService(context);
+        if(sharedPreferences.contains("refresh_token")) {
+            authService.refreshAccessToken();
+        }
     }
 
     public Track getSongOfTheDay() {

@@ -21,7 +21,6 @@ public class AuthorizeActivity extends AppCompatActivity {
     private static final String SCOPES =
             "app-remote-control" + " " +    // "Remote control playback of Spotify." (for playing songs remotely via SpotifyAppRemote)
             "user-read-private";            // "Read access to user’s subscription details (type of user account)." (check for premium)
-    //private final String CODE_VERIFIER = getCodeVerifier();
 
     private SharedPreferences mSharedPreferences;
     private SpotifyAuthorizationService mSpotifyAuthorizationService;
@@ -43,7 +42,7 @@ public class AuthorizeActivity extends AppCompatActivity {
             openSpotifyBrowserLogin();
         } else {
             String authCode = getIntent().getData().getQueryParameter("code");
-            mSpotifyAuthorizationService.acquireAuthTokens(authCode, CLIENT_ID, REDIRECT_URI, () -> {
+            mSpotifyAuthorizationService.acquireAuthTokens(authCode, REDIRECT_URI, () -> {
                 // Auth tokens acquired, code verifier no longer needed.
                 SharedPreferences.Editor editor = mSharedPreferences.edit();
                 editor.remove("code_verifier");
