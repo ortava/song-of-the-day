@@ -52,31 +52,6 @@ public class SpotifyWebAPIService {
         return genreSeeds.toArray(new String[0]);
     }
 
-    public Track getTrackById(String trackId, final VolleyCallBack callBack) {
-        Track track = new Track();
-        String endpoint = "https://api.spotify.com/v1/tracks/" + trackId;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, endpoint, null, response -> {
-                    track.setAll(buildTrackFromJSONTrackObject(response));
-                    callBack.onSuccess();
-                }, error -> {
-                    Log.e("SpotifyWebAPIService", "Could not get track by ID.");
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                String token = sharedPreferences.getString("access_token", "");
-                String auth = "Bearer " + token;
-                headers.put("Authorization", auth);
-                return headers;
-            }
-        };
-
-        queue.add(jsonObjectRequest);
-        return track;
-    }
-
     public Track getRecommendation(final VolleyCallBack callBack) {
         StringBuilder endpoint = new StringBuilder();
 
