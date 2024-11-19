@@ -16,11 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.android.volley.VolleyError;
 import com.sotd.R;
+import com.sotd.spotify.SpotifyAuthorizationService;
 import com.sotd.spotify.SpotifyHelper;
 import com.sotd.spotify.SpotifyWebAPIService;
 import com.sotd.data.db.TrackService;
 import com.sotd.databinding.FragmentHomeBinding;
+import com.sotd.spotify.VolleyCallBack;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
@@ -34,6 +37,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel mHomeViewModel;
     private TrackService mTrackService;
     private SpotifyWebAPIService mSpotifyWebAPIService;
+    private SpotifyAuthorizationService mSpotifyAuthorizationService;
 
     private ImageButton mImageButtonPlay;
     private SeekBar mSeekBarPlaytime;
@@ -49,6 +53,7 @@ public class HomeFragment extends Fragment {
                 new ViewModelProvider(this).get(HomeViewModel.class);
         mTrackService = new TrackService(requireContext());
         mSpotifyWebAPIService = new SpotifyWebAPIService(requireContext());
+        mSpotifyAuthorizationService = new SpotifyAuthorizationService(requireContext());
 
         // Set up thread for updating Seekbar progress.
         handler = new Handler();
@@ -165,10 +170,30 @@ public class HomeFragment extends Fragment {
     }
 
     private void setSongOfTheDay() {
-        mSpotifyWebAPIService.getRecommendation(() -> {
-            mHomeViewModel.setTrack(mSpotifyWebAPIService.getSongOfTheDay());
-            mTrackService.addTrackToDataBase(mSpotifyWebAPIService.getSongOfTheDay());
-        });
+        mSpotifyWebAPIService.getRecommendation(new VolleyCallBack() {
+                @Override
+                public void onSuccess() {
+                    mHomeViewModel.setTrack(mSpotifyWebAPIService.getSongOfTheDay());
+                    mTrackService.addTrackToDataBase(mSpotifyWebAPIService.getSongOfTheDay());
+                }
+
+                @Override
+                public void onError(VolleyError error) {
+                    if(error.networkResponse.statusCode != 401) return; // Continue only for 401 "Unauthorized" errors.
+                    mSpotifyAuthorizationService.refreshAccessToken(new VolleyCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            setSongOfTheDay();  // With a fresh access token, try again to get a recommendation.
+                        }
+
+                        @Override
+                        public void onError(VolleyError error) {
+                            Log.e("HomeFragment", "Could not refresh access token to set Song of the Day.");
+                        }
+                    });
+                }
+            }
+        );
     }
 
     private void remotePlay(String uri) {

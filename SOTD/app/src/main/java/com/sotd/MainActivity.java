@@ -17,7 +17,6 @@ import com.sotd.spotify.SpotifyAuthorizationService;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private SpotifyAuthorizationService authService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +26,6 @@ public class MainActivity extends AppCompatActivity {
             startPrescreenActivity();
             return;
         }
-
-        // TODO: Implement a system to refresh access tokens only when they have expired.
-        // Ensure a fresh Spotify access token is available.
-        authService = new SpotifyAuthorizationService(this);
-        authService.refreshAccessToken();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

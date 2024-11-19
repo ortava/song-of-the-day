@@ -2,6 +2,7 @@ package com.sotd.ui.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,8 +13,11 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SeekBarPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.VolleyError;
 import com.sotd.R;
+import com.sotd.spotify.SpotifyAuthorizationService;
 import com.sotd.spotify.SpotifyWebAPIService;
+import com.sotd.spotify.VolleyCallBack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +26,7 @@ import java.util.Set;
 public class SettingsFragment extends PreferenceFragmentCompat {
     private Map<String, String> keyTitleMap;
     private SpotifyWebAPIService mSpotifyWebAPIService;
+    private SpotifyAuthorizationService mSpotifyAuthorizationService;
     private SharedPreferences mSharedPreferences;
 
     private MultiSelectListPreference mMSListGenres;
@@ -34,6 +39,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         mSharedPreferences = getPreferenceManager().getSharedPreferences();
         mSpotifyWebAPIService = new SpotifyWebAPIService(requireContext());
+        mSpotifyAuthorizationService = new SpotifyAuthorizationService(requireContext());
 
         // Fill map with toggleable preference keys and their respective title String resources.
         keyTitleMap = new HashMap<>();
@@ -61,10 +67,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         // Fill the multi-select list with Spotify's available genres.
         mMSListGenres = findPreference("selected_genres");
-        mSpotifyWebAPIService.getAvailableGenreSeeds(() -> {
-            mMSListGenres.setEntries(mSpotifyWebAPIService.getGenreSeeds());
-            mMSListGenres.setEntryValues(mSpotifyWebAPIService.getGenreSeeds());
-        });
+        setGenreSeeds();
 
         // Stop the user from selecting more than 5 genre seeds.
         mMSListGenres.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -129,5 +132,31 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         }
         return super.onPreferenceTreeClick(preference);
+    }
+
+    private void setGenreSeeds() {
+        mSpotifyWebAPIService.getAvailableGenreSeeds(new VolleyCallBack() {
+            @Override
+            public void onSuccess() {
+                mMSListGenres.setEntries(mSpotifyWebAPIService.getGenreSeeds());
+                mMSListGenres.setEntryValues(mSpotifyWebAPIService.getGenreSeeds());
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                if(error.networkResponse.statusCode != 401) return; // Continue only for 401 "Unauthorized" errors.
+                mSpotifyAuthorizationService.refreshAccessToken(new VolleyCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        setGenreSeeds(); // With a fresh access token, try again to get genre seeds.
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+                        Log.e("SettingsFragment", "Could not refresh access token to get available genre seeds.");
+                    }
+                });
+            }
+        });
     }
 }

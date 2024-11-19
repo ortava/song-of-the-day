@@ -9,7 +9,9 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.VolleyError;
 import com.sotd.spotify.SpotifyAuthorizationService;
+import com.sotd.spotify.VolleyCallBack;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,18 +39,25 @@ public class AuthorizeActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
-        //TODO: Return to PrescreenActivity on unsuccessful Auth Code request.
         if(getIntent().getData() == null) {
             openSpotifyBrowserLogin();
         } else {
             String authCode = getIntent().getData().getQueryParameter("code");
-            mSpotifyAuthorizationService.acquireAuthTokens(authCode, REDIRECT_URI, () -> {
-                // Auth tokens acquired, code verifier no longer needed.
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
-                editor.remove("code_verifier");
-                editor.apply();
+            mSpotifyAuthorizationService.acquireAuthTokens(authCode, REDIRECT_URI, new VolleyCallBack() {
+                @Override
+                public void onSuccess() {
+                    // Auth tokens acquired, code verifier no longer needed.
+                    SharedPreferences.Editor editor = mSharedPreferences.edit();
+                    editor.remove("code_verifier");
+                    editor.apply();
 
-                startMainActivity();
+                    startMainActivity();
+                }
+
+                @Override
+                public void onError(VolleyError error) {
+                    startPrescreenActivity();
+                }
             });
         }
     }
