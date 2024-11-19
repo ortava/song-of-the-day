@@ -17,8 +17,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+// The methods in this class follow the PKCE authorization flow.
+// (see: https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow)
 public class SpotifyAuthorizationService {
-    //TODO: Find a better place to store CLIENT_ID (config file?) (Currently needed for both this class and AuthorizeActivity).
+    //TODO: Find a better place to store CLIENT_ID (config file?) (Currently needed for this class, HomeFragment, and AuthorizeActivity).
     private static final String CLIENT_ID = "b1a4a0e63d4745198ab789e13e42314d";
     private SharedPreferences sharedPreferences;
     private RequestQueue queue;
@@ -51,8 +53,8 @@ public class SpotifyAuthorizationService {
                     if(error.networkResponse.data != null) {
                         Log.e("SpotifyAuthorizationService", new String(error.networkResponse.data, StandardCharsets.UTF_8));
                     }
+                    callBack.onError(error);
                 }) {
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
@@ -76,7 +78,7 @@ public class SpotifyAuthorizationService {
         queue.add(stringRequest);
     }
 
-    public void refreshAccessToken() {
+    public void refreshAccessToken(VolleyCallBack callBack) {
         String endpoint = "https://accounts.spotify.com/api/token";
 
         StringRequest stringRequest = new StringRequest
@@ -93,11 +95,13 @@ public class SpotifyAuthorizationService {
                         e.printStackTrace();
                     }
                     Log.d("SpotifyAuthorizationService", "Successfully refreshed access token!");
+                    callBack.onSuccess();
                 }, error -> {
                     Log.e("SpotifyAuthorizationService", "Could not refresh access token.");
                     if(error.networkResponse.data != null) {
                         Log.e("SpotifyAuthorizationService", new String(error.networkResponse.data, StandardCharsets.UTF_8));
                     }
+                    callBack.onError(error);
                 }) {
 
             @Override

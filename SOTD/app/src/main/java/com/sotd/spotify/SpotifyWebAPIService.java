@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -105,6 +106,7 @@ public class SpotifyWebAPIService {
                     if(error.networkResponse.data != null) {
                         Log.e("SpotifyWebAPIService", new String(error.networkResponse.data, StandardCharsets.UTF_8));
                     }
+                    callBack.onError(error);
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -116,6 +118,7 @@ public class SpotifyWebAPIService {
             }
         };
 
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjectRequest);
         return songOfTheDay;
     }
@@ -141,6 +144,7 @@ public class SpotifyWebAPIService {
                     if(error.networkResponse.data != null) {
                         Log.e("SpotifyWebAPIService", new String(error.networkResponse.data, StandardCharsets.UTF_8));
                     }
+                    callBack.onError(error);
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -152,6 +156,7 @@ public class SpotifyWebAPIService {
             }
         };
 
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jsonObjectRequest);
         return genreSeeds.toArray(new String[0]);
     }
