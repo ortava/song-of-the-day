@@ -30,6 +30,17 @@ public class SpotifyAuthorizationService {
         queue = Volley.newRequestQueue(context);
     }
 
+    /**
+     *  Makes a request to the Spotify Web API for authorization tokens and saves them in sharedPreferences.
+     *  There are two types of tokens: Access tokens and refresh tokens
+     *      Access tokens are required to access Spotify Web API functionality (get recommendations for example).
+     *      Refresh tokens are required to get new access tokens.
+     *      Access tokens expire after 1 hour. Refresh tokens don't expire.
+     *  @param  authCode    The authorization code returned from the previous request [in the PKCE authorization flow].
+     *  @param  redirectURI This parameter is used for validation only (there is no actual redirection).
+     *                          The value of this parameter must exactly match the value of redirect_uri supplied when requesting the authorization code.
+     *  @param  callBack    Volley callback function.
+     */
     public void acquireAuthTokens(String authCode, String redirectURI, final VolleyCallBack callBack) {
         String endpoint = "https://accounts.spotify.com/api/token";
 
@@ -78,6 +89,11 @@ public class SpotifyAuthorizationService {
         queue.add(stringRequest);
     }
 
+    /**
+     *  Makes a request to the Spotify Web API to refresh the access token.
+     *  As we are following the PKCE authorization flow,
+     *  we receive a new refresh token along with the new access token, so both types of token will be saved/updated.
+     */
     public void refreshAccessToken(VolleyCallBack callBack) {
         String endpoint = "https://accounts.spotify.com/api/token";
 
