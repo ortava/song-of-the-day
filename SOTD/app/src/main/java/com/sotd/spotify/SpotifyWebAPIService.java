@@ -131,7 +131,6 @@ public class SpotifyWebAPIService {
         return songOfTheDay;
     }
 
-    // TODO: Find a better name for either getAvailableGenreSeeds() or getGenreSeeds(). They are too similar.
     /**
      *  Makes a request to the Spotify Web API for a list of available genre seeds.
      *  These are the genre seeds that Spotify recognizes (for use in other API requests).

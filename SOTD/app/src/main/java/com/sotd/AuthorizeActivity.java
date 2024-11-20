@@ -76,7 +76,6 @@ public class AuthorizeActivity extends AppCompatActivity {
         endpoint.append("&code_challenge=").append(getCodeChallenge(codeVerifier));
         endpoint.append("&show_dialog=true");
 
-        // TODO: Better way to use the same code verifier?
         // Save code verifier used for acquiring auth code so we can use it again when acquiring auth tokens.
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString("code_verifier", codeVerifier);
@@ -128,8 +127,7 @@ public class AuthorizeActivity extends AppCompatActivity {
             );
         } catch(NoSuchAlgorithmException e) {
             Log.e("AuthorizeActivity", "NoSuchAlgorithmException message: " + e.getMessage());
+            return "";
         }
-
-        return ""; // TODO: Find a better way to return a value in case of an exception.
     }
 }
