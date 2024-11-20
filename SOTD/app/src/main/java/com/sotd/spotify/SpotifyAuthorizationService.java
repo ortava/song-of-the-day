@@ -93,6 +93,7 @@ public class SpotifyAuthorizationService {
      *  Makes a request to the Spotify Web API to refresh the access token.
      *  As we are following the PKCE authorization flow,
      *  we receive a new refresh token along with the new access token, so both types of token will be saved/updated.
+     *  @param  callBack    Volley callback function.
      */
     public void refreshAccessToken(VolleyCallBack callBack) {
         String endpoint = "https://accounts.spotify.com/api/token";
