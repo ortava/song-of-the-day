@@ -50,12 +50,12 @@ public class AuthorizeActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
                     editor.remove("code_verifier");
                     editor.apply();
-
                     startMainActivity();
                 }
 
                 @Override
                 public void onError(VolleyError error) {
+                    clearSpotifyPreferences();  // Clear any stored authorization data before prompting login.
                     startPrescreenActivity();
                 }
             });
@@ -76,7 +76,6 @@ public class AuthorizeActivity extends AppCompatActivity {
         endpoint.append("&code_challenge=").append(getCodeChallenge(codeVerifier));
         endpoint.append("&show_dialog=true");
 
-        // TODO: Better way to use the same code verifier?
         // Save code verifier used for acquiring auth code so we can use it again when acquiring auth tokens.
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString("code_verifier", codeVerifier);
@@ -96,6 +95,12 @@ public class AuthorizeActivity extends AppCompatActivity {
         Intent intent = new Intent(AuthorizeActivity.this, PrescreenActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void clearSpotifyPreferences() {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.clear();
+        editor.apply();
     }
 
     /// METHODS THAT HELP WITH THE PKCE AUTHORIZATION FLOW (see: https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow)
@@ -122,8 +127,7 @@ public class AuthorizeActivity extends AppCompatActivity {
             );
         } catch(NoSuchAlgorithmException e) {
             Log.e("AuthorizeActivity", "NoSuchAlgorithmException message: " + e.getMessage());
+            return "";
         }
-
-        return ""; // TODO: Find a better way to return a value in case of an exception.
     }
 }

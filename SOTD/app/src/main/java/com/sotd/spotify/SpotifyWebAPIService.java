@@ -53,6 +53,14 @@ public class SpotifyWebAPIService {
         return genreSeeds.toArray(new String[0]);
     }
 
+    /**
+     *  Makes a request to the Spotify Web API for a customized track recommendation.
+     *  The recommendation is selected randomly from a list of the top tracks matching
+     *  the user's recommendation preferences.
+     *  @param  callBack    Volley callback function.
+     *  @return The selected recommendation as a Track object.
+     *              (This track is also saved as this.songOfTheDay for access within the callback)
+     */
     public Track getRecommendation(final VolleyCallBack callBack) {
         StringBuilder endpoint = new StringBuilder();
 
@@ -123,7 +131,13 @@ public class SpotifyWebAPIService {
         return songOfTheDay;
     }
 
-    // TODO: Find a better name for either getAvailableGenreSeeds() or getGenreSeeds(). They are too similar.
+    /**
+     *  Makes a request to the Spotify Web API for a list of available genre seeds.
+     *  These are the genre seeds that Spotify recognizes (for use in other API requests).
+     *  @param  callBack    Volley callback function.
+     *  @return A String[] of available genre seeds.
+     *              (These genre seeds are also saved as this.genreSeeds for access within the callback)
+     */
     public String[] getAvailableGenreSeeds(VolleyCallBack callBack) {
         String endpoint = "https://api.spotify.com/v1/recommendations/available-genre-seeds";
 
