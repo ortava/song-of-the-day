@@ -29,4 +29,4 @@ To remedy this issue, I increased the number of song recommendations that we rec
 	- SpotifyWebAPICommunicator is what TrackService used to be; the point of communication with Spotify's Web API.
 
 # Updated SettingsFragment UI
-![[SettingsFragment UI Apr7.png]]
+![Screenshot of SettingsFragment UI Apr7](../images/Entry07/SettingsFragment-UI-Apr7.png)

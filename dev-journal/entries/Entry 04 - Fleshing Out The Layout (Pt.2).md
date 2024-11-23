@@ -25,7 +25,7 @@ https://square.github.io/picasso/
 TrackService now retrieves a URL pointing to the track's 300x300 Cover Art. Picasso loads the image from that URL into the ImageView.
 
 # Updated HomeFragment UI
-![[HomeFragment UI Feb20.png]]
+![Screenshot of HomeFragmentUI Feb20](../images/Entry04/HomeFragment-UI-Feb20.png)
 
 # Additional Thoughts
 - HomeFragment still needs a playtime bar to track where Spotify is in the song.

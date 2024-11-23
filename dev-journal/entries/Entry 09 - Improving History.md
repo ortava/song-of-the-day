@@ -19,4 +19,4 @@ The history page needs some love. It's time to give it an upgrade.
 - Formatting of the track info that the RecyclerView Adapter (HistoryAdapter) uses is now done in the Adapter itself instead of the initDataSet method in HistoryFragment. This change was made to simplify the type of data that goes into the Adapter (now just an array of Track objects instead of two String arrays, one being formatted track info strings, and one being track URIs). I'm unsure if this is a positive change in regards to method/class responsibilities, but I believe it makes the code easier to read.
 
 # Updated HistoryFragment UI
-![[HistoryFragment UI Oct14.png]]
+![Screenshot of HistoryFragment UI Oct14](../images/Entry09/HistoryFragment-UI-Oct14.png)

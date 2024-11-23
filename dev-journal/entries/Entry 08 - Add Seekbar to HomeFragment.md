@@ -10,4 +10,4 @@ Add a Seekbar to HomeFragment in order to display/control the recommended track'
 	- Does not: only run thread if track is playing. I don't know how big of a deal this is, and it doesn't seem to cause any functional issues, but I feel it would make sense to only let the thread run when the track is actively playing.
 
 # Updated HomeFragment UI
-![[HomeFragment UI Jul22.png]]
+![Screenshot of HomeFragment UI Jul22](../images/Entry08/HomeFragment-UI-Jul22.png) 
