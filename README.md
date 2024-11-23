@@ -12,19 +12,19 @@ ___
 ### Home Page as of Jul. 22, 2024
 All controls are functional and song data is retrieved via Spotify Web API.
 
-<img width="300px" src="dev-journal/images/Entry 8/HomeFragment UI Jul22.png" alt="HomeFragment UI Jul22">
+<img width="300px" src="dev-journal/images/Entry08/HomeFragment-UI-Jul22.png" alt="HomeFragment UI Jul22">
 
 ### History Page as of Oct. 14, 2024
 All controls are functional and previous recommendation data is retrieved from the database.
 
-<img width="300px" src="dev-journal/images/Entry 9/HistoryFragment UI Oct14.png" alt="HistoryFragment UI Oct14">
+<img width="300px" src="dev-journal/images/Entry09/HistoryFragment-UI-Oct14.png" alt="HistoryFragment UI Oct14">
 
 ### Settings Page as of Apr. 7, 2024
 All controls are functional and their values are accounted for when requesting recommendations from Spotify.
 
 *Not all controls are displayed here.*
 
-<img width="300px" src="dev-journal/images/Entry 7/SettingsFragment UI Apr7.png" alt="SettingsFragment UI Apr7">
+<img width="300px" src="dev-journal/images/Entry07/SettingsFragment-UI-Apr7.png" alt="SettingsFragment UI Apr7">
 
 ___
 
