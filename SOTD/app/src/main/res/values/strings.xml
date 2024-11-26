@@ -25,16 +25,25 @@
     <string name="pref_title_max_duration">Maximum Duration</string>
     <string name="pref_summary_max_duration">(seconds)</string>
     <string name="pref_title_acousticness">Acousticness</string>
+    <string name="pref_summary_acousticness">Predicts whether the track is acoustic.</string>
     <string name="pref_title_danceability">Danceability</string>
+    <string name="pref_summary_danceability">Measures how suitable a track is for dancing.</string>
     <string name="pref_title_energy">Energy</string>
+    <string name="pref_summary_energy">Measures the intensity and activity of a track.</string>
     <string name="pref_title_instrumentalness">Instrumentalness</string>
+    <string name="pref_summary_instrumentalness">Predicts whether a track contains no vocals.</string>
     <string name="pref_title_liveness">Liveness</string>
+    <string name="pref_summary_liveness">Predicts the presence of an audience in the recording.</string>
     <string name="pref_title_loudness">Loudness</string>
+    <string name="pref_summary_loudness">The overall loudness of a track in decibels (dB).</string>
     <string name="pref_title_popularity">Popularity</string>
+    <string name="pref_summary_popularity">Measures the popularity of a track.</string>
     <string name="pref_title_speechiness">Speechiness</string>
+    <string name="pref_summary_speechiness">Detects the presence of spoken words in a track. (Values above 66 describe tracks that are probably made entirely of spoken words)</string>
     <string name="pref_title_tempo">Tempo</string>
     <string name="pref_summary_tempo">Beats per minute (BPM)</string>
     <string name="pref_title_valence">Valence</string>
+    <string name="pref_summary_valence">Measures the musical positiveness (happy, cheerful, euphoric) conveyed by a track.</string>
 
     <string name="pref_title_disconnect_spotify">Disconnect Spotify</string>
 </resources>

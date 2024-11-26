@@ -52,6 +52,7 @@
         <SeekBarPreference
             android:key="acousticness"
             android:title="@string/pref_title_acousticness"
+            android:summary="@string/pref_summary_acousticness"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
             android:dependency="toggle_track_attributes"
@@ -59,6 +60,7 @@
         <SeekBarPreference
             android:key="danceability"
             android:title="@string/pref_title_danceability"
+            android:summary="@string/pref_summary_danceability"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
             android:dependency="toggle_track_attributes"
@@ -66,6 +68,7 @@
         <SeekBarPreference
             android:key="energy"
             android:title="@string/pref_title_energy"
+            android:summary="@string/pref_summary_energy"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
             android:dependency="toggle_track_attributes"
@@ -73,6 +76,7 @@
         <SeekBarPreference
             android:key="instrumentalness"
             android:title="@string/pref_title_instrumentalness"
+            android:summary="@string/pref_summary_instrumentalness"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
             android:dependency="toggle_track_attributes"
@@ -80,6 +84,7 @@
         <SeekBarPreference
             android:key="liveness"
             android:title="@string/pref_title_liveness"
+            android:summary="@string/pref_summary_liveness"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
             android:dependency="toggle_track_attributes"
@@ -87,6 +92,7 @@
         <SeekBarPreference
             android:key="loudness"
             android:title="@string/pref_title_loudness"
+            android:summary="@string/pref_summary_loudness"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
             android:dependency="toggle_track_attributes"
@@ -94,6 +100,7 @@
         <SeekBarPreference
             android:key="popularity"
             android:title="@string/pref_title_popularity"
+            android:summary="@string/pref_summary_popularity"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
             android:dependency="toggle_track_attributes"
@@ -101,6 +108,7 @@
         <SeekBarPreference
             android:key="speechiness"
             android:title="@string/pref_title_speechiness"
+            android:summary="@string/pref_summary_speechiness"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
             android:dependency="toggle_track_attributes"
@@ -117,6 +125,7 @@
         <SeekBarPreference
             android:key="valence"
             android:title="@string/pref_title_valence"
+            android:summary="@string/pref_summary_valence"
             app:showSeekBarValue="true"
             android:defaultValue="@integer/pref_default_most"
             android:dependency="toggle_track_attributes"
