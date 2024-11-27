@@ -21,7 +21,7 @@ public class PreferenceService {
     private final Set<String> defaultGenreSeeds;
     private final String[] toggleableAttributes = {
             "acousticness", "danceability", "energy", "instrumentalness", "liveness",
-            "loudness", "popularity", "speechiness", "tempo", "valence"
+            "popularity", "speechiness", "tempo", "valence"
     };
 
     private SharedPreferences sharedPreferences;
@@ -107,10 +107,6 @@ public class PreferenceService {
 
     public double getLiveness() {
         return sharedPreferences.getInt("liveness", DEFAULT_MOST) * 1.0 / 100;
-    }
-
-    public double getLoudness() {
-        return sharedPreferences.getInt("loudness", DEFAULT_MOST) * 1.0 / 100;
     }
 
     public int getPopularity() {

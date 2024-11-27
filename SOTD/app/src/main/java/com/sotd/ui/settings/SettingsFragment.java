@@ -48,7 +48,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         keyTitleMap.put("energy", getResources().getString(R.string.pref_title_energy));
         keyTitleMap.put("instrumentalness", getResources().getString(R.string.pref_title_instrumentalness));
         keyTitleMap.put("liveness", getResources().getString(R.string.pref_title_liveness));
-        keyTitleMap.put("loudness", getResources().getString(R.string.pref_title_loudness));
         keyTitleMap.put("popularity", getResources().getString(R.string.pref_title_popularity));
         keyTitleMap.put("speechiness", getResources().getString(R.string.pref_title_speechiness));
         keyTitleMap.put("tempo", getResources().getString(R.string.pref_title_tempo));
@@ -57,7 +56,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         // Ensure toggleable preferences are titled appropriately.
         for(String key : keyTitleMap.keySet()) {
             Preference preference = findPreference(key);
-            if(preference == null) break;
+            if(preference == null) continue;
             if(mSharedPreferences.getBoolean(key + "_enabled", true)){
                 preference.setTitle(keyTitleMap.get(key));
             } else {
